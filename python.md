@@ -6893,6 +6893,7 @@ warnings.filterwarnings('ignore')
 Запушить: Commit and push<br>
 Подтянуть изменения: Git – Update project
 
+**Заугрузка проекта из консоли**
 
 <a name="Установка_программы_на_сервер"></a> 
 # Установка программы на сервер
