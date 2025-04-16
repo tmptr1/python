@@ -1,6 +1,6 @@
 # Python
 ### [Основы](#Основы)
-- ☐ [Работа с текстом](#Работа_с_текстом)
+- ☐ [**Работа с текстом**](#Работа_с_текстом)
   - [Методы строк](#Методы_строк)
   - [Замена символа replace](#Замена_символа_replace)
   - [Поиск в строке find](#Поиск_в_строке_find)
@@ -39,13 +39,13 @@
 - [match](#match)
 - [Контекстные менеджеры](#Контекстные_менеджеры)
 - [Метаклассы](#Метаклассы)
-- ☐ [Работа с файлами](#Работа_с_файлами)
+- ☐ [**Работа с файлами**](#Работа_с_файлами)
   - [Открытие и закрытие файлов](#Открытие_и_закрытие_файлов)
   - [Запись в текстовый файл](#Запись_в_текстовый_файл)
   - [Чтение файла](#Чтение_файла)
   - [Кодировка](#Кодировка)
   - [Чтение и запись w+](#Чтение_и_запись_w)
-  - [CSV](#CSV)
+  - [**CSV**](#CSV)
     - [Запись](#CSV_Запись)
     - [Чтение файла](#CSV_Чтение_файла)
     - [Запись словаря](#CSV_Запись_словаря)
@@ -54,36 +54,21 @@
   - [pickle. Запись информации в бинарный файл .dat](#pickle)
   - [shelve. Хранение данных в файле по типу словаря](#shelve)
   - [Json](#Json)
-- ☐ [OS](#OS)
+- ☐ [**OS**](#OS)
   - [Создание и удаление папки](#Создание_и_удаление_папки)
   - [Запуск и закрытие приложений](#Запуск_закрытие_приложений)
   - [Просмотр списка файлов в папки](#Просмотр_списка_файлов_в_папки)
-- ☐ [Работа с zip файлами. zipfile](#Работа_с_zip_файлами_zipfile)
+- ☐ [**Работа с zip файлами. zipfile**](#Работа_с_zip_файлами_zipfile)
   - [Запись файлов в zip архив](#Запись_файлов_в_zip_архив)
   - [Получение информации о файлах в архиве](#Получение_информации_о_файлах_в_архиве)
   - [Извлечение файлов из архива](#Извлечение_файлов_из_архива)
-- ☐ [datetime](#datetime)
+- ☐ [**datetime**](#datetime)
   - [Преобразование строки в дату. strptime](#Преобразование_строки_в_дату_strptime)
   - [Форматирование даты и времени](#Форматирование_даты_и_времени)
   - [Операции со временем. timedelta](#Операции_со_временем_timedelta)
-- [multiprocessing Pool](#multiprocessing_Pool)
 - [Итераторы и генераторы](#Итераторы_и_генераторы)
 - [Тесты doctest](#Тесты_doctest)
 - [Логирование logging](#Логирование_logging)
-
-### [Дополнительные модули](#Дополнительные_модули)
-- [NumPy](#NumPy)
-  - [Создание массива](#np_Создание_массива)
-  - [Удаление элементов из массива](#np_Удаление_элементов_из_массива) 
-  - [Представление массивов](#np_Представление_массивов) 
-  - [Объединение / разделение массивов](#np_Объединение_разделение_массивов) 
-  - [Срезы массивов](#np_Срезы_массивов) 
-  - [Математические операции над массивами](#np_Математические_операции_над_массивами) 
-  - [Генерация случайных чисел](#np_Генерация_случайных_чисел) 
-  - [Матричное умножение](#np_Матричное_умножение)
-- [Pandas](#Pandas)
-- [Работа с почтой (imaplib, smtplib)](#Работа_с_почтой_(imaplib_smtplib))
-- [Определение кодировки chardet](#Определение_кодировки_chardet)
 
 ### [ООП](#ООП)
 - [Конструктор](#Конструктор)
@@ -97,16 +82,52 @@
 - [Перегрузка операторов](#Перегрузка_операторов)
 - [Абстрактные классы](#Абстрактные_классы)
 - [Методы классов](#Методы_классов)
-
-### [Jinja2](#Jinja2)
+---
+### [Дополнительные модули](#Дополнительные_модули)
+### [NumPy](#NumPy)
+  - [Создание массива](#np_Создание_массива)
+  - [Удаление элементов из массива](#np_Удаление_элементов_из_массива) 
+  - [Представление массивов](#np_Представление_массивов) 
+  - [Объединение / разделение массивов](#np_Объединение_разделение_массивов) 
+  - [Срезы массивов](#np_Срезы_массивов) 
+  - [Математические операции над массивами](#np_Математические_операции_над_массивами) 
+  - [Генерация случайных чисел](#np_Генерация_случайных_чисел) 
+  - [Матричное умножение](#np_Матричное_умножение)
+### [Pandas](#Pandas)
+  - [read / to](#Pandas_read_to)
+  - [Общая информация](#Pandas_Общая_информация)
+  - [Создание графиков](#Pandas_Создание_графиков)
+### [matplotlib](#matplotlib)
+  - [Отображение графика](#matplotlib_Отображение_графика)
+  - [Разделение_окна_вывод_нескольких_графиков](#matplotlib_Разделение_окна_вывод_нескольких_графиков)
+  - [Изменение осей](#matplotlib_Изменение_осей)
+  - [Фигуры, разные типы графиков](#matplotlib_Фигуры_разные_типы_графиков)
+  - [Трехмерные графики](#matplotlib_Трехмерные_графики)
+  - [Анимация графиков](#matplotlib_Анимация_графиков)
+### [Многопоточность и тд](#Многопоточность)
+- [Многопоточность](#Многопоточность)
+- [multiprocessing](#multiprocessing)
+- [Asyncio](#Asyncio)
+---
+### [Другое](#)
+- [Работа с почтой (imaplib, smtplib)](#Работа_с_почтой_(imaplib_smtplib))
+- [Определение кодировки chardet](#Определение_кодировки_chardet)
+- [Jinja2](#Jinja2)
 
 ### [Базы Данных](#Базы_Данных)
-- [SQLite](#SQLite)
-- [MS SQL Server](#MS_SQL_Server)
-- [PostgreSQL](#PostgreSQL)
+- [**SQLite**](#SQLite)
+- [**MS SQL Server**](#MS_SQL_Server)
+- [**PostgreSQL**](#PostgreSQL)
+  - [Последовательности SEQUENCE](#PostgreSQL_Последовательности_SEQUENCE)
+  - [DISTINCT, ORDER BY, LIMIT, OFFSET](#PostgreSQL_DISTINCT_ORDER_BY_LIMIT_OFFSET)
+  - [Перечисления enum](#PostgreSQL_Перечисления_enum)
+  - [JOIN](#PostgreSQL_JOIN)
+  - [UNION, EXCEPT, INTERSECT](#PostgreSQL_UNION_EXCEPT_INTERSECT)
+  - [Пример psycopg2](#PostgreSQL_пример_psycopg2)
+  - [Оптимизация, INDEX](#PostgreSQL_Оптимизация_INDEX)
+  - [Удалённое подключение к БД](#PostgreSQL_Удалённое_подключение_к_БД)
 
 ### [PyQt](#PyQt)
-### [Asyncio](#Asyncio)
 
 ### [HTML](#HTML)
 ### [CSS](#CSS)
@@ -141,13 +162,13 @@
 - [UserWarning](#Other_UserWarning)
 
 ### [Exe](#Exe_файл)
-### [Git](#Git)
+### [Git](#Git_)
 ### [Установка программы на сервер](#Установка_программы_на_сервер)
 
 
-<a name="Основы"></a> 
+<a name="Основы"></a>
 # Основы
-<a name="Работа_с_текстом"></a> 
+<a name="Работа_с_текстом"></a>
 ### Работа с текстом
 
 #### Многострочный текст
@@ -1971,10 +1992,10 @@ except Exception as ex
 ```
 После записи информации в файл происходит перемещение к первому биту файла (**seek(0)**) и далее файл считывается
 
-<a name="CSV"></a> 
+<a name="CSV"></a>
 ### CSV
 `import csv`
-<a name="CSV_Запись"></a> 
+<a name="CSV_Запись"></a>
 #### Запись
 Для корректной записи используется **newline=''** <br>
 Чтобы данные записывались в разных строках, необходим разделитель **delimiter=';'**
@@ -1999,7 +2020,7 @@ except Exception as ex
         coin = ['usdc', csv_format(209.299)]  # 209,299
         writer.writerow(coin)
 ```
-<a name="CSV_Чтение_файла"></a> 
+<a name="CSV_Чтение_файла"></a>
 #### Чтение файла
 Для работы с русскими символами: `encoding='cp1251'`
 ```
@@ -2008,7 +2029,7 @@ except Exception as ex
         for row in reader:
             print(f'{row[0]}: {row[1]}')
 ```
-<a name="CSV_Запись_словаря"></a> 
+<a name="CSV_Запись_словаря"></a>
 #### Запись словаря
 Сначала создается заголовки, далее происходит добавление рядов, как в предыдущих примерах
 ```
@@ -2024,7 +2045,7 @@ except Exception as ex
 
         writer.writerows(coins)
 ```
-<a name="CSV_Чтение_словаря"></a> 
+<a name="CSV_Чтение_словаря"></a>
 #### Чтение словаря
 ```
     with open('data.csv', 'r', encoding='utf8', newline='') as file:
@@ -2033,7 +2054,7 @@ except Exception as ex
             print('{0}: {1}'.format(row["coin"], row["value"]))
 ```
 
-<a name="Бинарные_файлы"></a> 
+<a name="Бинарные_файлы"></a>
 ### Бинарные файлы
 Копирование изображения:
 ```
@@ -2130,7 +2151,7 @@ except Exception as ex
         file.clear()
 ```
 
-<a name="Json"></a> 
+<a name="Json"></a>
 ### Json
 #### Запись словаря в Json
 ```
@@ -2159,7 +2180,7 @@ except Exception as ex
     print(r["resource_response"])
 ```
 
-<a name="OS"></a> 
+<a name="OS"></a>
 ### OS
 `import os`
 <a name="Создание_и_удаление_папки"></a>
@@ -2192,7 +2213,7 @@ os.startfile(r'C:\Users\USER\AppData\Local\GameCenter\GameCenter.exe')
 
 os.system("taskkill /f /im GameCenter.exe")
 ```
-<a name="Просмотр_списка_файлов_в_папки"></a> 
+<a name="Просмотр_списка_файлов_в_папки"></a>
 #### Просмотр списка файлов в папки
 `os.listdir("Admins/")`
 
@@ -2409,38 +2430,6 @@ timedelta имеет несколько свойств (days, seconds, microseco
     print(date_now < date_2) # True
 ```
 
-<a name="multiprocessing_Pool"></a>
-### multiprocessing Pool
-`from multiprocessing import Pool`
-
-Объявляется объект Pool для запуска нескольких процессов одновременно, у него передаётся 
-параметр processes, отвечающий за максимальное кол-во одновременно запущенных процессов.<br>
-```
-    urls = ['https://www.otohits.net/', 'https://qiwi.com/', 'https://www.jetswap.com/']
-    p = Pool(processes=3)
-    p.map(Start_url, urls)
-```
-В данном примете запускается функция Start_url для кадого из объектов в списке urls, если 
-объектов больше, чем указано процессов, то программа будет ждать пока освободится место для 
-следующего объекта в очереди
-```
-p = multiprocessing.Process(target=func, args=(a, b,))
-p.start()
-p.join()
-```
-В скомпилированных приложениях с PyQT при запуске нескольких функций могут открываться 
-несколько окон. Исправление ошибки:
-```
-import multiprocessing as mp
-
-mp.freeze_support()
-
-class ...
-  with (mp.Pool(processes=3)) as p:
-      p.map(LoadMulti, fls)
-```
-
-
 <a name="Итераторы_и_генераторы"></a>
 ### Итераторы и генераторы
 Итераторы проходят по всем элементам, без возможности вернуться к выданным элементам после.
@@ -2559,8 +2548,471 @@ logger.addHandler(handler)
 logger.info('инфо')
 ```
 
+<a name="ООП"></a>
+# ООП
+### Атрибуты класса
+**Общие** атрибуты класса (любой объект класса будет ссылаться на один и тот же объект):
+```
+    u = Unit()
+    u2 = Unit()
+    Unit.hp = 90
+    print(u.hp, u2.hp) # 90 90
+```
+Динамическая установка нового атрибута: `setattr(Unit, 'armor', 2)`<br>
+Установка новго атрибута для объекта класса: `u.mana = 50`<br>
+Получение атрибута через getattr (если атребута не существется, вернется третий агрумент):<br>
+`getattr(Unit, 'armor', -1)`<br>
+Проверка на наличие атрибута: `hasattr(Unit, 'hp')`<br>
+Удаление атрибута: `del Unit.hp` или `delattr(Unit, 'hp')`<br>
 
-<a name="Дополнительные_модули"></a> 
+<a name="Конструктор"></a>
+### Конструктор
+Функция `__init__(self)` является конструктором<br>
+После создания объекта класса можно динамически добавлять к нему новые переменные
+```
+class url:
+    def __init__(self, address, description=''):
+        self.address = address
+        self.description = description
+
+def main():
+
+    url_1 = url('https://forum.com/stuff', 'Форум')
+    url_1.note = 'reports dont work'
+    print(url_1.note)
+```
+
+<a name="Деструктор"></a>
+### Деструктор
+Деструктор `__del(self)__` вызывается при удалении объекта, интерпретатор автоматически определяет, когда удалять объект
+```
+class url:
+    def __init__(self, address, description=''):
+        self.address = address
+        self.description = description
+        print(f'Создана ссылка: {self.address} {self.description}.')
+
+    def __del__(self):
+        print(f'Объект url ({self.address}) удалён.')
+def create_url():
+    url_1 = url('https://forum.com/stuff', 'Форум')
+def main():
+    create_url()
+    print('Конец программы.')
+    
+# Создана ссылка: https://forum.com/stuff Форум.
+# Объект url (https://forum.com/stuff) удалён.
+# Конец программы.
+```
+В данном примере объект url создается в функции create_url(), поэтому жизнь этого объекта ограничена областью функции.
+
+<a name="Приватные_атрибуты"></a>
+### Приватные атрибуты
+Введение. **Инкапсуляция** - концепция ооп, которая предполагает скрытие функционала и предотвращение прямого доступа к нему.<br>
+Приватные атрибуты: `self.__info`<br>
+К приватному атрибуту можно обратиться вне класса через `_ClassName__info`
+```
+class url:
+    def __init__(self, address, description=''):
+        self.__address = address
+        self.__description = description
+    def print_url(self):
+        print(self.__address)
+
+def main():
+    url_1 = url('https://forum.com/stuff', 'Форум')
+    url_1.__address = 0
+    url_1.print_url()       # https://forum.com/stuff
+    print(url_1.__address)  # 0
+
+    url_1._url__address = 0
+    url_1.print_url()       # 0
+```
+При обращении `url_1.__address` создается новая переменная `__address`, вместо нужной `_url__address`
+
+<a name="Аннотации_свойств_Геттеры_и_сеттеры"></a>
+### Аннотации свойств. Геттеры и сеттеры
+Для создания свойства-геттера над свойством ставится аннотация @property<br>
+Для сеттера - @имя_свойства_геттера.setter<br>
+Так же можно прописать deleter<br>
+**Сеттер определяется после геттера**
+```
+class Unit:
+    def __init__(self, name, hp):
+        self.__name = name
+        self.__hp = hp
+
+    @property
+    def hp(self):
+        return self.__hp
+    @hp.setter
+    def hp(self, hp):
+        self.__hp -= hp
+    @hp.deleter
+    def hp(self):
+        del self.__hp
+
+def main():
+    Builder = Unit('Builder', 30)
+    Builder.hp = 10
+    print(Builder.hp)
+```
+
+<a name="Наследование"></a>
+### Наследование
+Наследование имеет вид: `class Battler(Unit):`<br>
+Дочерний элемент не видит приватные атрибуты родителя.<br>
+```
+class Unit:
+    def __init__(self, name, hp):
+        self.name = name
+        self.__hp = hp
+
+    @property
+    def hp(self):
+        return self.__hp
+
+    def TakeDamage(self, dmg):
+        self.__hp -= dmg
+        if self.__hp > 0:
+            print(self.name + "`s hp is", self.__hp)
+        else:
+            print(self.name, 'is dead')
+
+class Battler(Unit):
+    damage = 20
+    def Hit(self, Unit):
+        Unit.TakeDamage(self.damage)
+```
+Множественное наследование:
+```
+class Unit:
+    def __init__(self, name, hp):
+        self.name = name
+        self._hp = hp
+    def Go(self):
+        print('Unit goes')
+    def print_info(self):
+        print(f'{self.name}, {self._hp}')
+
+class Seller:
+    def __init__(self, name, hp, shop_type):
+        self.name = name
+        self._hp = hp
+        self.shop_type = shop_type
+    def print_info(self):
+        print(f'{self.name}, {self._hp}, Sell: {self.shop_type}')
+
+class Character(Unit, Seller):
+    def __init__(self, *args):
+        Seller.__init__(self, *args)
+    def print_info(self):
+        Seller.print_info(self)
+
+def main():
+    Sam = Character("Sam", 20, 'Armor')
+    Sam.print_info()     # Sam, 20, Sell: Armor
+    Unit.print_info(Sam) # Sam, 20
+    print(Character.__mro__) # (<class '__main__.Character'>, <class '__main__.Unit'>, <class '__main__.Seller'>, <class 'object'>)
+```
+Если родительские классы имеют одинаковые методы, то вызовется метод первого родителя.<br>
+Порядок вызова можно узнать через class.mro() или аналогичный магический метод
+
+<a name="Переопределение_методов"></a>
+### Переопределение методов
+```
+class Unit:
+    def __init__(self, name, hp):
+        self.name = name
+        self.hp = hp
+        
+    def PrintInfo(self):
+        print(self.name, 'Health:', self.hp)
+
+
+class Battler(Unit):
+    def __init__(self, name, hp, damage):
+        super().__init__(name, hp)
+        self.damage = damage
+        
+    def PrintInfo(self):
+        super().PrintInfo()
+        print("Damage:", self.damage)
+```
+
+<a name="Статические_методы"></a>
+### Статические методы
+Для объявления статических методов используется аннтоация @staticmethod<br>
+Если в агрументах статического метода есть self, то его необходимо передать.
+```
+class url:
+    protocol = 'http'
+    @staticmethod
+    def PrintProtocil():
+        print(url.protocol)
+
+def main():
+    url_1 = url()
+    url_2 = url()
+    url.protocol = 'https'    # protocol изменен у url_1 и url_2
+    url_1.PrintProtocil()
+```
+При изменении атрибутов класса напрямую, меняется информация во всех экземплярах класса.
+
+<a name="Строковое_представление_объекта"></a>
+### Строковое представление объекта (класс object)
+С 3 версии языка Python все классы неявно наследуют все методы у класса object.<br>
+Один из этих методов - `__str__()`, он выводит объект в виде строки (`<__main__.url object at 0x000001DA32EAD520>`).<br>
+Данный метод можно переопределить, но он должен всегда возвращать строку:
+```
+class url:
+    def __init__(self, address, description):
+        self.address = address
+        self.description = description
+
+    def __str__(self):
+        return f'{self.address}, {self.description}'
+
+def main():
+    url_1 = url('forum.com', 'Форум')
+    print(url_1)
+```
+
+<a name="Перегрузка_операторов"></a>
+### Перегрузка операторов
+Переопределение встроенных операторов сложения, вычитания и т.д.<br>
+Существует множество операторов: Сложение `__add__(a, b)`, объединение: `__concat__(a, b)`,<br>
+< - `__lt__()`, > - `__gt__()`...<br>
+Возвращаемый тип ряда операторов жестко не опрелён.<br>
+Add:
+```
+class Balance:
+    gold = 0
+    silver = 0
+    copper = 0
+    def __init__(self, gold, silver, copper):
+        self.gold = gold
+        self.silver = silver
+        self.copper = copper
+    def __add__(self, other):
+        self.copper += other.copper
+        if self.copper >= 100:
+            self.silver += 1
+            self.copper -= 100
+        self.silver += other.silver
+        if self.silver >= 100:
+            self.gold += 1
+            self.silver -= 100
+        self.gold += other.gold
+        return 'G:',self.gold, ' S:', self.silver, ' C:', self.copper
+
+def main():
+    B1 = Balance(1, 52, 77)
+    B2 = Balance(5, 88, 45)
+    print(B1 + B2)
+```
+Bool:
+```
+    ...
+    def __bool__(self):
+        if self.gold >= 2:
+            return True
+        return False
+
+def main():
+    B1 = Balance(5, 51, 77)
+    while B1:
+        print('Buy')
+        B1.gold -= 2
+    else:
+        print('You do not have enough money')
+```
+Обращение по индексу:
+```
+    ...
+    def __getitem__(self, item):
+        if item == 0: return f'G: {self.__gold}'
+        elif item == 1: return f'S: {self.__silver}'
+        elif item == 2: return f'C: {self.__copper}'
+
+def main():
+    B1 = Balance(5, 51, 77)
+    print(B1[2])
+```
+in:
+```
+    ...
+    def __contains__(self, item):
+        if item == 'gold' and self.__gold > 0: return True
+        if item == 'silver' and self.__silver > 0: return True
+        if item == 'copper' and self.__copper > 0: return True
+        return False
+
+def main():
+    B1 = Balance(5, 0, 77)
+    print('silver' in B1)
+```
+Парные операторы:
+```
+    # __eq__, __ne__
+    # __gt__, __le__
+    # __lt__, __ge__
+    
+    ...
+    def __eq__(self, other):
+        if self.gold == other.gold and self.silver == other.silver and self.copper == other.copper: return True
+        return False
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+def main():
+    B1 = Balance(1, 15, 75)
+    B2 = Balance(5, 88, 45)
+    print(B1 != B2)
+```
+
+<a name="Абстрактные_классы"></a>
+### Абстрактные классы
+В Python инструменты для создания абстрактных классов находятся в модуле **abc**<br>
+`import abc`<br>
+Абстрактные классы наследуются от **abc.ABC**, абстрактные методы имеют аннотацию **@abc.abstractmethod**<br>
+Дочерние классы должны реализовывать все абстрактные методы
+```
+import abc
+
+class Unit(abc.ABC):
+    def __init__(self, name, hp, damage):
+        self.name = name
+        self.hp = hp
+        self.damage = damage
+
+    @abc.abstractmethod
+    def Attack(self): pass
+
+class Battler(Unit):
+    def Attack(self):
+        print(f'Deal area damage ({self.damage})')
+
+class Archer(Unit):
+    def Attack(self):
+        print(f'Hit the target ({self.damage})')
+```
+### Класс-декоратор
+```
+class CheckLower:
+    def __init__(self, func):
+        self.__func = func
+    def __call__(self, s, *args, **kwargs):
+        return self.__func(s).lower() if isinstance(s, str) else None
+
+@CheckLower
+def get_domen(s: str):
+    return s.split('.')[0].split('//')[-1]
+
+def main():
+    print(get_domen('https://Site.com'))
+```
+
+<a name="Методы_классов"></a>
+### Методы классов
+`__dict__` - выводит информацию об атрибутах класса
+```
+  print(Unit.__dict__)
+  # {'__module__': '__main__', 'hp': 100, 'dmg': 10, '__dict__': <attribute '__dict__' of 'Unit' objects>,
+  # '__weakref__': <attribute '__weakref__' of 'Unit' objects>, '__doc__': None}
+```
+`__doc__` - вывод документации <br>
+`__new__` - вызывается до создания объекта класса<br>
+`__getattribute__` - вызывается, когда происходит обращение к атрибутам класса
+```
+        def __getattribute__(self, item):
+        if item == 'hp':
+            print('error')
+            return None
+        return object.__getattribute__(self, item)
+
+  u = Unit(15, 2)
+  print(u.hp) # error; None
+```
+`__setattr__` - вызывается при установке значения атрибуту
+```
+    def __setattr__(self, key, value):
+        object.__setattr__(self, key, value)
+```
+`__getattr__` - вызывается при обращении к несуществующему атрибуту<br>
+`__delattr__` - вызывается при удалении атрибута
+```
+    def __delattr__(self, item):
+        object.__delattr__(self, item)
+```
+`__set__(self, instance, value)` - сеттер для дескриптеров<br>
+`__get__(self, instance, owner)` - геттер для дескриптеров<br>
+`__call__(self, *args, **kwargs)` - срабатывает при вызове класса, например, Person()<br>
+`__str__` - вызывается, если напечатать класс в print/str<br>
+`__repr__` - вызывается, если напечатать класс в print/str (для разработчиков)<br>
+`__len__` - len(), ещё вызывается функцией bool() если не определён магический метод bool<br>
+`__bool__` - вызывается при использования класса в условных операторах и при функции bool()<br>
+`__abs__` - abs()
+
+`__add__` - операция сложения: class + ... <br>
+`__radd__` - операция сложения: ... + class <br>
+`__iadd__` - операция сложения: class += ... <br>
+По аналогии: sub (-), mul (*), truediv (/), floordiv (//), mod (%)<br>
+
+`__hash__` - вызывается при попытки взять хэш объекта (если в классе есть магический меотд eq, то простой вызов hash() от объекта вызовет ошибку, поэтому необходимо переопределять маг. метод hash)<br>
+`__getitem__` - позволяет обратиться к объекту по индексу `class[i]`<br>
+`__setitem__` - для `class[i] = x`<br>
+`__delitem__` - для `dell class[i]`<br>
+`__iter__` - получение итератора<br>
+`__next__` - переход к след. знаечнию<br>
+
+
+**@classmethod**. Не работает с локальными атрибутами класса
+```
+class Unit:
+    x_min = 0
+    x_max = 20
+    @classmethod
+    def check_coords(cls, x):
+        return cls.x_min < x < cls.x_max
+        
+    def main():
+        print(Unit.check_coords(10))
+```
+**@staticmethod**. Не работает с атрибутами класса 
+```
+    @staticmethod
+    def pow2(x):
+        return x*x
+```
+
+`dir(class)` - просмотр всех свойств класса/метода/функции<br>
+`getattr(class, value_str)` - возвращает значение атрибута класса<br>
+`setattr(class, value_str, value)` - устанавливает значение value для атрибута класса<br>
+`issubclass(class1, class2)` - проверка - является ли class1 подклассом class2<br>  
+
+
+Паттерн моносостояние:
+```
+  class Unit:
+    __atr = {}
+    
+    def __init__(self, hp, dmg):
+        self.__dict__ = self.__atr
+```
+Создаёт общую ссылку на словарь атрибутов. Все объекты класса становтся одинаковы
+
+В коллекцию `__slots__` добавляются все допустимые **локальные** свойства класса, блокирует создание новых свойств.
+Если использовать данную коллекцию, то `__dict__` не будет создан. В самом классе можно создавать любые атрибуты.<br>
+При использовании данной коллекции будет занято меньше памяти и методы класса будут работать быстрее.
+```
+class Money2:
+    __slots__ = ('usd')
+    UDSRUB = 93
+```
+
+
+<a name="Дополнительные_модули"></a>
 # Дополнительные модули
 
 <a name="NumPy"></a>
@@ -3129,6 +3581,7 @@ df = pd.DataFrame.from_dict(coins)
 ```
 или `df = pd.DataFrame(coins.items(), columns=['code', 'value'])`
 
+<a name="Pandas_read_to"></a>
 ### read_excel
 Для этого необходим openpyxl `pip install openpyxl`
 ```
@@ -3199,6 +3652,9 @@ import openpyxl
               time.sleep(7)
 ```
 В sheet_name можно указать название листа (опционально)
+
+<a name="Pandas_Общая_информация"></a>
+### Общая информация
 
 ---
 **info()** выводит информацио о датафрейме (кол-во записей, описание колонок, кол-во пустых значений) 
@@ -3286,6 +3742,7 @@ df3 = pd.merge(df, df2, how='right')
 `df.groupby(['БрендП', 'Количество'])['ЦенаП'].mean()`  
 `df['БрендП'].value_counts()` - количество записей в группах
 
+<a name="Pandas_Создание_графиков"></a>
 ### Создание графиков
 ```
 import matplotlib.pyplot as plt
@@ -3323,22 +3780,670 @@ print(df[['ЦенаП', 'Количество', 'newCol']].head(20))
 
 <a name="matplotlib"></a>
 # matplotlib
-`pip install matplotlib`
+`pip install matplotlib`  
+`import matplotlib.pyplot as plt`
 
 Выбор метода для отображения графиков
 ```
 matplotlib.use("Qt5Agg")
 print(matplotlib.get_backend()) # qtagg (default) / TkAgg / Qt5Agg
 ```
-Отображение графика
+<a name="matplotlib_Отображение_графика"></a>
+### Отображение графика
 ```
 plt.plot([1,5,-2,3,-4,0])
 plt.show()
 ```
+Изначально график берет значения масива (y) и индексы элементов (x), 
+но можно задать x отдельно:
+```
+x = np.array([1,3,4,5])
+y = np.array([1,5,-2,3])
+plt.plot(x, y)
+```
+`plt.grid()` - добавить сетку на график
 
+Добавить **несколько линий**:
+```
+x2 = np.array([0,1,2,3])
+y2 = np.array([-3,2,0,1])
+plt.plot(x, y, x2, y2)
+```
+или 
+```
+plt.plot(x, y)
+plt.plot(x2, y2)
+```
+Изменить **тип линии**:  
+`plt.plot(x, y, '--')`  
+или
+```
+l1 = plt.plot(x, y)
+plt.setp(l1, linestyle='--')
+```
+### Типы линий 
+'-' непрерывная, '--' штриховая, '-.' штрихпунктирная, ':' пунктирная, ''/'None' без оотбражения линии
 
+Изменение **цвета** линии:  
+`plt.plot(x, y, 'r')` можно добавить и тип `'r--'`  
+или  
+`plt.plot(x, y, color='#0000AA')` / `color=(0,1,1,0.3)` (+альфаканал опционально, можно менять отдельно через **alpha**)
 
+**Маркеры** на графике (дополнительные знаки на ключевых точках линии)  
+`plt.plot(x, y, 'r--o')` - жирная точка, `'r--x'` - крест  
+Можно задать параметром: `marker='+'`  
+**Цвет** маркера: `markerfacecolor='r'` (цвет заливки фигур)  
+**Размер** маркеров: `markersize=5`
 
+**Ширина** линии - `linewidth=3`
+
+### Заливка на графике  
+`plt.fill_between(x, y)` - обычная заливка, от нулевой оси до линии графиак  
+**Условия** заливки`plt.fill_between(x, y, where=(0.2<y))`  
+Можно добавлять другие параметры, например, color
+
+<a name="matplotlib_Разделение_окна_вывод_нескольких_графиков"></a>
+### Разделение окна, вывод нескольких графиков  
+subplot(nrows, ncols, index) - принимает кол-во строк, столбцов и индекс текущих координатных осей  
+Окно с двумя графиками, 1 ряд, 2 столбца:
+```
+ax1 = plt.subplot(1,2,1)
+plt.plot(np.random.random(5))
+ax2 = plt.subplot(1,2,2)
+plt.plot(np.random.random(5))
+ax1.grid()
+ax2.grid()
+plt.show()
+```
+Окно с тремя графиками, в первой строке 2 и 1 во второй:
+```
+ax1 = plt.subplot(2,2,1)
+plt.plot(np.random.random(5))
+ax2 = plt.subplot(2,2,2)
+plt.plot(np.random.random(5))
+ax3 = plt.subplot(2,1,2)
+plt.plot(np.random.random(5))
+```
+В ax3 указывается индекс 2, чтобы графики не наслаивались на друг-друга  
+Если все элементы меньше 10, то можно указывать без запятой:  
+`ax3 = plt.subplot(212) # 2,1,2`
+
+Другой способ отображения нескольких графиков:  
+```
+f, ax = plt.subplots(2,2)
+f.set_size_inches(5,5)
+f.set_facecolor('#eee')
+ax[0,0].plot(np.random.random(5))
+ax[0,0].grid()
+```
+set_size_inches задаёт размер окна в дюймах  
+set_facecolor фоновый цвет окна
+
+Создание окна:
+```
+f2 = plt.figure(figsize=(7,4))
+plt.plot(np.arange(5))
+```
+Можно задать размер графика в окне:
+```
+ax1 = f2.add_axes([0,0,1,1]) # график будет занимать всё окно
+ax1.plot(np.arange(5))
+```
+В add_axes задаются размеры окна в процентах
+
+Добавление графика (**add_subplot**) в окно:  
+`ax1 = f2.add_subplot(1,2,1)`
+
+Класс **GridSpec** для компановки графиков:
+```
+from matplotlib.gridspec import GridSpec
+
+gs = GridSpec(nrows=2, ncols=3)
+ax1 = plt.subplot(gs[0,0])
+```
+Можно задавать отдельное окно и указывать размеры столбцов/строк:
+```
+w = [1,2,5]
+h = [2,1]
+fig = plt.figure(figsize=(6,3))
+gs = GridSpec(nrows=2, ncols=3, figure=fig, width_ratios=w, height_ratios=h)
+ax1 = fig.add_subplot(gs[:,2])
+ax1.plot(np.random.random(5))
+ax2 = plt.subplot(gs[1,:2])
+ax2.plot(np.random.random(5))
+plt.show()
+```
+<a name="matplotlib_Изменение_осей"></a>
+### Установка лимитов по осям
+Ограничение по x (от 3 до конца линии), по y (от 0.5 до 1):
+```
+fig = plt.figure(figsize=(5,5))
+ax1 = fig.add_subplot()
+ax1.plot(np.random.random(5), color='r')
+ax1.set(xlim=3, ylim=(0.5,1))
+```
+или `ax1.set_xlim(3)`  
+или задать лимиты для последнего активного графика: `plt.xlim(0,3)`
+
+### Изменение осей
+**Локаторы** (для изменения значений на рисках)
+
+**NullLocator**  
+`from matplotlib.ticker import NullLocator`  
+Отключение рисок осей (**xaxis** / **yaxis**): `ax1.xaxis.set_major_locator(NullLocator())`
+
+- **LinearLocator** - Разделение оси ровно на N меток: `LinearLocator(5)`
+- **MultipleLocator** - Задаётся шаг рисок: `MultipleLocator(base=.5)`
+- **IndexLocator** - Указывается шаг рисок и смещение первой риски: `IndexLocator(base=.5, offset=1)`
+- **FixedLocator** - Указываются фиксированные риски: `FixedLocator([1,3,5])`
+- **MaxNLocator** - Создаёт примеро N кол-во рисок, устанавливает удобные для чтения значения: `MaxNLocator(7)`
+
+Включение **мелкой (minor)** сетки:  
+```
+ax1.minorticks_on()
+ax1.grid(which='major', lw=2)
+ax1.grid(which='minor')
+```
+
+**Форматоры** (для изменения)
+
+**NullFormatter**
+Скрыть все значения на оси 
+`ax1.xaxis.set_major_formatter(NullFormatter())`
+
+- **FormatStrFormatter** - задаёт str формат рискам: `FormatStrFormatter("%.2f usd")`
+- **FuncFormatter** - формат рискам задаёт указанная функция: `FuncFormatter(lambda x, pos: f"[+{x}]" if x > 0 else f"[{x}]")`
+- **ScalarFormatter** - выносит спепень значений рисок вверх графика
+```
+    ax1.plot(np.random.random(10) * 1e5)
+    sf = ScalarFormatter()
+    sf.set_powerlimits((-5, 5)) # вынесет "1e5" вверх, если значения рисок больше 1e5 или меньше -1e5
+    ax1.yaxis.set_major_formatter(sf)
+```
+Для того чтобы **глобально** задать ScalarFormatter:
+```
+import matplotlib
+matplotlib.rcParams["axes.formatter.limits"] = (-5, 5)
+```
+- **FixedFormatter** - фиксированные риски: `FixedFormatter(['a', 'b', 'c'])`
+
+<a name="matplotlib_Дополнительные_элементы_в_окне"></a>
+### Дополнительные элементы в окне
+**figtext** - текст поверх всего  
+**set_xlabel** - название осей  
+**annotate** - аннотации (_xy_ - координаты куда будет указывать стрелка, 
+_xytext_ - координаты, где будет начинаться стрелка и текст)
+```
+fig = plt.figure(figsize=(5,5))
+ax1 = fig.add_subplot()
+plt.figtext(0.1, 0.5, 'Текст в окне')
+fig.suptitle('Заголовок окна')
+ax1.set_xlabel('Ox') # или plt.xlabel('Ox') для активного окна 
+ax1.set_ylabel('Oy')
+ax1.text(0.2,0.7, 'Текст в окне с графиком')
+ax1.annotate('Аннотация', xy=(0.1, 0.1), xytext=(0.5, 0.4), arrowprops={'facecolor': 'green', 'shrink':0.1})
+```
+
+Можно изменять все эти элементы с помощью **bbox**:  
+`ax1.text(0.2,0.7, 'Текст в окне с графиком', bbox={'boxstyle': 'square', 'facecolor': '#FFAAAA'})`
+
+Объектам можно менять параметры с помощью фунции **set**: `ax1.set(facecolor='lightgray')`
+
+Задать название для линий и добавить информациюнное поле (легенду):
+```
+ax.plot(np.random.random(10), label='№1')
+ax.plot(np.random.random(10), label='№2')
+ax.legend()
+```
+или 
+```
+l1, = ax.plot(np.random.random(10))
+l2, = ax.plot(np.random.random(10))
+ax.legend((l2, l1),['a', 'b'])
+```
+или просто `ax.legend(['a', 'b'])`
+
+Место расположения легенды: `ax.legend(loc='lower right')` / `ax.legend(bbox_to_anchor=(0.2, 0.4))`
+
+<a name="matplotlib_Фигуры_разные_типы_графиков"></a>
+### Фигуры, разные типы графиков
+Добавление ломаной линии, в Line2D передаются списки координат x и y:
+```
+from matplotlib.lines import Line2D
+
+line = Line2D([1,2,3], [1,3,5])
+ax.add_line(line)
+```
+Добавление фигур:
+```
+from matplotlib.patches import *
+
+rect = Rectangle((0.5,1), 2, 1, facecolor='b')
+ax.add_patch(rect)
+```
+
+**Ступенчатый график**  
+```
+m = np.arange(5)
+ax.step(m, m, where='pre')
+```
+В **where** можно указать способ построения графика: **pre** (по-умолчанию, 
+сначала вверх, потом влево), **post** инверсия pre, **mid** метка по центру ступени
+
+**Стековый график** (каждая следующая функция прибавляет к себе предыдещие значения другой функции)
+```
+m1 = np.arange(0,5,0.5) ** 2
+m2 = np.arange(0,5,0.5) ** 2
+ax.stackplot(np.arange(len(m1)), m1, m2)
+```
+
+**stem графики** (линии от точек до базовой линии)  
+`ax.stem(np.random.randint(-5,5,5), '--r', basefmt=':', markerfmt='x', bottom=1)`  
+_bottom_ - базовая линия
+
+**Тотечный график**
+```
+x = np.random.randint(-5,5, 55)
+y = np.random.randint(-5,5, 55)
+ax.scatter(x,y, alpha=0.5)
+```
+**Гистограммы**  
+Метод **hist**
+```
+x = np.random.randint(-10,10, 55)
+ax.hist(x, 20) # устанавливается точность диагрыммы, (default 10)
+```
+Метод **bar** / **barh** (для отображение графика по вертикали)
+```
+x = np.random.randint(-10,10, 10)
+ax.bar(np.arange(10), x) 
+```
+Для сравнений нескольких наборов данных можно вывести несколько столбцов рядом:
+```
+w = 0.5
+ax.bar(np.arange(10)-w/2, x1, width=w)
+ax.bar(np.arange(10)+w/2, x2, width=w)
+```
+**Круговая диаграмма**
+```
+coins = ['BTC', 'ETH', 'LTC', 'USDT']
+vals = [45, 25, 20, 10]
+exp = [0, 0.2, 0, 0]    # выдвинутые части
+ax.pie(vals, labels=coins, explode=exp, autopct='%.2f', shadow=True)
+```
+Параметр **wedgeprops=dict(width=0.6)** добавляет отверстие в центре круга
+
+### Вывод изображения на графике
+```
+from PIL import Image
+
+img = Image.open('img2.png')
+plt.imshow(img)
+```
+Вывод произвольного изображения, выбор цветового канала (**cmap**):
+```
+data = np.random.randint(0,255, (50,50))
+plt.imshow(data, cmap='plasma')
+```
+Преобразовать изображение в другой цветовой канал, вывести цветовой канал в окно:
+```
+img = Image.open(file).convert('L')
+im = plt.imshow(img, cmap='plasma')
+plt.colorbar(im)
+```
+Параметр **origin='lower'** поворачивает изображение
+
+Метод **pcolormesh** работает быстрее imshow, но не сохраняет пропорции изображения 
+и работает только с двумерными массивами (НЕ с rgb, rgba)  
+`plt.pcolormesh(data, cmap='plasma', edgecolor='black')`
+
+<a name="matplotlib_Трехмерные_графики"></a>
+### Трехмерные графики
+Создание 3д поля:
+```
+fig = plt.figure(figsize=(6,6))
+ax_3d = fig.add_subplot(projection='3d')
+```
+Подписать оси: `ax_3d.set_xlabel('x')`
+
+Произвольная 2д линия в 3д:
+```
+x = np.random.random(5)
+z = np.arange(5)
+ax_3d.plot(x,x,z)
+```
+Добавление полигонов (**plot_wireframe** - каркас, **plot_surface** - полигоны залитые цветом):
+```
+x = np.arange(-np.pi,np.pi,0.1)
+y = np.arange(-np.pi,np.pi,0.1)
+x, y = np.meshgrid(x, y)
+z = np.sin(x) * np.cos(y)
+ax_3d.plot_wireframe(x,y,z)
+```
+Чтобы изменить **количество полигонов** можно менять параметры **rstride** и **cstride**, чем больше значение, тем больше сами полигоны  
+`ax_3d.plot_surface(x,y,z, rstride=7, cstride=7)`
+
+Отображение 3д графика в виде отдельных точек: 
+`ax_3d.scatter(x,y,z, s=1) # s задаёт размер точек`
+
+Отрисовки линии уровней **contour** (4 параметром можно указать точность):  
+`ax_3d.contour(x,y,z, 15) # или передать список уровней вместо числа`  
+Линии уровней в виде поверхностей - **contourf**  
+Можно указать набор цветов **cmap** / **colors=['r','b']** (перечислить цвета или задать статичный)
+
+Отображение уровней 3д графика в 2д:
+```
+fig, ax = plt.subplots(1, 2)
+x = np.arange(-np.pi,np.pi,0.1)
+y = np.arange(-np.pi,np.pi,0.1)
+x, y = np.meshgrid(x, y)
+z = np.sin(x) * np.cos(y)
+ax[0].contour(x,y,z)
+ax[1].contourf(x,y,z)
+```
+Чтобы подписать значение уровней на графике:
+```
+a1 = ax[0].contour(x,y,z)
+a1.clabel()
+```
+В clabel можно задать цвет (_colors_) и формат (_fmt_)
+
+Чтобы нарисовать уровни для одомерных массивов (**tricontour** / **tricontourf                                                                      **):
+```
+x = np.random.rand(10)
+y = np.random.rand(10)
+z = np.cos(x) * np.sin(y)
+ax.tricontour(x,y,z)
+```
+
+<a name="matplotlib_Анимация_графиков"></a>
+### Анимация графиков
+Вариант 1 (полностью перересовывает график каждый кардр):
+```
+x = np.arange(-np.pi, np.pi, 0.1)
+
+plt.ion() # включение интерактивного режима отображение графиков
+for offset in np.arange(0, 10, 0.1):
+    y = np.cos(x + offset)
+    plt.clf() # отчистка окна
+    plt.plot(x,y)
+    # для обновления в окне
+    plt.draw()
+    plt.gcf().canvas.flush_events()
+    time.sleep(0.05)
+    
+plt.ioff() # выход из инт. режима
+plt.show()
+```
+Вариант 2:
+```
+plt.ion()
+fig, ax = plt.subplots()
+x = np.arange(-np.pi, np.pi, 0.1)
+y = np.cos(x)
+line, = ax.plot(x,y)
+
+for offset in np.arange(0, 10, 0.1):
+    y = np.cos(x + offset)
+    line.set_ydata(y)
+    # для обновления в окне
+    plt.draw()
+    plt.gcf().canvas.flush_events()
+    time.sleep(0.05)
+    
+plt.ioff()
+plt.show()
+```
+Вариант через **FuncAnimation**:
+```
+from matplotlib.animation import FuncAnimation
+
+def update_f(frame, line, x):
+    # line - ссылка на Line2D
+    line.set_ydata(np.cos(x+frame))
+    return [line]
+
+def main():
+    fig, ax = plt.subplots()
+    x = phasa =  np.arange(-np.pi, np.pi, 0.1)
+    y = np.cos(x)
+    line, = ax.plot(x,y)
+
+    anim = FuncAnimation(fig, 
+                 func=update_f, # функция обновления кадра
+                 frames=phasa, # параметр, меняющийся каждый кадр (фаза)
+                 fargs=(line,x), # доп. параметры для функции
+                 interval=10, # задежка между кадрами
+                 blit=True, # двойная буферизация
+                 repeat=False)
+    plt.show()
+```
+Вариант через **ArtistAnimation** (расчёт кадров заранее):
+```
+from matplotlib.animation import ArtistAnimation
+
+fig = plt.figure()
+ax = fig.add_subplot(projection='3d')
+x =  np.arange(-np.pi, np.pi, 0.1)
+y =  np.arange(-np.pi, np.pi, 0.1)
+x, y = np.meshgrid(x, y)
+
+phasa = np.arange(0, 5, 0.1)
+frames = []
+
+for p in phasa:
+    z = np.sin(x+p) * np.cos(y)
+    line = ax.plot_surface(x, y, z, color='g')
+    frames.append([line])
+anim = ArtistAnimation(fig, frames, interval=50, blit=True, repeat=True)
+plt.show()
+```
+
+---
+<a name="Многопоточность"></a>
+### Многопоточность
+Пример запуска несокльких функций одновременно. **start** зпаускает функции, **join** - дожидается их отработки
+```
+threads = [Thread(target=test_f, daemon=True) for _ in range(5)]
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+```
+При вызове функций с долгой работой программа может отработать некорректно, для исправления добавляется блокировка **Lock**:
+```
+from threading import  Lock
+x = 0
+lock = threading.Lock()
+
+def test_f():
+    lock.acquire()
+    global x
+    a = x + 1
+    time.sleep(1)
+    x = a
+    lock.release()
+```
+Также возможно обойтись без блокировки, использую **очередь**:
+```
+from queue import Queue
+x = 0
+queue = Queue()
+queue.put(0)
+
+def test_f():
+    global queue
+    a = queue.get() + 1
+    time.sleep(1)
+    queue.put(a)
+```
+Пример с кнопкой **PyQt6**:
+```
+from PyQt6 import QtCore, QtWidgets
+from PyQt6.QtWidgets import QApplication, QPushButton, QMainWindow
+import sys
+from threading import Thread
+
+def test_f(x):
+    print('start 1')
+    time.sleep(x)
+    print('stop 1')
+
+def thread_test(func, args):
+    thread = Thread(target=func, args=(args,), daemon=True)
+    thread.start()
+    return thread
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.centralwidget = QtWidgets.QWidget(parent=self)
+
+        button1 = QPushButton("test 1", parent=self.centralwidget)
+        button1.setGeometry(QtCore.QRect(10, 30, 75, 23))
+
+        self.setCentralWidget(self.centralwidget)
+        button1.clicked.connect(lambda: thread_test(test_f, 3))
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    app.exec()
+```
+
+<a name="multiprocessing"></a>
+### multiprocessing
+_В функции нельзя передавать данные которые не сериализуются через pickle_
+
+Запуск нескольких функций в несколько процессов:
+```
+from multiprocessing import Pool, Process
+
+processes = [Process(target=test_f, daemon=True) for _ in range(3)]
+for p in processes:
+    p.start() # запуск процессов
+for p in processes:
+    p.join() # ожидание завершения всех процессов
+```
+Объявляется объект Pool для запуска нескольких процессов одновременно, в него передаётся 
+параметр processes, отвечающий за максимальное кол-во одновременно запущенных процессов.<br>
+```
+from multiprocessing import Pool
+
+urls = ['https://www.otohits.net/', 'https://qiwi.com/', 'https://www.jetswap.com/']
+p = Pool(processes=3)
+p.map(Start_url, urls)
+```
+В данном примете запускается функция Start_url для кадого из объектов в списке urls, если 
+объектов больше, чем указано процессов, то программа будет ждать пока освободится место для 
+следующего объекта в очереди.
+
+**Pool** процессов и получение информации из return:
+```
+def test_f(x):
+    print('start')
+    time.sleep(x)
+    return 'test'
+
+if __name__ == '__main__':
+    with Pool(processes=3) as p:
+        res = p.map(test_f, [2 for i in range(3)])
+```
+В скомпилированных приложениях с PyQT при запуске нескольких функций могут открываться 
+несколько окон. Исправление ошибки:
+```
+import multiprocessing as mp
+mp.freeze_support()
+```
+Можно объявлять общую переменную для процессов через **mp.Manager**:
+```
+mng = mp.Manager()
+cnt = mng.Value('cnt', 0)
+
+fls = []
+for i in price_list:
+    fls.append([i, host, user, password, db_name, cnt])
+
+with (mp.Pool(processes=threads)) as p:
+    p.map(update_file, fls)
+
+print(cnt.value)
+
+def update_file(args):
+    ... , cnt = args
+    cnt.value += 1
+```
+
+<a name="Asyncio"></a>
+# Asyncio
+Работает в 1 поток  
+`import asyncio`
+
+Пример:
+```
+async def f_a():
+    print('start a')
+    await asyncio.sleep(2)
+    print('stop a')
+
+async def f_b():
+    print('start b')
+    await asyncio.sleep(3)
+    print('stop b')
+
+async def main():
+    await asyncio.gather(f_a(), f_b())
+
+if __name__ == '__main__':
+    t = time.time()
+    asyncio.run(main())
+    print(time.time() - t)
+```
+или
+```
+async def main():
+    asyncio.create_task(f_a())
+    await asyncio.create_task(f_b())
+```
+В асинхронный функциях **нельзя** писать непредсказуемые **блокирующие** функции, 
+которые могут надолго затормозить всю работу (например, обычный requests.get)
+
+Пример с асинхронным request.get:
+`pip install aiohttp`
+```
+import aiohttp
+
+async def get_req():
+    async with aiohttp.ClientSession() as session:
+        async with session.get('https://ya.ru') as resp:
+            print(resp.status)
+            
+async def main():
+    await asyncio.gather(*[get_req() for _ in range(3)])
+```
+
+Асинхронаня работа с **PostgreSQL**. Пример с пулом запросов к БД:   
+`pip install asyncpg`
+```
+import asyncpg
+
+async def create_req(pool_db, x):
+    await pool_db.fetch(f"insert into users values('dflt', {x})")
+
+async def main():
+    pool_len = 50
+    pool = []
+    pool_db = await asyncpg.create_pool(user='postgres', 
+    host='localhost', password='psw', port='5432', database='test_db')
+
+    for i in range(1, 1001):
+        pool.append(asyncio.create_task(create_req(pool_db, i)))
+        if i % pool_len == 0 or i == 1000:
+            await asyncio.gather(*pool)
+            pool = []
+            print(i)
+```
 
 
 <a name="Работа_с_почтой_(imaplib_smtplib)"></a>
@@ -3455,473 +4560,7 @@ table = pd.read_csv("file.csv", header=None, sep=';', encoding=enc)
 ```
 
 
-
-<a name="ООП"></a> 
-# ООП
-### Атрибуты класса
-**Общие** атрибуты класса (любой объект класса будет ссылаться на один и тот же объект):
-```
-    u = Unit()
-    u2 = Unit()
-    Unit.hp = 90
-    print(u.hp, u2.hp) # 90 90
-```
-Динамическая установка нового атрибута: `setattr(Unit, 'armor', 2)`<br>
-Установка новго атрибута для объекта класса: `u.mana = 50`<br>
-Получение атрибута через getattr (если атребута не существется, вернется третий агрумент):<br>
-`getattr(Unit, 'armor', -1)`<br>
-Проверка на наличие атрибута: `hasattr(Unit, 'hp')`<br>
-Удаление атрибута: `del Unit.hp` или `delattr(Unit, 'hp')`<br>
-
-<a name="Конструктор"></a>
-### Конструктор
-Функция `__init__(self)` является конструктором<br>
-После создания объекта класса можно динамически добавлять к нему новые переменные
-```
-class url:
-    def __init__(self, address, description=''):
-        self.address = address
-        self.description = description
-
-def main():
-
-    url_1 = url('https://forum.com/stuff', 'Форум')
-    url_1.note = 'reports dont work'
-    print(url_1.note)
-```
-
-<a name="Деструктор"></a>
-### Деструктор
-Деструктор `__del(self)__` вызывается при удалении объекта, интерпретатор автоматически определяет, когда удалять объект
-```
-class url:
-    def __init__(self, address, description=''):
-        self.address = address
-        self.description = description
-        print(f'Создана ссылка: {self.address} {self.description}.')
-
-    def __del__(self):
-        print(f'Объект url ({self.address}) удалён.')
-def create_url():
-    url_1 = url('https://forum.com/stuff', 'Форум')
-def main():
-    create_url()
-    print('Конец программы.')
-    
-# Создана ссылка: https://forum.com/stuff Форум.
-# Объект url (https://forum.com/stuff) удалён.
-# Конец программы.
-```
-В данном примере объект url создается в функции create_url(), поэтому жизнь этого объекта ограничена областью функции.
-
-<a name="Приватные_атрибуты"></a>
-### Приватные атрибуты
-Введение. **Инкапсуляция** - концепция ооп, которая предполагает скрытие функционала и предотвращение прямого доступа к нему.<br>
-Приватные атрибуты: `self.__info`<br>
-К приватному атрибуту можно обратиться вне класса через `_ClassName__info`
-```
-class url:
-    def __init__(self, address, description=''):
-        self.__address = address
-        self.__description = description
-    def print_url(self):
-        print(self.__address)
-
-def main():
-    url_1 = url('https://forum.com/stuff', 'Форум')
-    url_1.__address = 0
-    url_1.print_url()       # https://forum.com/stuff
-    print(url_1.__address)  # 0
-
-    url_1._url__address = 0
-    url_1.print_url()       # 0
-```
-При обращении `url_1.__address` создается новая переменная `__address`, вместо нужной `_url__address`
-
-<a name="Аннотации_свойств_Геттеры_и_сеттеры"></a>
-### Аннотации свойств. Геттеры и сеттеры
-Для создания свойства-геттера над свойством ставится аннотация @property<br>
-Для сеттера - @имя_свойства_геттера.setter<br>
-Так же можно прописать deleter<br>
-**Сеттер определяется после геттера**
-```
-class Unit:
-    def __init__(self, name, hp):
-        self.__name = name
-        self.__hp = hp
-
-    @property
-    def hp(self):
-        return self.__hp
-    @hp.setter
-    def hp(self, hp):
-        self.__hp -= hp
-    @hp.deleter
-    def hp(self):
-        del self.__hp
-
-def main():
-    Builder = Unit('Builder', 30)
-    Builder.hp = 10
-    print(Builder.hp)
-```
-
-<a name="Наследование"></a>
-### Наследование
-Наследование имеет вид: `class Battler(Unit):`<br>
-Дочерний элемент не видит приватные атрибуты родителя.<br>
-```
-class Unit:
-    def __init__(self, name, hp):
-        self.name = name
-        self.__hp = hp
-
-    @property
-    def hp(self):
-        return self.__hp
-
-    def TakeDamage(self, dmg):
-        self.__hp -= dmg
-        if self.__hp > 0:
-            print(self.name + "`s hp is", self.__hp)
-        else:
-            print(self.name, 'is dead')
-
-class Battler(Unit):
-    damage = 20
-    def Hit(self, Unit):
-        Unit.TakeDamage(self.damage)
-```
-Множественное наследование:
-```
-class Unit:
-    def __init__(self, name, hp):
-        self.name = name
-        self._hp = hp
-    def Go(self):
-        print('Unit goes')
-    def print_info(self):
-        print(f'{self.name}, {self._hp}')
-
-class Seller:
-    def __init__(self, name, hp, shop_type):
-        self.name = name
-        self._hp = hp
-        self.shop_type = shop_type
-    def print_info(self):
-        print(f'{self.name}, {self._hp}, Sell: {self.shop_type}')
-
-class Character(Unit, Seller):
-    def __init__(self, *args):
-        Seller.__init__(self, *args)
-    def print_info(self):
-        Seller.print_info(self)
-
-def main():
-    Sam = Character("Sam", 20, 'Armor')
-    Sam.print_info()     # Sam, 20, Sell: Armor
-    Unit.print_info(Sam) # Sam, 20
-    print(Character.__mro__) # (<class '__main__.Character'>, <class '__main__.Unit'>, <class '__main__.Seller'>, <class 'object'>)
-```
-Если родительские классы имеют одинаковые методы, то вызовется метод первого родителя.<br>
-Порядок вызова можно узнать через class.mro() или аналогичный магический метод
-
-<a name="Переопределение_методов"></a>
-### Переопределение методов
-```
-class Unit:
-    def __init__(self, name, hp):
-        self.name = name
-        self.hp = hp
-        
-    def PrintInfo(self):
-        print(self.name, 'Health:', self.hp)
-
-
-class Battler(Unit):
-    def __init__(self, name, hp, damage):
-        super().__init__(name, hp)
-        self.damage = damage
-        
-    def PrintInfo(self):
-        super().PrintInfo()
-        print("Damage:", self.damage)
-```
-
-<a name="Статические_методы"></a>
-### Статические методы
-Для объявления статических методов используется аннтоация @staticmethod<br>
-Если в агрументах статического метода есть self, то его необходимо передать.
-```
-class url:
-    protocol = 'http'
-    @staticmethod
-    def PrintProtocil():
-        print(url.protocol)
-
-def main():
-    url_1 = url()
-    url_2 = url()
-    url.protocol = 'https'    # protocol изменен у url_1 и url_2
-    url_1.PrintProtocil()
-```
-При изменении атрибутов класса напрямую, меняется информация во всех экземплярах класса.
-
-<a name="Строковое_представление_объекта"></a>
-### Строковое представление объекта (класс object)
-С 3 версии языка Python все классы неявно наследуют все методы у класса object.<br>
-Один из этих методов - `__str__()`, он выводит объект в виде строки (`<__main__.url object at 0x000001DA32EAD520>`).<br>
-Данный метод можно переопределить, но он должен всегда возвращать строку:
-```
-class url:
-    def __init__(self, address, description):
-        self.address = address
-        self.description = description
-
-    def __str__(self):
-        return f'{self.address}, {self.description}'
-
-def main():
-    url_1 = url('forum.com', 'Форум')
-    print(url_1)
-```
-
-<a name="Перегрузка_операторов"></a>
-### Перегрузка операторов
-Переопределение встроенных операторов сложения, вычитания и т.д.<br>
-Существует множество операторов: Сложение `__add__(a, b)`, объединение: `__concat__(a, b)`,<br>
-< - `__lt__()`, > - `__gt__()`...<br>
-Возвращаемый тип ряда операторов жестко не опрелён.<br>
-Add:
-```
-class Balance:
-    gold = 0
-    silver = 0
-    copper = 0
-    def __init__(self, gold, silver, copper):
-        self.gold = gold
-        self.silver = silver
-        self.copper = copper
-    def __add__(self, other):
-        self.copper += other.copper
-        if self.copper >= 100:
-            self.silver += 1
-            self.copper -= 100
-        self.silver += other.silver
-        if self.silver >= 100:
-            self.gold += 1
-            self.silver -= 100
-        self.gold += other.gold
-        return 'G:',self.gold, ' S:', self.silver, ' C:', self.copper
-
-def main():
-    B1 = Balance(1, 52, 77)
-    B2 = Balance(5, 88, 45)
-    print(B1 + B2)
-```
-Bool:
-```
-    ...
-    def __bool__(self):
-        if self.gold >= 2:
-            return True
-        return False
-
-def main():
-    B1 = Balance(5, 51, 77)
-    while B1:
-        print('Buy')
-        B1.gold -= 2
-    else:
-        print('You do not have enough money')
-```
-Обращение по индексу:
-```
-    ...
-    def __getitem__(self, item):
-        if item == 0: return f'G: {self.__gold}'
-        elif item == 1: return f'S: {self.__silver}'
-        elif item == 2: return f'C: {self.__copper}'
-
-def main():
-    B1 = Balance(5, 51, 77)
-    print(B1[2])
-```
-in:
-```
-    ...
-    def __contains__(self, item):
-        if item == 'gold' and self.__gold > 0: return True
-        if item == 'silver' and self.__silver > 0: return True
-        if item == 'copper' and self.__copper > 0: return True
-        return False
-
-def main():
-    B1 = Balance(5, 0, 77)
-    print('silver' in B1)
-```
-Парные операторы:
-```
-    # __eq__, __ne__
-    # __gt__, __le__
-    # __lt__, __ge__
-    
-    ...
-    def __eq__(self, other):
-        if self.gold == other.gold and self.silver == other.silver and self.copper == other.copper: return True
-        return False
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-def main():
-    B1 = Balance(1, 15, 75)
-    B2 = Balance(5, 88, 45)
-    print(B1 != B2)
-```
-
-<a name="Абстрактные_классы"></a>
-### Абстрактные классы
-В Python инструменты для создания абстрактных классов находятся в модуле **abc**<br>
-`import abc`<br>
-Абстрактные классы наследуются от **abc.ABC**, абстрактные методы имеют аннотацию **@abc.abstractmethod**<br>
-Дочерние классы должны реализовывать все абстрактные методы
-```
-import abc
-
-class Unit(abc.ABC):
-    def __init__(self, name, hp, damage):
-        self.name = name
-        self.hp = hp
-        self.damage = damage
-
-    @abc.abstractmethod
-    def Attack(self): pass
-
-class Battler(Unit):
-    def Attack(self):
-        print(f'Deal area damage ({self.damage})')
-
-class Archer(Unit):
-    def Attack(self):
-        print(f'Hit the target ({self.damage})')
-```
-### Класс-декоратор
-```
-class CheckLower:
-    def __init__(self, func):
-        self.__func = func
-    def __call__(self, s, *args, **kwargs):
-        return self.__func(s).lower() if isinstance(s, str) else None
-
-@CheckLower
-def get_domen(s: str):
-    return s.split('.')[0].split('//')[-1]
-
-def main():
-    print(get_domen('https://Site.com'))
-```
-
-<a name="Методы_классов"></a>
-### Методы классов
-`__dict__` - выводит информацию об атрибутах класса
-```
-  print(Unit.__dict__)
-  # {'__module__': '__main__', 'hp': 100, 'dmg': 10, '__dict__': <attribute '__dict__' of 'Unit' objects>,
-  # '__weakref__': <attribute '__weakref__' of 'Unit' objects>, '__doc__': None}
-```
-`__doc__` - вывод документации <br>
-`__new__` - вызывается до создания объекта класса<br>
-`__getattribute__` - вызывается, когда происходит обращение к атрибутам класса
-```
-        def __getattribute__(self, item):
-        if item == 'hp':
-            print('error')
-            return None
-        return object.__getattribute__(self, item)
-
-  u = Unit(15, 2)
-  print(u.hp) # error; None
-```
-`__setattr__` - вызывается при установке значения атрибуту
-```
-    def __setattr__(self, key, value):
-        object.__setattr__(self, key, value)
-```
-`__getattr__` - вызывается при обращении к несуществующему атрибуту<br>
-`__delattr__` - вызывается при удалении атрибута
-```
-    def __delattr__(self, item):
-        object.__delattr__(self, item)
-```
-`__set__(self, instance, value)` - сеттер для дескриптеров<br>
-`__get__(self, instance, owner)` - геттер для дескриптеров<br>
-`__call__(self, *args, **kwargs)` - срабатывает при вызове класса, например, Person()<br>
-`__str__` - вызывается, если напечатать класс в print/str<br>
-`__repr__` - вызывается, если напечатать класс в print/str (для разработчиков)<br>
-`__len__` - len(), ещё вызывается функцией bool() если не определён магический метод bool<br>
-`__bool__` - вызывается при использования класса в условных операторах и при функции bool()<br>
-`__abs__` - abs()
-
-`__add__` - операция сложения: class + ... <br>
-`__radd__` - операция сложения: ... + class <br>
-`__iadd__` - операция сложения: class += ... <br>
-По аналогии: sub (-), mul (*), truediv (/), floordiv (//), mod (%)<br>
-
-`__hash__` - вызывается при попытки взять хэш объекта (если в классе есть магический меотд eq, то простой вызов hash() от объекта вызовет ошибку, поэтому необходимо переопределять маг. метод hash)<br>
-`__getitem__` - позволяет обратиться к объекту по индексу `class[i]`<br>
-`__setitem__` - для `class[i] = x`<br>
-`__delitem__` - для `dell class[i]`<br>
-`__iter__` - получение итератора<br>
-`__next__` - переход к след. знаечнию<br>
-
-
-**@classmethod**. Не работает с локальными атрибутами класса
-```
-class Unit:
-    x_min = 0
-    x_max = 20
-    @classmethod
-    def check_coords(cls, x):
-        return cls.x_min < x < cls.x_max
-        
-    def main():
-        print(Unit.check_coords(10))
-```
-**@staticmethod**. Не работает с атрибутами класса 
-```
-    @staticmethod
-    def pow2(x):
-        return x*x
-```
-
-`dir(class)` - просмотр всех свойств класса/метода/функции<br>
-`getattr(class, value_str)` - возвращает значение атрибута класса<br>
-`setattr(class, value_str, value)` - устанавливает значение value для атрибута класса<br>
-`issubclass(class1, class2)` - проверка - является ли class1 подклассом class2<br>  
-
-
-Паттерн моносостояние:
-```
-  class Unit:
-    __atr = {}
-    
-    def __init__(self, hp, dmg):
-        self.__dict__ = self.__atr
-```
-Создаёт общую ссылку на словарь атрибутов. Все объекты класса становтся одинаковы
-
-В коллекцию `__slots__` добавляются все допустимые **локальные** свойства класса, блокирует создание новых свойств.
-Если использовать данную коллекцию, то `__dict__` не будет создан. В самом классе можно создавать любые атрибуты.<br>
-При использовании данной коллекции будет занято меньше памяти и методы класса будут работать быстрее.
-```
-class Money2:
-    __slots__ = ('usd')
-    UDSRUB = 93
-```
-
-
-
-<a name="Jinja2"></a> 
+<a name="Jinja2"></a>
 ## Jinja2
 `pip install Jinja2`
 
@@ -4075,9 +4714,9 @@ def main():
 `{% block item scoped %}{{ c }}{% endblock %}` - **scoped** позволяет использовать локальные переменные из других блоков, например, если блок item в цикле<br>
 `{% extends 'page.html' %}` - расширяет файл (запускать необходимо файл, где прописан extends)
 
-<a name="Базы_Данных"></a> 
+<a name="Базы_Данных"></a>
 # Базы Данных
-<a name="SQLite"></a> 
+<a name="SQLite"></a>
 # SQLite
 `import sqlite3 as sq`
 
@@ -4287,7 +4926,7 @@ INSERT INTO "orders" VALUES(1,'usdt',32,0.999) ...
     with con:
         ...
 ```
-<a name="MS_SQL_Server"></a> 
+<a name="MS_SQL_Server"></a>
 # MS SQL Server
 `pip install pyodbc`  
 `import pyodbc`
@@ -4403,6 +5042,7 @@ CREATE TABLE Orders (
 ```
 Users (Id) должно быть уникальным или PRIMARY KEY
 
+<a name="PostgreSQL_Последовательности_SEQUENCE"></a>
 ### Последовательности SEQUENCE
 Последовательности создают автоинкремент   
 SERIAL - встроенная последовательность с названием вида: test_table_id_seq  
@@ -4504,6 +5144,7 @@ WITH deleted AS
 SELECT count(*) FROM deleted
 ```
 
+<a name="PostgreSQL_DISTINCT_ORDER_BY_LIMIT_OFFSET"></a>
 ### Выбор уникальных значений DISTINCT
 `SELECT DISTINCT name FROM Users`
 
@@ -4533,6 +5174,7 @@ OFFSET указывает, с какой записи начать выбира�
 Проверка на вхождение в диапазон (включительно): `WHERE Price BETWEEN 1000 AND 5000`  
 Или **NOT BETWEEN**
 
+<a name="PostgreSQL_Регулярные_выражения_LIKE"></a>
 ### LIKE
 Сравнивает значение с шаблоном: `WHERE name LIKE 'M%'`  
 **%** используется для обозначения любого кол-ва символов, в том числе и пустой строки  
@@ -4609,6 +5251,7 @@ GROUP UP ROLLUP(Manufacturer, ProductCount)
 Выборка определённых значений: `SELECT tags[1:3] FROM servers`  
 Измененеи конкретного значения: `UPDATE servers SET tags[2] = 'site.com'`
 
+<a name="PostgreSQL_Перечисления_enum"></a>
 ### Перечисления enum
 ```
 CREATE TYPE server_status AS enum ('run', 'stopped');
@@ -4630,6 +5273,7 @@ USING server_status::text::new_status
 ```
 Удаление: `DROP TYPE server_status`
 
+<a name="PostgreSQL_JOIN"></a>
 ### Объединение JOIN
 ```
 SELECT res._17КодУникальности, data07.Настройка, data07.Отсрочка
@@ -4677,6 +5321,7 @@ GROUP BY ROLLUP(res._07Код_поставщика)
 ```
 **CROSS JOIN** - декартово произведение, перемножаются все записи (выводит n1 * n2 записей), то же самое, что и SELECT * FROM Users, Products
 
+<a name="PostgreSQL_UNION_EXCEPT_INTERSECT"></a>
 ### Объединение таблиц UNION
 При объекдинении типы данных должны совпадать
 ```
@@ -4706,6 +5351,7 @@ EXCEPT SELECT _07Код_поставщика FROM res
 INTERSECT SELECT Настройка FROM data07
 ```
 
+<a name="PostgreSQL_пример_psycopg2"></a>
 ### Пример в python
 ```
 import psycopg2
@@ -4722,6 +5368,7 @@ db_name = "prices"
   connection.close()
 ```
 
+<a name="PostgreSQL_Оптимизация_INDEX"></a>
 ### Оптимизация
 Повторные аналогичные запросы кэшируются и далее их обтаботка происходит почти моментально, 
 максимальный кэш для Postgres указывается в параметре **shared_buffers** (\PostgreSQL\17\data\postgresql.conf).  
@@ -4739,6 +5386,7 @@ db_name = "prices"
 Просмотр всех индексов: `SELECT * FROM pg_indexes where schemaname = 'public'`  
 В одном интексе можно указать **несколько** полей, если нужно оптимизировать запрос с AND  
 
+<a name="PostgreSQL_Удалённое_подключение_к_БД"></a>
 ### Удалённое подключение БД к другому компьютеру
 В \PostgreSQL\17\data\pg_hba.conf добавляется строка после  
 `# TYPE  DATABASE        USER            ADDRESS                 METHOD`  
@@ -4761,18 +5409,18 @@ db_name = "prices"
 
 
 
-<a name="SQLAlchemy"></a> 
+<a name="SQLAlchemy"></a>
 # SQLAlchemy
 `pip install SQLAlchemy`  
 Для PostgreSQL `pip install psycopg2`
 
-`engine = create_engine("postgresql://postgres:098-=-@localhost/price_processing")`
+`engine = create_engine("postgresql://postgres:psw@localhost/price_processing")`
 
 
 
 
 
-<a name="PyQt"></a> 
+<a name="PyQt"></a>
 # PyQt
 `pip install PyQt5`
 
@@ -4981,13 +5629,8 @@ self.FilesTable.item(self.selected_row, 2).setBackground(QColor(169, 252, 187))
 
 **Добавление действия** при изменении ячейки: `self.FilesTable.cellChanged.connect(self.ChangeItem)` (удаление - disconnect)
 
-<a name="Asyncio"></a> 
-# Asyncio
-`import asyncio`
 
-
-
-<a name="HTML"></a> 
+<a name="HTML"></a>
 # HTML
 Для выбора стандарта HTML 5.x - <!DOCTYPE html>
 
@@ -5195,7 +5838,7 @@ value="Начальное значение"
 
 
 
-<a name="CSS"></a> 
+<a name="CSS"></a>
 # CSS
 Подключение слитей (в head):<br>
 `<link type="text/css" href="css/style.css" rel="stylesheet">`<br>
@@ -5300,7 +5943,7 @@ class - для повторяющихся элементов
 
 
 
-<a name="Django"></a> 
+<a name="Django"></a>
 # Django
 
 Установка виртуального окружения: py -m venv django_venv<br>
@@ -6458,13 +7101,13 @@ class Add_Server(FormView):
 ```
 
 
-<a name="Selenium"></a> 
+<a name="Selenium"></a>
 # Selenium
 `pip install selenium`
 
 Список опций для гугла: https://peter.sh/experiments/chromium-command-line-switches/
 
-<a name="Запуск_страницы_в_браузере"></a> 
+<a name="Запуск_страницы_в_браузере"></a>
 ### Запуск страницы в браузере
 Ссылка открывается в отдельном браузере
 ```
@@ -6634,15 +7277,15 @@ action.move_to_element(end_line).perform()
 ```
 
 
-<a name="Exe_файл"></a> 
+<a name="Exe_файл"></a>
 # Exe файл
 Установка - pip install pyinstaller  
 Exe - pyinstaller main.py  
 Флаг для автоподтверждения: -y
 
-<a name="OpenCV"></a> 
+<a name="OpenCV"></a>
 # OpenCV
-<a name="Поиск_изображений"></a> 
+<a name="Поиск_изображений"></a>
 ### Поиск изображений
 ```
 import cv2                    # opencv-python
@@ -6706,13 +7349,13 @@ img = img[50:100, 200:300]  # y1:y2, x1:x2
 ```
 
 
-<a name="Beautifulsoup"></a> 
+<a name="Beautifulsoup"></a>
 # Beautifulsoup
 `pip install beautifulsoup4`<br>
 `pip install lxml` – парсер<br>
 
 `from bs4 import BeautifulSoup`
-<a name="Beautifulsoup_Получение_данных_о_странице"></a> 
+<a name="Beautifulsoup_Получение_данных_о_странице"></a>
 ### Получение данных о странице
 `pip install requests`
 ```
@@ -6727,7 +7370,7 @@ req = requests.get(url, headers=headers)
 page = req.text
 print(page)
 ```
-<a name="Сохранение_страницы"></a> 
+<a name="Сохранение_страницы"></a>
 ### Сохранение страницы
 Чтобы не посылать много запросов, можно скачать страницу
 ```
@@ -6737,7 +7380,7 @@ with open("index.html", "w", encoding="utf-8") as file:
 Чтобы сохранить некоторые страницы их неободимо сначала прогрузить через selenium и далее сохранить 
 с помощью driver.page_source
 
-<a name="Поиск_элемента_на_странице"></a> 
+<a name="Поиск_элемента_на_странице"></a>
 ### Поиск элемента на странице
 Вывод списка (тикер/цена)<br>
 ```
@@ -6764,14 +7407,14 @@ for i in f:
 
 **find_next_sibling() (.find_previous_sibling())** - Следующий соседний элемент
 
-<a name="Парстинг_атрибутов"></a> 
+<a name="Парстинг_атрибутов"></a>
 ### Парстинг атрибутов
 ```
 f = soup.find(class_="notification notification_wrap notification_danger")
 print(f.get("id"))
 print(f["id"])
 ```
-<a name="Поиск_элемента_в_тексте"></a> 
+<a name="Поиск_элемента_в_тексте"></a>
 ### Поиск элемента в тексте
 Поиск по полному тексту<br>
 `f = soup.find("span", string="Firo (Zcoin)")`
@@ -6784,7 +7427,7 @@ print(f["id"])
 
 Обращение к тегам<br>
 `soup.a["target"]`
-<a name="Антибот_система"></a> 
+<a name="Антибот_система"></a>
 ### Антибот система
 Взять Accept и User-Agent (можно сгенерировать с помощью библиотек)
 
@@ -6792,12 +7435,9 @@ print(f["id"])
 
 
 
-
-
-<a name="Other"></a> 
+<a name="Other"></a>
 # Other
-
-<a name="Other_Практика"></a> 
+<a name="Other_Практика"></a>
 ### Практика
 Синтактический сахар и тд.
 
@@ -6859,7 +7499,7 @@ print(bool('asd'), bool(10), bool(-3))  # True
 `b.clicked.connect(lambda: self.print_info(b.text()))` передача метода с подставленным значением, но без вызова этого метода
 
 
-<a name="Other_Парсинг"></a> 
+<a name="Other_Парсинг"></a>
 ### Парсинг
 Запросы на добавление новой информации на сайты отображаются в разделе Network
 (можно указать фильтр Fetch/XHR). После отчистки консоли (Ctrl + L или по кнопке) нужно 
@@ -6876,7 +7516,7 @@ import warnings
 warnings.filterwarnings('ignore')
 ```
 
-<a name="Git"></a> 
+<a name="Git_"></a>
 # Git
 В VCS активировать систему контроля версий (может предложить докачать компонент Git)  
 Создать, если нету .gitignore, добавить:
@@ -6890,12 +7530,20 @@ warnings.filterwarnings('ignore')
 Посмотреть разницу (Show Diff)  
 
 Для пуша первый раз необходимо указать ссылку на репозиторий (ссылка кончается .git)<br>
-Запушить: Commit and push<br>
-Подтянуть изменения: Git – Update project
+**Запушить**: Commit and push<br>
+**Подтянуть** изменения: Git – Update project  
+**Клонировать** пароект: VCS - Get from Version Control - далее вставить ссылку `https://github.com/user/project_name.git`
 
-**Заугрузка проекта из консоли**
+### Работа с проектом из консоли Git Bash  
+**Клонировать** проект: `git clone https://github.com/user/project_name.git`  
+Для того, чтобы **подтянуть** проект в него сначала добавляются файлы с помощью git add  
+Чтобы добавить все файлы из папки: `git add .`  
+Можно посмотреть информацию о выбранных файлах: `git status`  
+Коммит: `git commit -m "some texe"`  
+В конце: `git push`
 
-<a name="Установка_программы_на_сервер"></a> 
+
+<a name="Установка_программы_на_сервер"></a>
 # Установка программы на сервер
 Подключиться через Putty к консоли<br>
 Обновить пакеты на сервере:<br>
