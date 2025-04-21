@@ -109,7 +109,7 @@
 - [multiprocessing](#multiprocessing)
 - [Asyncio](#Asyncio)
 ---
-### [Другое](#)
+### [Другое](#Другое)
 - [Работа с почтой (imaplib, smtplib)](#Работа_с_почтой_(imaplib_smtplib))
 - [Определение кодировки chardet](#Определение_кодировки_chardet)
 - [Jinja2](#Jinja2)
@@ -123,9 +123,11 @@
   - [Перечисления enum](#PostgreSQL_Перечисления_enum)
   - [JOIN](#PostgreSQL_JOIN)
   - [UNION, EXCEPT, INTERSECT](#PostgreSQL_UNION_EXCEPT_INTERSECT)
-  - [Пример psycopg2](#PostgreSQL_пример_psycopg2)
+  - [Оконные функции (OVER)](#PostgreSQL_Оконные_функции)
+  - [Пример в python (psycopg2)](#PostgreSQL_пример_psycopg2)
   - [Оптимизация, INDEX](#PostgreSQL_Оптимизация_INDEX)
   - [Удалённое подключение к БД](#PostgreSQL_Удалённое_подключение_к_БД)
+### [SQLAlchemy](#SQLAlchemy)
 
 ### [PyQt](#PyQt)
 
@@ -168,6 +170,7 @@
 
 <a name="Основы"></a>
 # Основы
+
 <a name="Работа_с_текстом"></a>
 ### Работа с текстом
 
@@ -2550,6 +2553,8 @@ logger.info('инфо')
 
 <a name="ООП"></a>
 # ООП
+ 
+---
 ### Атрибуты класса
 **Общие** атрибуты класса (любой объект класса будет ссылаться на один и тот же объект):
 ```
@@ -3015,8 +3020,11 @@ class Money2:
 <a name="Дополнительные_модули"></a>
 # Дополнительные модули
 
+---
 <a name="NumPy"></a>
 # NumPy
+
+---
 `pip install numpy`  
 `import numpy as np`  
 <a name="np_Создание_массива"></a>
@@ -3565,6 +3573,8 @@ print(np.bincount(a)) # [0 1 1 3 0 1 1]
 
 <a name="Pandas"></a>
 # Pandas
+
+---
 `pip install pandas`  
 `import pandas as pd`
 
@@ -3780,6 +3790,8 @@ print(df[['ЦенаП', 'Количество', 'newCol']].head(20))
 
 <a name="matplotlib"></a>
 # matplotlib
+
+---
 `pip install matplotlib`  
 `import matplotlib.pyplot as plt`
 
@@ -4445,7 +4457,10 @@ async def main():
             print(i)
 ```
 
+<a name="Другое"></a>
+# Другое
 
+---
 <a name="Работа_с_почтой_(imaplib_smtplib)"></a>
 # Работа с почтой (imaplib, smtplib)
 `import imaplib`
@@ -4716,6 +4731,8 @@ def main():
 
 <a name="Базы_Данных"></a>
 # Базы Данных
+
+---
 <a name="SQLite"></a>
 # SQLite
 `import sqlite3 as sq`
@@ -5351,6 +5368,68 @@ EXCEPT SELECT _07Код_поставщика FROM res
 INTERSECT SELECT Настройка FROM data07
 ```
 
+<a name="PostgreSQL_Оконные_функции"></a>
+### Оконные функции
+Добавление доп столбца с номером строки:
+```
+select id, pay_method, cost, user_id,
+row_number() OVER () as num
+from orders
+```
+В **OVER** можно добавлять сортировку и группировку  
+`OVER (partition by user_id order by cost)`  
+В каждой группе **user_id** будет применена выбранная функция. Например, row_number 
+будет устанавливать свою нумерацию строк в каждой группе
+
+| user_id | num |
+|---------|-----|
+| 1       | 1   |
+| 1       | 2   |
+| 2       | 1   |
+| 2       | 2   |
+
+`sum(cost) OVER (order by cost) as sum_cost`  
+Тут будет указана сума полей от первой строки до текущей:
+
+| cost  | sum_cost |
+|-------|----------|
+| 500   | 500      |
+| 2500  | 3000     |
+
+Без order by будет выведена общая сумма значений в каждой строке
+
+Несколько одинаковых **OVER** можно вынести отдельно с помощью **WINDOW**:
+```
+select id, pay_method, cost, user_id,
+sum(cost) OVER w,
+avg(cost) OVER w::int
+from orders
+WINDOW w as (partition by user_id order by cost)
+```
+
+Оконные функции работают с результатом выборки, в них нельзя использовать where  
+Можно использовать подзапрос для использования **WHERE**:
+```
+select * from(
+select id, pay_method, cost, user_id,
+sum(cost) OVER (partition by user_id order by cost) as sum_cost
+from orders) where sum_cost > 1000
+```
+Пример функции **lag** (ищет строки перед последней строкой фрейма):
+```
+select id, pay_method, cost, user_id,
+lag(cost) OVER (order by cost DESC) - cost as lag_cost
+from orders
+```
+Тут cost сравнивается с предыдущим значением, выводится их разница
+
+| cost | lag_cost |
+|------|--------|
+| 8000 | [null] |
+| 4000 | 4000   |
+| 2500 | 1500 |
+
+
 <a name="PostgreSQL_пример_psycopg2"></a>
 ### Пример в python
 ```
@@ -5366,6 +5445,16 @@ db_name = "prices"
       cur.execute("DELETE FROM data07")
   connection.commit()
   connection.close()
+```
+
+### WITH (CTE)
+with содержит вложенный запрос и позволяет далее сортировать и тд новые столбцы
+```
+with info_table as (
+select id, pay_method, cost, user_id,
+sum(cost) OVER (partition by user_id order by cost) as sum_cost
+from orders)
+select * from info_table order by sum_cost
 ```
 
 <a name="PostgreSQL_Оптимизация_INDEX"></a>
@@ -5407,21 +5496,275 @@ db_name = "prices"
 Чтобы обращаться с сервера к БД, нужно добавить в pg_hba.conf IPv4 сервера или использовать 127.0.0.1
 
 
-
-
 <a name="SQLAlchemy"></a>
 # SQLAlchemy
-`pip install SQLAlchemy`  
+`pip install SQLAlchemy`
+### Синхронные запросы
 Для PostgreSQL `pip install psycopg2`
+```
+from sqlalchemy import create_engine, text
+import psycopg2
 
-`engine = create_engine("postgresql://postgres:psw@localhost/price_processing")`
+engine = create_engine("postgresql+psycopg2://postgres:pass@localhost:5432/test_db")
+# engine = create_async_engine(url=db_url)
+def main():
+    with engine.connect() as con:
+        res = con.execute(text("select count(*) from users"))
+        print(f"{res.first()=}") # res.first()=(1000,)
+```
+Сырые запросы необходимо оборачивать в смециальную функцию **text**
 
+Параметр **echo** для отображения в консоли информации о запросах  
+**pool_size** - кол-во одновременных подключений к БД  
+**max_overflow** - максимальное кол-во доп. подключений к БД (если кол-во подключенй уже равно pool_size)
+
+### Асинхронные запросы
+```
+from sqlalchemy.ext.asyncio import create_async_engine
+import asyncio
+import asyncpg
+
+engine = create_async_engine("postgresql+asyncpg://postgres:pass@localhost:5432/test_db")
+# engine = create_async_engine(url=db_url)
+async def main():
+    async with engine.connect() as con:
+        res = await con.execute(text("select count(*) from users"))
+        print(f"{res.first()=}") # res.first()=(1000,)
+```
+engine.**connect**() - **без** коммита в конце  
+engine.**begin**() - **с** коммитом в конце
+
+### Создание таблиц
+models.py:
+```
+from sqlalchemy import Table, Column, MetaData, Integer, String
+
+metadata_obj = MetaData()
+
+products_table = Table('products', metadata_obj,
+                       Column('id', Integer, primary_key=True),
+                       Column("name", String))
+```
+main.py:
+```
+from models import metadata_obj
+metadata_obj.create_all(engine)
+```
+Для удаления всех записей из таблицы: `metadata_obj.drop_all(engine)`  
+Можно менять состояние echo до запросов и после: `engine.echo = False`
+
+### Insert
+```
+from sqlalchemy import insert
+from models import metadata_obj, products_table
+
+def insert_into_db():
+    with engine.connect() as con:
+        req = insert(products_table).values(
+            [{"name": "Аккумулятор"},
+             {"name": "Батарейка"}]
+        )
+        con.execute(req) # без text
+        con.commit()
+```
+
+### Работа с сессиями
+```
+from sqlalchemy.orm import sessionmaker
+
+session = sessionmaker(engine)
+with session() as sess:
+    res = sess.execute ...
+```
+или при асинхронной работе: `from sqlalchemy.ext.asyncio import async_sessionmaker`
+
+**insert in ORM** (add / add_all):  
+models.py:
+```
+from sqlalchemy import String
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+class Base(DeclarativeBase):
+    pass
+
+class ProductsOrm(Base):
+    __tablename__ = "products"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(150)) # ограничение символов
+```
+main.py:
+```
+from models import ProductsOrm
+
+def insert_into_db():
+    with session() as sess:
+        product_hook = ProductsOrm(name='Hook')
+        product_nail = ProductsOrm(name='Nail')
+        sess.add_all([product_hook, product_nail])
+        sess.commit()
+```
+При асинхронной работе:
+```
+async def insert_into_db():
+    async with session() as sess:
+        product_hook_a = ProductsOrm(name='Hook (A)')
+        sess.add(product_hook_a)
+        await sess.commit()
+```
+
+### Создание таблиц через классы
+(enum, допустимое NULL значение, каскадное удаление, время создания / изменнеия записи)
+
+models.py:
+```
+from sqlalchemy import String, ForeignKey, text
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+import enum
+import datetime
+from typing import Annotated
+
+# Можно задавать шаблоны типов данных в базовом классе
+str_150 = Annotated[str, 150] 
+class Base(DeclarativeBase):
+    type_annotation_map = {
+        str_150: String(150)
+    }
+    
+intpk = Annotated[int, mapped_column(primary_key=True)] # отдельный шаблон для типов данных
+
+class UsersOrm(Base):
+    __tablename__ = "users"
+    id: Mapped[intpk]
+    name: Mapped[str_150]
+
+class PayMethod(enum.Enum): # enum в БД
+    card = "card"
+    cash = "cash"
+
+class OrdersOrm(Base):
+    __tablename__ = "orders"
+    id: Mapped[intpk]
+    pay_method: Mapped[PayMethod] # enum
+    addition: Mapped[str | None] # / mapped_column(nullable=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+    created_at: Mapped[datetime.datetime] = mapped_column(
+        server_default=text("TIMEZONE('utc', now())")) # На уровне БД
+    updated_at: Mapped[datetime.datetime] = mapped_column(
+        server_default=text("TIMEZONE('utc', now())"),
+        onupdate=lambda t=datetime.UTC: datetime.datetime.now) # onupdate на уровне ORM
+```
+main.py (меняется только объект с метаданными):
+```
+from models import Base
+Base.metadata.create_all(engine)
+```
+
+### select
+```
+from sqlalchemy import select
+res = con.execute(select(ProductsOrm)).all()
+```
+`res.scalars().all()` вернёт не список кортежей, а обычный список
+### update
+В текст сырого запроса не подставляются данные через f строку
+```
+def update_product_name(id, new_name):
+    with engine.connect() as con:
+        req = text("UPDATE products SET name=:new_name WHERE id=:id")
+        req = req.bindparams(new_name=new_name, id=id)
+        con.execute(req)
+        con.commit()
+```
+Не через сырой запрос:  
+`from sqlalchemy import update`  
+**where**  
+`req = (update(ProductsOrm).values(name=new_name).where(ProductsOrm.id==id))`  
+(в случае с объектом Table - `where(ProductsTable.c.id==id)`)
+
+**filter_by** (без указания таблицы)  
+`req = (update(ProductsOrm).values(name=new_name).filter_by(id=id))`
+
+### select через ORM
+Если первичный ключ один, то передаётся проосто один параметр 
+```
+def select_products_orm():
+    with session() as sess:
+        req = select(ProductsOrm)
+        res = sess.execute(req)
+        print(res.scalars().all())
+```
+Пример (переименование столбца, приведение столбца к типу int, агрегатные функции,
+LIKE, GROUP BY):  
+_SQL_:
+```
+select pay_method, avg(cost)::int as avg_cost from orders 
+where cost > 0 and (addition not LIKE '%canceled%' or addition is NULL) 
+group by pay_method
+```
+```
+from sqlalchemy import select, func, cast, Integer, or_, and_, not_
+
+with session() as sess:
+    query = select(OrdersOrm.pay_method, cast(func.avg(OrdersOrm.cost), Integer).label("avg_cost")
+                   ).select_from(OrdersOrm
+                   ).where(and_(OrdersOrm.cost > 0, 
+                   or_(not_(OrdersOrm.addition.contains("canceled")), OrdersOrm.addition == None))
+                   ).group_by(OrdersOrm.pay_method)
+    print(query.compile(compile_kwargs={'literal_binds': True}))
+    res = sess.execute(query).all()
+    print(res[0].avg_cost)
+```
+**compile** позволяет подставить в запрос выбранные параметры при его отображении в консоли  
+В res можно обращаться к полям, в том числе к переименованным столбцам
+
+
+### update через ORM
+Выполняется 2 запроса: получение объеквта и изменение. Через сырые запросы быстрее
+```
+def update_product_orm(id, new_name):
+    with session() as sess:
+        product_nail = sess.get(ProductsOrm, {'id':id})
+        product_nail.name = new_name
+        # sess.flush()
+        sess.commit()
+```
+**.flush()** отправляет данные в БД, но не делает коммит, можно использовать для формирования дефолт значений у объекта  
+**.expire_all()** / **.expire(product_obj)** - отменяет все изменения у всех объектов / у конкретного  
+**.refresh(product_obj)** - обновляет актуальные на текущий момент данные у объекта
+
+### Приме с JOIN, OVER, WITH
+_SQL_:
+```
+with info_table as (
+select *, cost-avg_cost as cost_diff from (
+select ord.user_id, ord.pay_method, ord.cost, u.name, 
+avg(cost) OVER (partition by pay_method)::int as avg_cost
+from orders ord join users u on user_id = u.id) as sub_t)
+select * from info_table order by cost_diff DESC
+```
+```
+from sqlalchemy.orm import aliased
+
+ord = aliased(OrdersOrm)
+u = aliased(UsersOrm)
+subq = select(
+    ord, u,
+    func.avg(ord.cost).over(partition_by=ord.pay_method).cast(Integer).label("avg_cost")
+).join(u, ord.user_id == u.id).subquery("sub_t")
+cte = select(
+    subq.c.user_id, subq.c.pay_method, subq.c.cost, subq.c.name, subq.c.avg_cost,
+    (subq.c.cost - subq.c.avg_cost).label("cost_diff")
+).cte("info_table")
+query = select(cte).order_by(cte.c.cost_diff.desc())
+```
 
 
 
 
 <a name="PyQt"></a>
 # PyQt
+
+---
 `pip install PyQt5`
 
 В Qt Designer создается шаблон в формате .ui (имеет структуру xml). В процессе создания окна можно запустить его в тестовом режиме: From - Preview
@@ -5632,6 +5975,8 @@ self.FilesTable.item(self.selected_row, 2).setBackground(QColor(169, 252, 187))
 
 <a name="HTML"></a>
 # HTML
+
+---
 Для выбора стандарта HTML 5.x - <!DOCTYPE html>
 
 Выравнивания **align** - left, right, center, justify (по ширине всей страницы)
@@ -5840,6 +6185,8 @@ value="Начальное значение"
 
 <a name="CSS"></a>
 # CSS
+
+---
 Подключение слитей (в head):<br>
 `<link type="text/css" href="css/style.css" rel="stylesheet">`<br>
 style.css: `pre {color: grey}`<br>
@@ -5946,6 +6293,7 @@ class - для повторяющихся элементов
 <a name="Django"></a>
 # Django
 
+---
 Установка виртуального окружения: py -m venv django_venv<br>
 Запуск виртуальной среды(activate.bat): .django_venv\Scripts\activate<br>
 Закрыть виртуальную среду: deactivate.bat
@@ -7103,6 +7451,8 @@ class Add_Server(FormView):
 
 <a name="Selenium"></a>
 # Selenium
+
+---
 `pip install selenium`
 
 Список опций для гугла: https://peter.sh/experiments/chromium-command-line-switches/
@@ -7285,6 +7635,8 @@ Exe - pyinstaller main.py
 
 <a name="OpenCV"></a>
 # OpenCV
+
+---
 <a name="Поиск_изображений"></a>
 ### Поиск изображений
 ```
@@ -7351,6 +7703,8 @@ img = img[50:100, 200:300]  # y1:y2, x1:x2
 
 <a name="Beautifulsoup"></a>
 # Beautifulsoup
+
+---
 `pip install beautifulsoup4`<br>
 `pip install lxml` – парсер<br>
 
@@ -7434,9 +7788,10 @@ print(f["id"])
 ![img.png](img/img.png)
 
 
-
 <a name="Other"></a>
 # Other
+
+---
 <a name="Other_Практика"></a>
 ### Практика
 Синтактический сахар и тд.
@@ -7498,6 +7853,8 @@ print(bool('asd'), bool(10), bool(-3))  # True
 
 `b.clicked.connect(lambda: self.print_info(b.text()))` передача метода с подставленным значением, но без вызова этого метода
 
+`print(f"{x=}") # x=2`
+
 
 <a name="Other_Парсинг"></a>
 ### Парсинг
@@ -7518,6 +7875,8 @@ warnings.filterwarnings('ignore')
 
 <a name="Git_"></a>
 # Git
+
+---
 В VCS активировать систему контроля версий (может предложить докачать компонент Git)  
 Создать, если нету .gitignore, добавить:
 ```
@@ -7545,6 +7904,8 @@ warnings.filterwarnings('ignore')
 
 <a name="Установка_программы_на_сервер"></a>
 # Установка программы на сервер
+
+---
 Подключиться через Putty к консоли<br>
 Обновить пакеты на сервере:<br>
 `sudo apt update`<br>
