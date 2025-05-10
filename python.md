@@ -1,19 +1,15 @@
 # Python
 ### [Основы](#Основы)
-- ☐ [Работа с текстом](#Работа_с_текстом)
 - ☐ [**Работа с текстом**](#Работа_с_текстом)
   - [Методы строк](#Методы_строк)
-  - [Замена символа replace](#Замена_символа_replace)
   - [Поиск в строке find](#Поиск_в_строке_find)
   - [Разделение текста split](#Разделение_текста_split)
   - [Соединение строк join](#Соединение_строк_join)
   - [Дополнительные пробелы rjust и ljust](#Дополнительные_пробелы_rjust_и_ljust)
   - [Форматирование](#Форматирование)
   - [Регулярные выражения re](#Регулярные_выражения_re)
-- [Range](#Range)
 - [Арифметические и логические операции](#Арифметические_и_логические_операции)
 - [Пример с шифрованием](#Пример_с_шифрованием)
-- [Операторы](#Операторы)
 - [Цикл for с двумя элементами, функция zip](#Цикл_for_с_двумя_элементами_функция_zip)
 - [Аргументы в функции](#Аргументы_в_функции)
 - [Функция как параметр функции](#Функция_как_параметр_функции)
@@ -40,14 +36,12 @@
 - [match](#match)
 - [Контекстные менеджеры](#Контекстные_менеджеры)
 - [Метаклассы](#Метаклассы)
-- ☐ [Работа с файлами](#Работа_с_файлами)
 - ☐ [**Работа с файлами**](#Работа_с_файлами)
   - [Открытие и закрытие файлов](#Открытие_и_закрытие_файлов)
   - [Запись в текстовый файл](#Запись_в_текстовый_файл)
   - [Чтение файла](#Чтение_файла)
   - [Кодировка](#Кодировка)
   - [Чтение и запись w+](#Чтение_и_запись_w)
-  - [CSV](#CSV)
   - [**CSV**](#CSV)
     - [Запись](#CSV_Запись)
     - [Чтение файла](#CSV_Чтение_файла)
@@ -57,17 +51,14 @@
   - [pickle. Запись информации в бинарный файл .dat](#pickle)
   - [shelve. Хранение данных в файле по типу словаря](#shelve)
   - [Json](#Json)
-- ☐ [OS](#OS)
 - ☐ [**OS**](#OS)
   - [Создание и удаление папки](#Создание_и_удаление_папки)
   - [Запуск и закрытие приложений](#Запуск_закрытие_приложений)
   - [Просмотр списка файлов в папки](#Просмотр_списка_файлов_в_папки)
-- ☐ [Работа с zip файлами. zipfile](#Работа_с_zip_файлами_zipfile)
 - ☐ [**Работа с zip файлами. zipfile**](#Работа_с_zip_файлами_zipfile)
   - [Запись файлов в zip архив](#Запись_файлов_в_zip_архив)
   - [Получение информации о файлах в архиве](#Получение_информации_о_файлах_в_архиве)
   - [Извлечение файлов из архива](#Извлечение_файлов_из_архива)
-- ☐ [datetime](#datetime)
 - ☐ [**datetime**](#datetime)
   - [Преобразование строки в дату. strptime](#Преобразование_строки_в_дату_strptime)
   - [Форматирование даты и времени](#Форматирование_даты_и_времени)
@@ -76,20 +67,6 @@
 - [Итераторы и генераторы](#Итераторы_и_генераторы)
 - [Тесты doctest](#Тесты_doctest)
 - [Логирование logging](#Логирование_logging)
-
-### [Дополнительные модули](#Дополнительные_модули)
-- [NumPy](#NumPy)
-  - [Создание массива](#np_Создание_массива)
-  - [Удаление элементов из массива](#np_Удаление_элементов_из_массива) 
-  - [Представление массивов](#np_Представление_массивов) 
-  - [Объединение / разделение массивов](#np_Объединение_разделение_массивов) 
-  - [Срезы массивов](#np_Срезы_массивов) 
-  - [Математические операции над массивами](#np_Математические_операции_над_массивами) 
-  - [Генерация случайных чисел](#np_Генерация_случайных_чисел) 
-  - [Матричное умножение](#np_Матричное_умножение)
-- [Pandas](#Pandas)
-- [Работа с почтой (imaplib, smtplib)](#Работа_с_почтой_(imaplib_smtplib))
-- [Определение кодировки chardet](#Определение_кодировки_chardet)
 
 ### [ООП](#ООП)
 - [Конструктор](#Конструктор)
@@ -104,8 +81,7 @@
 - [Абстрактные классы](#Абстрактные_классы)
 - [Методы классов](#Методы_классов)
 
-### [Jinja2](#Jinja2)
----
+
 ### [Дополнительные модули](#Дополнительные_модули)
 ### [NumPy](#NumPy)
   - [Создание массива](#np_Создание_массива)
@@ -138,9 +114,6 @@
 - [Jinja2](#Jinja2)
 
 ### [Базы Данных](#Базы_Данных)
-- [SQLite](#SQLite)
-- [MS SQL Server](#MS_SQL_Server)
-- [PostgreSQL](#PostgreSQL)
 - [**SQLite**](#SQLite)
 - [**MS SQL Server**](#MS_SQL_Server)
 - [**PostgreSQL**](#PostgreSQL)
@@ -154,12 +127,25 @@
   - [Оптимизация, INDEX](#PostgreSQL_Оптимизация_INDEX)
   - [Удалённое подключение к БД](#PostgreSQL_Удалённое_подключение_к_БД)
 ### [SQLAlchemy](#SQLAlchemy)
+- [Cинхронные / асинхронные запросы](#SQLAlchemy_синхронные_асинхронные_запросы)
+- [Создание таблиц](#SQLAlchemy_Создание_таблиц)
+- [Insert](#SQLAlchemy_Insert)
+- [Работа с сессиями](#SQLAlchemy_Работа_с_сессиями)
+- [Создание таблиц через классы](#SQLAlchemy_Создание_таблиц_через_классы)
+- [Select / Update](#SQLAlchemy_select_update)
+- [Select / Update через ORM](#SQLAlchemy_select_update_через_ORM)
+- [JOIN OVER WITH](#SQLAlchemy_JOIN_OVER_WITH)
+- [Relationship](#SQLAlchemy_Relationship)
+- [Вывод информации о моделях в консоль](#SQLAlchemy_Вывод_информации_о_моделях_в_консоль)
+- [LIMIT](#SQLAlchemy_LIMIT)
+- [INDEX CHECK](#SQLAlchemy_INDEX_CHECK)
+- [Конвертация моделей в pydantic](#SQLAlchemy_Конвертация_моделей_в_pydantic)
+- [Связь Many to Many](#SQLAlchemy_Связь_Many_to_Many)
 
 ### [PyQt](#PyQt)
-### [Asyncio](#Asyncio)
 
-### [HTML](#HTML)
-### [CSS](#CSS)
+[//]: # (### [HTML]&#40;#HTML&#41;)
+[//]: # (### [CSS]&#40;#CSS&#41;)
 ### [Django](#Django)
 
 ### [Selenium](#Selenium)
@@ -192,15 +178,11 @@
 
 ### [Exe](#Exe_файл)
 ### [Git](#Git)
-### [Git](#Git_)
 ### [Установка программы на сервер](#Установка_программы_на_сервер)
 
 
-<a name="Основы"></a> 
 <a name="Основы"></a>
 # Основы
-<a name="Работа_с_текстом"></a> 
-
 <a name="Работа_с_текстом"></a>
 ### Работа с текстом
 
@@ -2025,11 +2007,10 @@ except Exception as ex
 ```
 После записи информации в файл происходит перемещение к первому биту файла (**seek(0)**) и далее файл считывается
 
-<a name="CSV"></a> 
+
 <a name="CSV"></a>
 ### CSV
 `import csv`
-<a name="CSV_Запись"></a> 
 <a name="CSV_Запись"></a>
 #### Запись
 Для корректной записи используется **newline=''** <br>
@@ -2055,7 +2036,6 @@ except Exception as ex
         coin = ['usdc', csv_format(209.299)]  # 209,299
         writer.writerow(coin)
 ```
-<a name="CSV_Чтение_файла"></a> 
 <a name="CSV_Чтение_файла"></a>
 #### Чтение файла
 Для работы с русскими символами: `encoding='cp1251'`
@@ -2065,7 +2045,6 @@ except Exception as ex
         for row in reader:
             print(f'{row[0]}: {row[1]}')
 ```
-<a name="CSV_Запись_словаря"></a> 
 <a name="CSV_Запись_словаря"></a>
 #### Запись словаря
 Сначала создается заголовки, далее происходит добавление рядов, как в предыдущих примерах
@@ -2082,7 +2061,6 @@ except Exception as ex
 
         writer.writerows(coins)
 ```
-<a name="CSV_Чтение_словаря"></a> 
 <a name="CSV_Чтение_словаря"></a>
 #### Чтение словаря
 ```
@@ -2092,7 +2070,6 @@ except Exception as ex
             print('{0}: {1}'.format(row["coin"], row["value"]))
 ```
 
-<a name="Бинарные_файлы"></a> 
 <a name="Бинарные_файлы"></a>
 ### Бинарные файлы
 Копирование изображения:
@@ -2190,7 +2167,6 @@ except Exception as ex
         file.clear()
 ```
 
-<a name="Json"></a> 
 <a name="Json"></a>
 ### Json
 #### Запись словаря в Json
@@ -2219,8 +2195,7 @@ except Exception as ex
     r = requests.get(url=url, headers=headers).json()
     print(r["resource_response"])
 ```
-
-<a name="OS"></a> 
+ 
 <a name="OS"></a>
 ### OS
 `import os`
@@ -2254,7 +2229,6 @@ os.startfile(r'C:\Users\USER\AppData\Local\GameCenter\GameCenter.exe')
 
 os.system("taskkill /f /im GameCenter.exe")
 ```
-<a name="Просмотр_списка_файлов_в_папки"></a> 
 <a name="Просмотр_списка_файлов_в_папки"></a>
 #### Просмотр списка файлов в папки
 `os.listdir("Admins/")`
@@ -2624,8 +2598,6 @@ logger.info('инфо')
 
 <a name="ООП"></a>
 # ООП
- 
----
 ### Атрибуты класса
 **Общие** атрибуты класса (любой объект класса будет ссылаться на один и тот же объект):
 ```
@@ -3088,15 +3060,10 @@ class Money2:
 ```
 
 
-<a name="Дополнительные_модули"></a> 
 <a name="Дополнительные_модули"></a>
 # Дополнительные модули
-
----
 <a name="NumPy"></a>
 # NumPy
-
----
 `pip install numpy`  
 `import numpy as np`  
 <a name="np_Создание_массива"></a>
@@ -3645,8 +3612,6 @@ print(np.bincount(a)) # [0 1 1 3 0 1 1]
 
 <a name="Pandas"></a>
 # Pandas
-
----
 `pip install pandas`  
 `import pandas as pd`
 
@@ -3862,9 +3827,6 @@ print(df[['ЦенаП', 'Количество', 'newCol']].head(20))
 
 <a name="matplotlib"></a>
 # matplotlib
-`pip install matplotlib`
-
----
 `pip install matplotlib`  
 `import matplotlib.pyplot as plt`
 
@@ -5114,8 +5076,6 @@ class Money2:
 ```
 
 
-
-<a name="Jinja2"></a> 
 <a name="Jinja2"></a>
 ## Jinja2
 `pip install Jinja2`
@@ -5270,12 +5230,9 @@ def main():
 `{% block item scoped %}{{ c }}{% endblock %}` - **scoped** позволяет использовать локальные переменные из других блоков, например, если блок item в цикле<br>
 `{% extends 'page.html' %}` - расширяет файл (запускать необходимо файл, где прописан extends)
 
-<a name="Базы_Данных"></a> 
+
 <a name="Базы_Данных"></a>
 # Базы Данных
-<a name="SQLite"></a> 
-
----
 <a name="SQLite"></a>
 # SQLite
 `import sqlite3 as sq`
@@ -5486,7 +5443,7 @@ INSERT INTO "orders" VALUES(1,'usdt',32,0.999) ...
     with con:
         ...
 ```
-<a name="MS_SQL_Server"></a> 
+
 <a name="MS_SQL_Server"></a>
 # MS SQL Server
 `pip install pyodbc`  
@@ -6040,13 +5997,11 @@ select * from info_table order by sum_cost
 Чтобы обращаться с сервера к БД, нужно добавить в pg_hba.conf IPv4 сервера или использовать 127.0.0.1
 
 
-
-
-<a name="SQLAlchemy"></a> 
 <a name="SQLAlchemy"></a>
 # SQLAlchemy
-`pip install SQLAlchemy`  
 `pip install SQLAlchemy`
+
+<a name="SQLAlchemy_синхронные_асинхронные_запросы"></a>
 ### Синхронные запросы
 Для PostgreSQL `pip install psycopg2`
 ```
@@ -6082,6 +6037,7 @@ async def main():
 engine.**connect**() - **без** коммита в конце  
 engine.**begin**() - **с** коммитом в конце
 
+<a name="SQLAlchemy_Создание_таблиц"></a>
 ### Создание таблиц
 models.py:
 ```
@@ -6101,6 +6057,7 @@ metadata_obj.create_all(engine)
 Для удаления всех записей из таблицы: `metadata_obj.drop_all(engine)`  
 Можно менять состояние echo до запросов и после: `engine.echo = False`
 
+<a name="SQLAlchemy_Insert"></a>
 ### Insert
 ```
 from sqlalchemy import insert
@@ -6116,6 +6073,7 @@ def insert_into_db():
         con.commit()
 ```
 
+<a name="SQLAlchemy_Работа_с_сессиями"></a>
 ### Работа с сессиями
 ```
 from sqlalchemy.orm import sessionmaker
@@ -6160,6 +6118,7 @@ async def insert_into_db():
         await sess.commit()
 ```
 
+<a name="SQLAlchemy_Создание_таблиц_через_классы"></a>
 ### Создание таблиц через классы
 (enum, допустимое NULL значение, каскадное удаление, время создания / изменнеия записи)
 
@@ -6193,7 +6152,7 @@ class OrdersOrm(Base):
     __tablename__ = "orders"
     id: Mapped[intpk]
     pay_method: Mapped[PayMethod] # enum
-    addition: Mapped[str | None] # / mapped_column(nullable=True)
+    addition: Mapped[str | None] # / mapped_column(nullable=True) / Optional[str] (from typing import Optional)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     created_at: Mapped[datetime.datetime] = mapped_column(
         server_default=text("TIMEZONE('utc', now())")) # На уровне БД
@@ -6207,6 +6166,7 @@ from models import Base
 Base.metadata.create_all(engine)
 ```
 
+<a name="SQLAlchemy_select_update"></a>
 ### select
 ```
 from sqlalchemy import select
@@ -6233,6 +6193,8 @@ def update_product_name(id, new_name):
 `req = (update(ProductsOrm).values(name=new_name).filter_by(id=id))`
 
 `engine = create_engine("postgresql://postgres:098-=-@localhost/price_processing")`
+
+<a name="SQLAlchemy_select_update_через_ORM"></a>
 ### select через ORM
 Если первичный ключ один, то передаётся проосто один параметр 
 ```
@@ -6281,7 +6243,8 @@ def update_product_orm(id, new_name):
 **.expire_all()** / **.expire(product_obj)** - отменяет все изменения у всех объектов / у конкретного  
 **.refresh(product_obj)** - обновляет актуальные на текущий момент данные у объекта
 
-### Приме с JOIN, OVER, WITH
+<a name="SQLAlchemy_JOIN_OVER_WITH"></a>
+### Пример с JOIN, OVER, WITH
 _SQL_:
 ```
 with info_table as (
@@ -6307,6 +6270,7 @@ cte = select(
 query = select(cte).order_by(cte.c.cost_diff.desc())
 ```
 
+<a name="SQLAlchemy_Relationship"></a>
 ### Relationship
 models.py:
 ```
@@ -6373,7 +6337,8 @@ query = select(UserOrm).options(selectinload(UserOrm.orders_card))
 **contains_eager** уменьшает кол-во запросов к БД, уменьшая кол-во подгружаемых связей  
 `query = select(UserOrm).join(UserOrm.orders).options(contains_eager(UserOrm.orders)).where(OrdersOrm.pay_method=='card')`
 
-### Вывод информации о моделях в консоли
+<a name="SQLAlchemy_Вывод_информации_о_моделях_в_консоль"></a>
+### Вывод информации о моделях в консоль
 ```
 class Base(DeclarativeBase):
     def __repr__(self):
@@ -6384,6 +6349,7 @@ class Base(DeclarativeBase):
 ```
 Переопределяется метод **__repr__** в базовой модели (models.py)
 
+<a name="SQLAlchemy_LIMIT"></a>
 ### LIMIT
 Выбор одного самого дорогого заказа у каждого пользователя:
 ```
@@ -6396,6 +6362,7 @@ for u in res:
     print(u.orders)
 ```
 
+<a name="SQLAlchemy_INDEX_CHECK"></a>
 ### INDEX, CHECK
 ```
 from sqlalchemy import Index, CheckConstraint
@@ -6408,16 +6375,100 @@ class OrdersOrm(Base):
     )
 ```
 
+<a name="SQLAlchemy_Конвертация_моделей_в_pydantic"></a>
 ### Конвертация моделей в pydantic
 `pip install pydantic`  
+Конвертирует ответ алхимии в pydantic модель для удобной работы, например, для дальнейшей конвертации в json
 
+Для начала надо описать модели, например, schemas.py:
+```
+from pydantic import BaseModel
+from models import PayMethod
+
+class UsersAddDTO(BaseModel):
+    name: str
+
+class UsersDTO(UsersAddDTO):
+    id: int
+
+class OrdersAddDTO(BaseModel):
+    cost: int
+    pay_method: PayMethod
+    addition: str | None
+
+class OrdersDTO(OrdersAddDTO):
+    id: int
+
+class UsersRelDTO(UsersDTO):
+    orders: list["OrdersDTO"]
+
+class OrdersRelDTO(OrdersDTO):
+    user: "UsersDTO"
+```
+```
+from schemas import UsersDTO
+
+res = sess.execute(select(UsersOrm)).scalars().all()
+print([UsersDTO.model_validate(row, from_attributes=True) for row in res])
+# [UsersDTO(name='Mia', id=1), UsersDTO(name='Alex', id=2)]
+```
+
+При **relationship**:  
+```
+res = [UsersRelDTO.model_validate(row, from_attributes=True) for row in res]
+# [UsersRelDTO(name='Mia', id=1, orders=[OrdersDTO(cost=4000, pay_method=<PayMethod.card: 'card'>, addition=None, id=1), OrdersDTO(...
+```
+Для запросов, которые возвращают не модель, а произвольные данные, можно создать свой pydantic класс:
+```
+class AvgCostDTO(BaseModel):
+    name: str
+    avg_cost: int
+    
+req = select(UsersOrm.name, cast(func.avg(OrdersOrm.cost), Integer).label("avg_cost")).join(UsersOrm.orders).group_by(UsersOrm.name)
+res = sess.execute(req).all()
+print([AvgCostDTO.model_validate(row, from_attributes=True) for row in res])
+```
+
+<a name="SQLAlchemy_Связь_Many_to_Many"></a>
+### Связь Many to Many
+Связь просиходит через доп. таблицу (ProductsAndTagsRelOrm)
+models.py:
+```
+class ProductsOrm(Base):
+    __tablename__ = "products"
+    id: Mapped[intpk]
+    name: Mapped[str_150]
+
+    tags_rel: Mapped[list["TagsOrm"]] = relationship(
+        back_populates="products_rel", secondary="products_tags_rel",
+    )
+
+class TagsOrm(Base):
+    __tablename__ = "tags"
+    id: Mapped[intpk]
+    name: Mapped[str] = String(100)
+
+    products_rel: Mapped[list["ProductsOrm"]] = relationship(
+        back_populates="tags_rel", secondary="products_tags_rel",
+    )
+
+class ProductsAndTagsRelOrm(Base):
+    __tablename__ = "products_tags_rel"
+    priduct_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"), primary_key=True)
+    tag_id: Mapped[int] = mapped_column(ForeignKey("tags.id", ondelete="CASCADE"), primary_key=True)
+
+```
+main.py:
+```
+query = select(ProductsOrm).options(selectinload(ProductsOrm.tags_rel))
+res = sess.execute(query)
+res = res.unique().scalars().all()
+```
 
 
 
 <a name="PyQt"></a>
 # PyQt
-
----
 `pip install PyQt5`
 
 В Qt Designer создается шаблон в формате .ui (имеет структуру xml). В процессе создания окна можно запустить его в тестовом режиме: From - Preview
@@ -6625,336 +6676,9 @@ self.FilesTable.item(self.selected_row, 2).setBackground(QColor(169, 252, 187))
 
 **Добавление действия** при изменении ячейки: `self.FilesTable.cellChanged.connect(self.ChangeItem)` (удаление - disconnect)
 
-<a name="Asyncio"></a> 
-# Asyncio
-`import asyncio`
 
-
-
-<a name="HTML"></a> 
-<a name="HTML"></a>
-# HTML
-
----
-Для выбора стандарта HTML 5.x - <!DOCTYPE html>
-
-Выравнивания **align** - left, right, center, justify (по ширине всей страницы)
-
-Комментарии: `<!-- 123 -->`
-
-**< img >** параметры:
-- scr - адрес загружаемого рисунка
-- align (bottom, left, right, middle, top)
-- alt - альтернативное описание изображения (отображается при неудачной загрузке изображения)
-- title - описание изображения (при наведении курсора)
-- border - толщина рамки
-- height/width
-- hspace/vspace - отступы по горизонтали/вертикали
-
-**Выделение текста**:
-- < b > - <b>полужирный текст</b>
-- < u > - <u>подчеркивание</u>
-- < i > - <i>курсив</i>
-- < sup > - X<sup>2</sup>
-- < sub > - X<sub>2</sub>
-
-Параметры линии **hr**
-- align - center, left, right
-- color
-- Noshade - отменяет трехмерные эффекты
-- size - толщина
-- width
-
-### списки
-**ul списки**<br>
-type = disk, circle, square - изменение фигурки перед элементами списка
-```
-<ul type='square'>
-  <li>
-      <b>usdt</b>
-      <ul>
-          <li>buy: 1.007</li>
-          <li>sell: 1.006</li>
-      </ul>
-  </li>
-</ul>
-```
-
-**ol нумерованные списки**<br>
-type = A, a, I, i, 1 - установка системы нумерации<br>
-start = 3 - можно указать начальное значение<br>
-< li value= 6 > - элементу можно задать своё значение, далее продолжится отсчёт
-
-**< pre >** - отображает текст "как есть"<br>
-Полезно для вставки листингов программ
-
-**Вставка спецсимволов**
-- & lt; - **&lt;**
-- & gt; - **&gt;**
-- & nbsp; - пробел
-- & copy; - **&copy;**
-- & amp; - **&amp;**
-- & quot; - **&quot;**
-
-### Таблицы
-```
-<table border=1>
-	<tr><td>coin</td><td>price</td></tr>
-	<tr><td>usdt</td><td>1.004</td></tr>
-</table>
-```
-**tr** - строки, **td** - столбцы<br>
-Параметры:
-- **border** - по умолчанию 0
-- **align** - left, right, center
-- **background** - фоновое изображение для таблицы (url)
-- **cellpadding** - расстояние между граничей ячейк и её содержимым
-- **cellspacing** - расстояние между смежными ячейками
-- **width**
-- **bgcolor** - #RRGGBB
-
-Для tr и td параметрами можно задавать выравнивание содержимого, цвет, ширину, valign (выравнивание по вертикали)
-
-Формирование произвольной таблицы
-```
-<table width="20%" border=1 cellpadding=4 cellspacing=4>
-  <tr>
-      <td>1</td>
-      <td colspan=2>2</td>
-  </tr>
-  <tr>
-      <td rowspan=2>3</td>
-      <td>4</td>
-      <td>5</td>
-  </tr>
-  <tr>
-      <td>6</td>
-      <td>7</td>
-  </tr>
-</table>
-```
-<table width="20%" border=1 cellpadding=4 cellspacing=4>
-  <tr>
-      <td>1</td>
-      <td colspan=2>2</td>
-  </tr>
-  <tr>
-      <td rowspan=2>3</td>
-      <td>4</td>
-      <td>5</td>
-  </tr>
-  <tr>
-      <td>6</td>
-      <td>7</td>
-  </tr>
-</table>
-
-### Ссылки
-Чтобы все относительные пути достраивались от определённой сылки:
-```
-<head>
-  <baseurl href="http://site.ru">
-</head>
-```
-Ссылки-якори<br>
-`<a href="#ref"><img src="images / jpg"></a>`><br>
-`<a href="#desc">Описание</a>`<br>
-Маркеры можно обозначать через <a name ... или добавив к блоку нужный id<br>
-`<a name="ref"></a>`<br>
-`<p id="desc">Описание. ...</p>`
-
-Параметр **target** указывает в какой вкладке открыть ссылку<br>
-**_blank** - в новой вкладке<br>
-**_self** - в текущей (по умолчанию)
-
-**div** - тэг блокового элемента<br>
-**span** - тэг текстового уровня
-
-### Фреймы
-```
-<frameset cols="20%, *">
-  <frame name="menu" src="menu.html" noresize>
-  <frame name="content" src="index.html">
-</frameset>
-```
-Страница разбирвается на части cols/rows в пропорции "x%, * ". * - для обозначения оставшегося пространства<br>
-**noresize** для запрета на изменение пропорции пользователем
-
-Загрузка нового html в определённом фрейме<br>
-`<a href="page2.html" target="content">Страница 2</a>`
-
-**Плавающие фреймы**<br>
-Позволяют создать окно с сайтом или html, этот блок добавляется в **body**
-```
-<iframe src="https://aacalc.ru" height="500" width="50%" scrolling="yes">
-  <p>Ваш браузер не поддерживает плавующие фреймы</p>
-</iframe>
-```
-
-### Формы ввода
-```
-<form action="send.php" method="post">
-  <p><input type="text" name="name" value="">
-  <p><textarea name="disc" rows="4" cols="30"></textarea>
-  <p><input type="submit" value="Сохранить">
-</form>
-```
-```
-<?php
-$name = $_REQUEST['name'];
-header("Content-type: text/html; charset=utf-8");
-echo "<p>$name";
-?>
-```
-
-**input types**:
-- text
-- button
-- checkbox (checked для галочки по умолчанию)
-- radio
-- password
-- hidden
-- reset
-- submit
-
-value="Начальное значение"
-
-### select
-```
-<select name="time" size="3">
-    <option value="1">1 месяц</option>
-    <option value="3">3 месяца</option>
-    <option value="6">6 месяцев</option>
-    <option value="12">1 год</option>
-</select>
-```
-Параметры:<br>
-**size** - кол-во элементов в окне, (без параметра - выпадающий список)<br>
-**multiple** - для выбора нескольких значений из списка
-
-### textarea
-Ввод многострочного текста<br>
-`<textarea>Текст по умолчанию</textarea>`<br>
-Параметры:
-- cols/rows - высота/ширина поля
-- name
-- maxlenght - максимальное кол-во вводимых символов (некоторые браузеры не поддерживают)
-
-
-
-<a name="CSS"></a> 
-<a name="CSS"></a>
-# CSS
-
----
-Подключение слитей (в head):<br>
-`<link type="text/css" href="css/style.css" rel="stylesheet">`<br>
-style.css: `pre {color: grey}`<br>
-
-Добавление стилей в самом html документе<br>
-В head `<style> p {color: blue} </style>`<br>
-Или отдельные тэги `<p style="color: orange;"></p>`
-
-Добавление стилей в css: `@import url("/css/main.css");`
-
-Настройка прозрачности (задаётся параметром alpha):<br>
-`rgba(144, 100, 144, 0.5)`
-
-**Параметры:**
-- **margin** - отступы между элементами (сверху справа снизу слева), если аргумент один, 
-то подставится везде. auto для одинаковых отступов (эффект центрирования, который работает только по горизонтали)
-- **padding** - расстояние между содержимым блока и границей
-- **padding-bottom** - расстояне между текстом блока и границей блока
-- **font-family** - шрифт, можно указать несколько, если первый не будет найден на
-компьютере пользователя, то применится второй
-- **font-size**
-- **font-weight** - толщина шрифта
-- **border**: 3px, solid, darkred - рамки (толщина, тип линии, цвет)
-- **list-style: none** - убирает маркеры у ul
-- **display** - inline-block чтобы отображать тэг как блоковый, но разрешая отображать в
-этой же строке другие элементы. inline для отображения элементов li в одну строку
-- **min-width** - минимальная ширины блока для **блокового** элементы
-- **float** - расположение (left/right)
-- **overflow** - hidden для включения объекта в блок, auto для возможности прокрутить ползунки и посмотреть весь блок
-- **overflow-y (/x)** - при hidden даёт возможность прокручивать ползунок только по одной оси
-- **border-radius** - скругление границ. 1 или 4 аргумента
-- **content** - добавляет текст (используется с псевдоэлементами :after, :before)
-- **text-align** - выравнивание текста
-- **background** - Примеры: **изображение -** lightgrey url("../images/header.jpg") no-repeat center // **градиент -** linear-gradient(to top, red, orange) // **градиент с углом deg -** linear-gradient(45deg, #000, #FFF) // **круговой градиент -** radial-gradient(#000, #FFF)
-- **transition** - плавное изменение характеристик, если в class:hover меняется background, то в class **transition: background 1s linear** позволит менять задний цвет плавно, в течении 1 секунды 
-
-id - для уникалных блоков<br>
-class - для повторяющихся элементов
-
-Добавление стилей для дочерних элементов тэга/id/class:  
-`#product_form p b ... { }` или `ul li { }`  
-Стили добавить стиль только для конкретной вложенности:  
-`#product_form p > b { }`  
-Для конкретного типа input:  
-`.td_input input[type='text']`  
-Чтобы явно указать к какому элементу можно добавлять стили: `ul.coin_list { ... }`  
-
-Применение стилей для элементов одного уровня вложенности:  
-`ul + p { }` - применяется только к первому элементу p
-
-**Расширения** для стилей: <br>
-`.item.selected { }`
-```
-  <li class="item">usdt</li>
-  <li class="item selected">eth</li>
-```
-или в случае с id: `#form#selected`
-
-**Псевдоклассы**:
-Для всех элементов:
-- **focus** - элемент с активным фокусом (выбор поля для ввода)
-- **hover** - при наведении курсора
-- **active** - при нажатии кнопки мыши
-- **first-child** - применяется к первому дочернему элементу
-- **nth-of-type()** - для выбора конкретных элементов параметры: n / odd - нечетные элементы / even - четные 
-
-Для ссылки:
-- **link** - не посещённая ссылка
-- **visited** - посещённая
-- **active** - выбранная ссылка
-- **hover**
-
-если active и hover будут менять одни и те же параметры, то не будет работать корректно
-```
-.product_input:focus{
-    background: #FFFFF0;
-}
-```
-Псевдокласс first-child: `ul li:first-child`
-
-**Псевдоэлементы**:
-- **first-letter** - выбор первой буквы элемента 
-- **first-line** - первая строка
-- **before** - стиль перед элементом
-- **after** - после
-
-**Заметки**
-
-Страница часто разбивается на общий блок wrapper, в котором содержутся блоки page(content+header) и footer.
-
-У **page** задается min-height: 100%, потому что конетнт может занимать и больше, чем 100%.
-Выделяется место для footer`а - padding-bottom: 50px. Для вычисления блока с учётом всех отступов - box-sizing: border-box. 
-
-У **footer** задаётся height: 50px и margin-top: -50px. На случай добавления отступов в этот блок - box-sizing: border-box
-
-У **header** задаётся max-width и height. Фоном подставляется картинка- background: lightgrey url("../images/header.jpg") no-repeat center.
-Указывается цвет фона до того, как на нём будет прогружена картинка, путь до файла, отмена повторения, центрирование.
-
-У html и body - height: 100%. background: lightgrey url("../images/bg.jpg") no-repeat 50% 0 fixed.
-По центру, по горихонтали (50%), сверху отображение с самого начала, фиксировано (неподвижно при прокрутке)
-
-
-
-<a name="Django"></a> 
 <a name="Django"></a>
 # Django
-
----
 Установка виртуального окружения: py -m venv django_venv<br>
 Запуск виртуальной среды(activate.bat): .django_venv\Scripts\activate<br>
 Закрыть виртуальную среду: deactivate.bat
@@ -8110,16 +7834,12 @@ class Add_Server(FormView):
 ```
 
 
-<a name="Selenium"></a> 
 <a name="Selenium"></a>
 # Selenium
-
----
 `pip install selenium`
 
 Список опций для гугла: https://peter.sh/experiments/chromium-command-line-switches/
 
-<a name="Запуск_страницы_в_браузере"></a> 
 <a name="Запуск_страницы_в_браузере"></a>
 ### Запуск страницы в браузере
 Ссылка открывается в отдельном браузере
@@ -8289,20 +8009,14 @@ action = ActionChains(driver)
 action.move_to_element(end_line).perform()
 ```
 
-
-<a name="Exe_файл"></a> 
 <a name="Exe_файл"></a>
 # Exe файл
 Установка - pip install pyinstaller  
 Exe - pyinstaller main.py  
 Флаг для автоподтверждения: -y
 
-<a name="OpenCV"></a> 
 <a name="OpenCV"></a>
 # OpenCV
-<a name="Поиск_изображений"></a> 
-
----
 <a name="Поиск_изображений"></a>
 ### Поиск изображений
 ```
@@ -8367,16 +8081,12 @@ img = img[50:100, 200:300]  # y1:y2, x1:x2
 ```
 
 
-<a name="Beautifulsoup"></a> 
 <a name="Beautifulsoup"></a>
 # Beautifulsoup
-
----
 `pip install beautifulsoup4`<br>
 `pip install lxml` – парсер<br>
 
 `from bs4 import BeautifulSoup`
-<a name="Beautifulsoup_Получение_данных_о_странице"></a> 
 <a name="Beautifulsoup_Получение_данных_о_странице"></a>
 ### Получение данных о странице
 `pip install requests`
@@ -8392,7 +8102,6 @@ req = requests.get(url, headers=headers)
 page = req.text
 print(page)
 ```
-<a name="Сохранение_страницы"></a> 
 <a name="Сохранение_страницы"></a>
 ### Сохранение страницы
 Чтобы не посылать много запросов, можно скачать страницу
@@ -8403,7 +8112,6 @@ with open("index.html", "w", encoding="utf-8") as file:
 Чтобы сохранить некоторые страницы их неободимо сначала прогрузить через selenium и далее сохранить 
 с помощью driver.page_source
 
-<a name="Поиск_элемента_на_странице"></a> 
 <a name="Поиск_элемента_на_странице"></a>
 ### Поиск элемента на странице
 Вывод списка (тикер/цена)<br>
@@ -8431,7 +8139,6 @@ for i in f:
 
 **find_next_sibling() (.find_previous_sibling())** - Следующий соседний элемент
 
-<a name="Парстинг_атрибутов"></a> 
 <a name="Парстинг_атрибутов"></a>
 ### Парстинг атрибутов
 ```
@@ -8439,7 +8146,6 @@ f = soup.find(class_="notification notification_wrap notification_danger")
 print(f.get("id"))
 print(f["id"])
 ```
-<a name="Поиск_элемента_в_тексте"></a> 
 <a name="Поиск_элемента_в_тексте"></a>
 ### Поиск элемента в тексте
 Поиск по полному тексту<br>
@@ -8453,7 +8159,6 @@ print(f["id"])
 
 Обращение к тегам<br>
 `soup.a["target"]`
-<a name="Антибот_система"></a> 
 <a name="Антибот_система"></a>
 ### Антибот система
 Взять Accept и User-Agent (можно сгенерировать с помощью библиотек)
@@ -8462,14 +8167,8 @@ print(f["id"])
 
 
 
-
-
-<a name="Other"></a> 
 <a name="Other"></a>
 # Other
-
-<a name="Other_Практика"></a> 
----
 <a name="Other_Практика"></a>
 ### Практика
 Синтактический сахар и тд.
@@ -8534,7 +8233,6 @@ print(bool('asd'), bool(10), bool(-3))  # True
 `print(f"{x=}") # x=2`
 
 
-<a name="Other_Парсинг"></a> 
 <a name="Other_Парсинг"></a>
 ### Парсинг
 Запросы на добавление новой информации на сайты отображаются в разделе Network
@@ -8552,11 +8250,8 @@ import warnings
 warnings.filterwarnings('ignore')
 ```
 
-<a name="Git"></a> 
-<a name="Git_"></a>
+<a name="Git"></a>
 # Git
-
----
 В VCS активировать систему контроля версий (может предложить докачать компонент Git)  
 Создать, если нету .gitignore, добавить:
 ```
@@ -8585,11 +8280,8 @@ warnings.filterwarnings('ignore')
 В конце: `git push`
 
 
-<a name="Установка_программы_на_сервер"></a> 
 <a name="Установка_программы_на_сервер"></a>
 # Установка программы на сервер
-
----
 Подключиться через Putty к консоли<br>
 Обновить пакеты на сервере:<br>
 `sudo apt update`<br>
