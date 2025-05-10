@@ -3613,9 +3613,8 @@ print(np.bincount(a)) # [0 1 1 3 0 1 1]
 
 
 
-<a name="Pandas"></a>
+<a name="Pandas">.</a>
 # Pandas
-.  
 `pip install pandas`  
 `import pandas as pd`
 
