@@ -183,6 +183,8 @@
 
 <a name="Основы"></a>
 # Основы
+
+
 <a name="Работа_с_текстом"></a>
 ### Работа с текстом
 
@@ -2598,6 +2600,7 @@ logger.info('инфо')
 
 <a name="ООП"></a>
 # ООП
+___
 ### Атрибуты класса
 **Общие** атрибуты класса (любой объект класса будет ссылаться на один и тот же объект):
 ```
@@ -3612,6 +3615,7 @@ print(np.bincount(a)) # [0 1 1 3 0 1 1]
 
 <a name="Pandas"></a>
 # Pandas
+.  
 `pip install pandas`  
 `import pandas as pd`
 
@@ -3827,6 +3831,8 @@ print(df[['ЦенаП', 'Количество', 'newCol']].head(20))
 
 <a name="matplotlib"></a>
 # matplotlib
+
+---
 `pip install matplotlib`  
 `import matplotlib.pyplot as plt`
 
