@@ -1,17 +1,17 @@
-### [HTML](#HTML)
+### [HTML ](#HTML)
 - [Списки](#Списки)
 - [Таблицы](#Таблицы)
 - [Формы ввода](#Формы_ввода)
 - [Ссылки](#Ссылки)
-### [CSS](#CSS)
+### [CSS ](#CSS)
 - [Псевдоклассы](#Псевдоклассы)
 - [Изменение объекта transform](#Изменение_объекта_transform)
 - [Переходы transition](#Переходы_transition)
 - [Анимации](#Анимации)
 - [Адаптив](#Адаптив)
-### [Flexbox](#Flexbox)
+### [Flexbox ](#Flexbox)
 ### [Grid Layout](#Grid_Layout)
-### [Вёрстка](#Вёрстка)
+### [Вёрстка ](#Вёрстка)
 - [Блочная верстка (float)](#Блочная_верстка_float)
 - [Вертикальное меню display:block](#Вертикальное_меню_display_block)
 - [Горизонтальное меню](#Горизонтальное_меню)
@@ -958,7 +958,7 @@ ul.nav li{
 
         @media (max-width:767px){
             #content {
-            flex-direction: column;
+                flex-direction: column;
             }
         }
     </style>
