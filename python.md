@@ -1,6 +1,9 @@
 # Python
 ### [Основы ](#Основы)
-- ☐ [**Работа с текстом**](#Работа_с_текстом)
+<details>
+<summary>Основы</summary>
+
+- [**Работа с текстом**](#Работа_с_текстом)
   - [Методы строк](#Методы_строк)
   - [Поиск в строке find](#Поиск_в_строке_find)
   - [Разделение текста split](#Разделение_текста_split)
@@ -69,8 +72,12 @@
 - [Тесты doctest](#Тесты_doctest)
 - [Логирование logging](#Логирование_logging)
 - [Логирование при multiprocessing, свой уровень логирования](#Логирование_при_multiprocessing_свой_уровень_логирования_logging)
+</details>
 
 ### [ООП ](#ООП)
+<details>
+<summary>ООП</summary>
+
 - [Конструктор](#Конструктор)
 - [Деструктор](#Деструктор)
 - [Приватные атрибуты](#Приватные_атрибуты)
@@ -82,33 +89,52 @@
 - [Перегрузка операторов](#Перегрузка_операторов)
 - [Абстрактные классы](#Абстрактные_классы)
 - [Методы классов](#Методы_классов)
+</details>
 
-
-### [Дополнительные модули](#Дополнительные_модули)
 ### [NumPy ](#NumPy)
-  - [Создание массива](#np_Создание_массива)
-  - [Удаление элементов из массива](#np_Удаление_элементов_из_массива) 
-  - [Представление массивов](#np_Представление_массивов) 
-  - [Объединение / разделение массивов](#np_Объединение_разделение_массивов) 
-  - [Срезы массивов](#np_Срезы_массивов) 
-  - [Математические операции над массивами](#np_Математические_операции_над_массивами) 
-  - [Генерация случайных чисел](#np_Генерация_случайных_чисел) 
-  - [Матричное умножение](#np_Матричное_умножение)
+<details>
+<summary>NumPy</summary>
+
+- [Создание массива](#np_Создание_массива)
+- [Удаление элементов из массива](#np_Удаление_элементов_из_массива) 
+- [Представление массивов](#np_Представление_массивов) 
+- [Объединение / разделение массивов](#np_Объединение_разделение_массивов) 
+- [Срезы массивов](#np_Срезы_массивов) 
+- [Математические операции над массивами](#np_Математические_операции_над_массивами) 
+- [Генерация случайных чисел](#np_Генерация_случайных_чисел) 
+- [Матричное умножение](#np_Матричное_умножение)
+</details>
+
 ### [Pandas ](#Pandas)
-  - [read / to](#Pandas_read_to)
-  - [Общая информация](#Pandas_Общая_информация)
-  - [Создание графиков](#Pandas_Создание_графиков)
+<details>
+<summary>Pandas</summary>
+
+- [read / to](#Pandas_read_to)
+- [Общая информация](#Pandas_Общая_информация)
+- [Создание графиков](#Pandas_Создание_графиков)
+</details>
+
 ### [matplotlib ](#matplotlib)
-  - [Отображение графика](#matplotlib_Отображение_графика)
-  - [Разделение_окна_вывод_нескольких_графиков](#matplotlib_Разделение_окна_вывод_нескольких_графиков)
-  - [Изменение осей](#matplotlib_Изменение_осей)
-  - [Фигуры, разные типы графиков](#matplotlib_Фигуры_разные_типы_графиков)
-  - [Трехмерные графики](#matplotlib_Трехмерные_графики)
-  - [Анимация графиков](#matplotlib_Анимация_графиков)
+<details>
+<summary>matplotlib</summary>
+
+- [Отображение графика](#matplotlib_Отображение_графика)
+- [Разделение_окна_вывод_нескольких_графиков](#matplotlib_Разделение_окна_вывод_нескольких_графиков)
+- [Изменение осей](#matplotlib_Изменение_осей)
+- [Фигуры, разные типы графиков](#matplotlib_Фигуры_разные_типы_графиков)
+- [Трехмерные графики](#matplotlib_Трехмерные_графики)
+- [Анимация графиков](#matplotlib_Анимация_графиков)
+</details>
+
 ### [Многопоточность и тд](#Многопоточность)
+<details>
+<summary>Многопоточность и тд</summary>
+
 - [Многопоточность](#Многопоточность)
 - [multiprocessing](#multiprocessing)
 - [Asyncio](#Asyncio)
+</details>
+
 ---
 ### [Другое ](#Другое)
 - [Работа с почтой (imaplib, smtplib)](#Работа_с_почтой_(imaplib_smtplib))
@@ -119,6 +145,9 @@
 - [**SQLite**](#SQLite)
 - [**MS SQL Server**](#MS_SQL_Server)
 - [**PostgreSQL**](#PostgreSQL)
+  <details>
+  <summary>PostgreSQL</summary>
+
   - [Последовательности SEQUENCE](#PostgreSQL_Последовательности_SEQUENCE)
   - [DISTINCT, ORDER BY, LIMIT, OFFSET](#PostgreSQL_DISTINCT_ORDER_BY_LIMIT_OFFSET)
   - [Перечисления enum](#PostgreSQL_Перечисления_enum)
@@ -129,7 +158,12 @@
   - [Оптимизация, INDEX](#PostgreSQL_Оптимизация_INDEX)
   - [Удалённое подключение к БД](#PostgreSQL_Удалённое_подключение_к_БД)
   - [Ошибки](#PostgreSQL_Ошибки)
+  </details>
+
 ### [SQLAlchemy ](#SQLAlchemy)
+<details>
+<summary>SQLAlchemy</summary>
+
 - [Cинхронные / асинхронные запросы](#SQLAlchemy_синхронные_асинхронные_запросы)
 - [Создание таблиц](#SQLAlchemy_Создание_таблиц)
 - [Insert](#SQLAlchemy_Insert)
@@ -147,6 +181,7 @@
 - [INDEX CHECK](#SQLAlchemy_INDEX_CHECK)
 - [Конвертация моделей в pydantic](#SQLAlchemy_Конвертация_моделей_в_pydantic)
 - [Связь Many to Many](#SQLAlchemy_Связь_Many_to_Many)
+</details>
 
 ### [PyQt ](#PyQt)
 
@@ -155,6 +190,9 @@
 ### [Django ](#Django)
 
 ### [Selenium ](#Selenium)
+<details>
+<summary>Selenium</summary>
+
 - [Запуск страницы в браузере](#Запуск_страницы_в_браузере)
 - [Изменение user agent](#Изменение_user_agent)
 - [Поиск элемента](#Поиск_элемента)
@@ -165,17 +203,22 @@
 - [Добавление скриптов JS](#Добавление_скриптов)
 - [Получение содержимого страницы](#Selenium_Получение_содержимого_страницы)
 - [Перемещение к элементу ActionChains](#Перемещение_к_элементу_ActionChains)
+</details>
 
 ### [OpenCV ](#OpenCV)
 - [Поиск изображений](#Поиск_изображений)
 
 ### [Beautifulsoup ](#Beautifulsoup)
+<details>
+<summary>Beautifulsoup</summary>
+
 - [Получение данных о странице](#Beautifulsoup_Получение_данных_о_странице)
 - [Сохранение страницы](#Сохранение_страницы)
 - [Поиск элемента на странице](#Поиск_элемента_на_странице)
 - [Парстинг атрибутов](#Парстинг_атрибутов)
 - [Поиск элемента в тексте](#Поиск_элемента_в_тексте)
 - [Антибот система](#Антибот_система)
+</details>
 
 ### [Other ](#Other)
 - [Практика](#Other_Практика)
@@ -8303,6 +8346,7 @@ from selenium.webdriver.common.keys import Keys
 <a name="Фоновый_режим"></a>
 ### Фоновый режим
 `option.add_argument('--headless')`
+
 <a name="Перемещение_между_вкладками"></a>
 ### Перемещение между вкладками
 После окончания работы необходимо вернуться на первую вкдалку, чтобы не было ошибок
@@ -8319,6 +8363,9 @@ from selenium.webdriver.common.keys import Keys
         driver.close()
         driver.quit()
 ```
+Открыть вкладку в **новом окне**: `driver.execute_script(f"window.open('{url}')")`  
+Чтобы её **закрыть**: `driver.switch_to.window(driver.window_handles[1])`, потом `driver.close()` 
+
 ### implicitly_wait
 Программа продолжит работу сразу после того, как код выполнится (ожидание продлится до 5 сек):<br> 
 `driver.implicitly_wait(5)`
@@ -8368,6 +8415,18 @@ start main.exe %1
 ```
 **python**:  
 `os.system(r'D:\PycharmProjects\test\dist\main\cm.bat SomeParam1')`
+---
+Запуск файла **py** из другого python скрипта **в новом окне консоли**:
+```
+import subprocess
+os.chdir(work_dir)
+subprocess.Popen(['start', os.path.join('venv', 'Scripts', 'python.exe'), 'main.py'], shell=True, cwd=work_dir)
+```
+Завершить **py** скрипт через **pid** (`os.getpid()`):  
+```
+import signal
+os.kill(pid_id, signal.SIGTERM)
+```
 
 <a name="OpenCV"></a>
 # OpenCV
@@ -8519,6 +8578,75 @@ print(f["id"])
 
 ![img.png](img/img.png)
 
+
+
+<a name="pyrogram"></a>
+# pyrogram
+Получение API ключа:  
+https://my.telegram.org/auth  
+Вход - API development tools - set App title, Short name, select Desktop - App api_id, App api_hash
+
+Пример атоматизации общения со сторонним ботом:
+```
+from pyrogram import Client
+bot_id = 'test_parser_bot'
+client = Client(name='my_session', api_id=data['api_id_tg'], api_hash=data['api_hash_tg'])
+
+client.start()
+# получить id последнего сообщения
+last_msg_id = next(client.get_chat_history(bot_id, limit=1, offset_id=-1)).id 
+
+# отправить сообщение
+client.send_message(bot_id, "test msg")
+
+# ожидание нового сообщения
+while True:
+    time.sleep(2)
+    msg = next(client.get_chat_history(bot_id, limit=1, offset_id=-1))
+    if not msg.outgoing and msg.id != last_msg_id:
+        last_msg_id = msg.id
+        
+        # получение текста
+        print(msg.text)
+        num_search = re.search(fr"номер: \d+\", msg.text)
+        if num_search:
+            num = re.search(r"\d+", num_search.group()).group()
+        
+        # получение ссылки из, прикреплённой к ответу, кнопки
+        url = msg.reply_markup.inline_keyboard[0][0].url
+        
+        break
+
+    print('waiting...') 
+
+client.stop()
+```
+При первом запуске pyrogram потребует авторизоваться и ввести код из tg, далее **куки** с авторизацией сохранятся в **my_session.session**
+
+
+<a name="Dadata"></a>
+# Dadata
+Получение данных о компаниях и тд  
+`pip install dadata`  
+`pip install httpx`  
+
+Api ключ получается на одноимёном сайте, для бесплатного тарифа лммит 10 000 запросов в день
+
+Пример поиска информации о компании по её названию и ФИО руководителя:
+```
+from dadata import Dadata
+
+with Dadata(api_key_dd, api_secrey_key_dd) as dadata:
+    for company_data in dadata.suggest(name="party", query=f"Тест Имя Фамилия Отчество"):
+        print(company_data)
+        
+        # {'value': 'ООО "ТЕСТ"', 'unrestricted_value': 'ООО "ТЕСТ"', 'data': {'kpp': '770000000', ...,
+        # 'management': {'name': 'Имя Фамилия Отчество', 'post': 'ГЕНЕРАЛЬНЫЙ ДИРЕКТОР', 
+        # 'start_date': 9999999999999, ...}, ... 'full': 'Общество с ограниченной ответственностью', 
+        # 'short': 'ООО'}, 'name': {'full_with_opf': 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ТЕСТ"', 
+        #'short_with_opf': 'ООО "ТЕСТ"', ...}, 'inn': '77111111', 'ogrn': '2222222222222', 
+        # 'address': {'value': 'г Москва, ул ...}
+```
 
 
 <a name="Other"></a>
