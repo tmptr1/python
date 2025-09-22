@@ -958,7 +958,7 @@ ul.nav li{
 
         @media (max-width:767px){
             #content {
-                flex-direction: column;
+            flex-direction: column;
             }
         }
     </style>

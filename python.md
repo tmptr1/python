@@ -7333,7 +7333,7 @@ href="{% static 'monitoring/css/add_server_form.css' %}">
 
 ### Пользовательские теги шаблонов
 Создаётся папка templatetags в папке приложения, туда добавляется пустой __ init__.py 
-и файл для описания тегов .py   
+и файл для описания тегов .py  
 servers_tags.py:
 ```
 from django import template
@@ -7360,6 +7360,22 @@ def show_versions(selected_v=''):
 `{% show_versions selected_v=vr %}`
 
 ### БД
+Подключение **Postgres**:  
+`pip install psycopg2`  
+settings.py:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'db_name',
+        'USER': 'postgres',
+        'PASSWORD': 'pass',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
+    }
+}
+```
+
 Модели описываются в models.py:
 ```
 from django.db import models
@@ -7394,12 +7410,15 @@ D:\Documents\django\testsite> **python manage.py makemigrations**
 Выход - **quit()**
 
 `from monitoring.models import Servers`
-
 ```
 s1 = Servers(ip='1.2.3', name='abc')
-s1.ip # вывод
+s1.ip # вывод поля
 s1.save()
 ```
+**_** - содержит на последний созданный объект  
+можно `s1.ip = '1.1.1'`
+
+
 Просмотр истории sql запросов:
 ```
 from django.db import connection
@@ -7413,7 +7432,10 @@ connection.queries  # / [-1]
 
 `python manage.py shell_plus --print-sql`
 
-Ключ --print-sql сразу выводит sql запросы
+Ключ **--print-sql** сразу выводит sql запросы
+
+Создание записей сразу, без save():  
+`Items.objects.create(name='Glock-18 | Дух воды', price=240, count=3)`
 
 Отобразить записи - `Servers.objects.all()` или млжно указать определённое кол-во записей
 в [ ], тогда к sql запросу применится LIMIT  
