@@ -8343,8 +8343,9 @@ forms.py: добавить в форму, в класс Meta `fields = ['banner'
 Для `upload_to='banners/%Y/'` будет создана папка **media/banners/2025** (возможны другие варианты, наример, `'item_icons/%Y/%m/%d'`)  
 Загружаемые файлы с **одинаковыми названиями** будут переименовываться, к ним автоматически добавятся рандомные символы (image_tw5MmLb.PNG)
 
-### Отображение фото на сайте
-В Settings.py добавляется `MEDIA_URL = '/media/'`  
+
+### Отображение картинок на сайте
+В Settings.py указывается папка для медиа файлов: `MEDIA_URL = '/media/'`  
 В urls.py добавить (только в режиме отладки):
 ```
 from testsite import settings
@@ -8353,9 +8354,9 @@ from django.conf.urls.static import static
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  
 ```
-Изображение: `<img src="{{ s.banner.url }}">`
+Вывод изображения: `<img src="{{ s.banner.url }}">`
 
-Вывод изображений в админ панеле (в списке), admin.py:
+Вывод изображений в админ панеле (в списке). admin.py:
 ```
 from django.utils.safestring import mark_safe
 
@@ -8376,11 +8377,15 @@ class ServersAdmin(admin.ModelAdmin):
 fields = ['name', 'banner', 'img_banner', 'online', 'status']
 readonly_fields = ['img_banner', 'online']
 ```
+В админке, при редактировании записи, для удобства можно продублировать панель с кнопками 
+(Сохранить запись и тд) сверху. В class ServersAdmin(admin.ModelAdmin) добавляется:  
+`save_on_top = True`
 
-### Class Based Views (CBV)
-urls.py:  
-`path('add/', views.AddServer.as_view(), name='add'),`  
-views.py:
+
+### Class Based Views (CBV). Классы View и TemplateView
+**Базовый класс представления View**
+
+_views.py_:
 ```
 from django.views import View
 
@@ -8395,6 +8400,10 @@ class Add_Server(View):
             return redirect('home')
         return render(request, ...)
 ```
+Для обработки get и post запросов есть одноименные функции  
+_urls.py_:  
+`path('add/', views.AddServer.as_view(), name='add'),`
+
 **TemplateView**
 ```
 class HomePage(TemplateView):
@@ -8406,7 +8415,9 @@ class HomePage(TemplateView):
         'servers': Servers.objects.filter(status=Servers.Status.ACTIVE)[:max_servers_on_page].select_related("version")
     }
 ```
-Подгрузка динамических данных:
+Этот способ не будет работать с динамически появляющимися данными (home/?item_type=1)
+
+Для GET запросов в класс HomePage добавляется метод get_context_data:
 ```
   def get_context_data(self, **kwargs):
       context = super().get_context_data(**kwargs)
@@ -8417,55 +8428,55 @@ class HomePage(TemplateView):
       context['servers'] = Servers.objects.filter(status=Servers.Status.ACTIVE)[:max_servers_on_page].select_related("version")
       return context
 ```
-**ListView**
+
+В _urls.py_ тоже можно определять словарь extra_context:  
+`path('', views.HomePage.as_view(extra_context={'title': 'Home Page'}), name='home'),`
+
+**ListView**  
+Указывается модель, откуда брать объекты: `model = Items`  
+Можно указать **пользовательский менеджер** в методе **get_queryset**  
+По умолчанию берется шаблон: _имя_приложения / имя_модели_list.html_  
+Переопределяется: `template_name = 'skins/index.html'`  
+И в шаблоне перебирается список **object_list** `{% for i in object_list %}`  
+Переопределяется: `context_object_name = 'items'`
 ```
 class HomePage(ListView):
-    template_name = 'monitoring/index.html'
-    context_object_name = 'servers'
-    vr = ''
+    # model = Items
+    template_name = 'skins/index.html'
+    context_object_name = 'items'
     extra_context = {
-        'name': 'Список серверов',
-        'main_page': main_page,
         'menu': menu,
+        'item_type': None,
+        'tag': None,
     }
 
     def get_queryset(self):
-        self.vr = self.request.GET.get('vr', '')
-        if self.vr != '':
-            servers = Servers.objects.filter(version__v=self.vr, status=Servers.Status.ACTIVE)[:max_servers_on_page].select_related("version")
-        else:
-            servers = Servers.objects.filter(status=Servers.Status.ACTIVE)[:max_servers_on_page].select_related("version")
-        if not servers:
-            return error(self.request, "Выбрана некорректная версия")
-        return servers
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['vr'] = self.vr
-        return context
+        return Items.notNullCount.all().select_related('rare')
 ```
-В методе get_queryset задаётся фильтр для выбора записей
 
-`self.kwargs['vr']` - берется значение из urls.py - `path('version/<version:vr>/', ...`  
+**ListView с фильтром**  
 `allow_empty = True` - чтобы при пустом списке генерировалась ошибка 404
 
 ```
-class Server_Versions(ListView):
-    template_name = 'monitoring/index.html'
-    context_object_name = 'servers'
-    allow_empty = True
-    
+class ItemCategory(ListView):
+    template_name = 'skins/index.html'
+    context_object_name = 'items'
+    allow_empty = False
+
     def get_queryset(self):
-        return Servers.objects.filter(version__v=self.kwargs['vr'], 
-                                status=Servers.Status.ACTIVE)[:max_servers_on_page].select_related("version")
+        return Items.notNullCount.filter(item_type__slug=self.kwargs['item_type']).select_related('rare')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        version = context['servers'][0].version
-        context['name'] = f"Список серверов ({version.v})"
-        context['vr'] = version.v
+        item_type = context['items'][0].item_type
+        context['menu'] = menu
+        context['item_type'] = item_type.slug
+        context['tag'] = None
         return context
 ```
+`self.kwargs['item_type']` - берется значение из urls.py:  
+`path('type/<slug:item_type>', views.ItemCategory.as_view(), name='home'),`
+
 
 **DetailView**  
 `pk_url_kwarg = 'server_id'` - из urls  
