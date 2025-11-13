@@ -7384,6 +7384,7 @@ html:
 Также позволяет отображать html блоки не в виде обычного текста <..>
 
 ### if, for
+Подусловия **в скобках не работают**!
 ```
     {% for s in servers %}
     <li> <b>{{ s.name }}</b> online: {{ s.online }} </li>
@@ -8479,46 +8480,250 @@ class ItemCategory(ListView):
 
 
 **DetailView**  
-`pk_url_kwarg = 'server_id'` - из urls  
-`context_object_name = 'server'` - позволяет в html обращаться к объекту object (название по умолчанию) как к server  
-`def get_object` - метод для получения объекта, если выбран некорректный объект, вызывается get_object_or_404
+Необходим для отображения информации по объекту из БД  
+По-умолчанию добавляет в шаблон объект модели с названием **object**  
+Для переопределения объекта: `context_object_name = 'item'`  
+Если объект берется по slug/pk, объявить названия переменных:  
+`slug_url_kwarg = 'item_slug'` или `pk_url_kwarg`  
+**def get_object** - отбираются записи по определённым условиям, чтобы нельзя 
+было перейти на страницу с объектом, у которого, например, нулевое кол-во 
+(передаётся пользовательский менеджер для удобства, но условия прописать тоже можно)
 ```
-class Show_Server(DetailView):
-    # model = Servers
-    template_name = 'monitoring/server_info.html'
-    pk_url_kwarg = 'server_id'
-    context_object_name = 'server'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['name'] = context['server'].name
-        context['menu'] = menu
-        context['main_page'] = main_page
-        return context
+class ShowItemInfo(DetailView):
+    model = Items
+    template_name = 'skins/item_info.html'
+    slug_url_kwarg = 'item_slug'
+    context_object_name = 'item'
+    extra_context = {
+        'menu': menu,
+    }
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Servers.objects.filter(status=Servers.Status.ACTIVE), 
-                                    pk=self.kwargs[self.pk_url_kwarg])
+        return get_object_or_404(Items.notNullCount, slug=self.kwargs[self.slug_url_kwarg])
 ```
 
+
 **FormView**  
-Передает в html форму с именем **form**  
-AddServer из forms.py
+Форма передаётся в шаблон с названием **form**  
+При успешном заполнении формы будет вызван _def form_valid_ и далее произойдёт перенаправление 
+на **success_url = reverse_lazy('home')**  
+**reverse_lazy** указывается, потому что на момент создания класса маршруты ещё не существуют и обычный reverse выдаст ошибку
 ```
 from django.urls import reverse_lazy
 
-class Add_Server(FormView):
-    form_class = AddServer
-    template_name = 'monitoring/add.html'
+class AddItem(FormView):
+    form_class = AddItemForm
+    template_name = 'skins/sell.html'
     success_url = reverse_lazy('home')
-    extra_context = {
-        'menu': menu,
-        'main_page': main_page,
-    }
+    extra_context = {'menu': menu}
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 ```
+
+**CreateView**  
+Сохраняет данные в БД без доп. метода form_valid
+```
+class AddItem(CreateView):
+    form_class = AddItemForm
+    template_name = 'skins/sell.html'
+    success_url = reverse_lazy('home')
+    extra_context = {'menu': menu}
+```
+Если не указывать _success_url_, то после добавления записи, в качестве ссылки для 
+перенаправления, возьмётся **def get_absolute_url** из _models.py_ 
+
+**CreateView** без формы, через модель:
+```
+class AddItem(CreateView):
+    model = Items
+    fields = ['name', 'icon', 'price', 'count', 'item_type', 'rare', 'quality']  # '__all__'
+    template_name = 'skins/sell.html'
+    extra_context = {'menu': menu}
+```
+
+**UpdateView**  
+Обновление записей по pk/slug. _urls.py_:  
+`path('edit/<int:pk>', views.UpdateItemClass.as_view(), name='edit_item'),` или `<slug:slug>`
+
+Через **модели** (без валидаторов):
+```
+class UpdateItemClass(UpdateView):
+    model = Items
+    fields = ['name', 'icon', 'price', 'count', 'item_type', 'rare', 'quality']  # '__all__'
+    template_name = 'skins/sell.html'
+    extra_context = {'menu': menu}
+```
+
+Через **формы** (с валидаторами):
+```
+class UpdateItemClass(UpdateView):
+    form_class = AddItemForm
+    template_name = 'skins/sell.html'
+    success_url = reverse_lazy('home')
+    extra_context = {'menu': menu}
+
+    def get_queryset(self):
+        return Items.notNullCount.all()  # filter(pk=self.kwargs['pk'])
+```
+Для **ImageFieldFile** было добавлено в _forms.py_:
+```
+from django.db.models.fields.files import ImageFieldFile
+
+class AddItemForm(forms.ModelForm):
+    ...
+    def clean_icon(self):
+        icon = self.cleaned_data['icon']
+        if isinstance(icon, ImageFieldFile):
+            return icon
+
+        w, h = icon.image.size
+        if h > 2000 or w > 2000:
+            raise ValidationError('Максимальное разрешение изображения 2000 x 2000')
+        if h != w:
+            raise ValidationError('Соотношение сторон должны быть одинаковые')
+        return icon
+```
+
+
+**DeleteView**
+```
+class DeleteItemView(DeleteView):
+    model = Items
+    context_object_name = 'item'
+    template_name = 'skins/delete_item.html'
+    success_url = reverse_lazy('home')
+    extra_context = {'menu': menu}
+```
+Шаблон:
+```
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3>{{ item.name }} ({{ item.quality.name }}, {{ item.rare.name}})</h3>
+    <p><img src="{{ item.icon.url }}"></p>
+    <p>{{ item.price }}руб. [{{ item.count }}]</p>
+    <p class="add_item_button"><button type="submit">Удалить</button></p>
+</form>
+```
+
+
+**Mixins**  
+Вспомогательаные классы для упрощения кода. В папке с приложением нужно создать файл _utils.py_:
+```
+menu =  [...]
+
+class DataMixin():
+    item_type = None
+    extra_context = {'menu': menu}
+
+    def __init__(self):
+        if self.item_type is not None:
+            self.extra_context['item_type'] = self.item_type
+            
+    def get_mixin_context(self, context, **kwargs):
+        context['menu'] = menu
+        context['item_type'] = self.item_type
+        context.update(kwargs)
+        return context
+```
+_views.py_:
+```
+class HomePage(DataMixin, ListView):
+    template_name = 'skins/index.html'
+    context_object_name = 'items'
+    tag = None
+
+    def get_queryset(self):
+        return Items.notNullCount.all().select_related('rare')
+
+
+class ItemCategory(DataMixin, ListView):
+    template_name = 'skins/index.html'
+    context_object_name = 'items'
+
+    def get_queryset(self):
+        return Items.notNullCount.filter(item_type__slug=self.kwargs['item_type']).select_related('rare')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return self.get_mixin_context(context, item_type=self.kwargs['item_type'], tag=None)
+```
+В HomePage переменные (например, tag) DataMixin подхватит в get_mixin_context и добавит в extra_context
+
+
+**Пагинация**  
+`from django.core.paginator import Paginator`  
+Для создании пагинации в одноимённый класс передаётся список и кол-во объектов на одной странице:
+`p = Paginator(item, 2)`  
+- **p.count** - общее кол-во элементов
+- **p.num_pages** - кол-во страниц
+- **p.page_range** - возвращает итератор для страниц _range(1, 4)_
+
+Взять страницу: `p1 = p.page(1)`  
+- **p1.object_list** - список элементов на странице
+- **p1.has_next() / p1.has_previous()** - проверка на существование следующей / предыдущей страницы (True/False)
+- **p1.has_other_pages()** - проверка, существуют ли ещё какие-то страницы
+- **p1.next_page_number() / p1.previous_page_number()** - номер следующей / предыдущей страницы или _raise EmptyPage_
+
+Пагинация для **функции представления**:
+```
+def info(request):
+    items = Items.notNullCount.all()
+    paginator = Paginator(items, 3)
+    page_num = request.GET.get('page', 1)
+    page_obj = paginator.page(page_num)
+    return render(request, 'skins/info_page.html', {'menu': menu, 'page_obj': page_obj})
+```
+```
+{% for item in page_obj %}
+    <p>{{ item.name }} ({{ item.price }} руб.)</p>
+{% endfor %}
+<ul>
+    {% for p in page_obj.paginator.page_range %}
+    <li><a href="?page={{ p }}">{{ p }}</a></li>
+    {% endfor %}
+</ul>
+```
+
+Пагинация для **ListView**:
+```
+class DataMixin():
+    paginate_by = 5  # кол-во объектов на странице
+    ...
+    
+class HomePage(DataMixin, ListView):
+    ...
+```
+При использовании пагинации в ListView, в шаблон передаются **page_obj** и **paginator**  
+_Шаблон_:
+```
+{% block page_nums %}
+{% if page_obj.has_other_pages %}
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}"><span class="page_num" style="margin-right:15px; font-weight: 900;" >&lt;</span></a>
+    {% endif %}
+    {% for p in paginator.page_range %}
+        {% if page_obj.number == p %}
+        <a href="?page={{ p }}"><span class="page_num selected_page_num">{{ p }}</span></a>
+        {% elif p == 1 and page_obj.number > 3 %}
+        <a href="?page={{ p }}"><span class="page_num" >{{ p }}</span></a>
+        <span>...</span>
+        {% elif p == paginator.num_pages and page_obj.number < paginator.num_pages|add:-2 %}
+        <span>...</span>
+        <a href="?page={{ p }}"><span class="page_num" >{{ p }}</span></a>
+        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+        <a href="?page={{ p }}"><span class="page_num">{{ p }}</span></a>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}"><span class="page_num" style="margin-left:15px; font-weight: 900;" >&gt;</span></a>
+    {% endif %}
+{% endif %}
+{% endblock %}
+```
+
+
 
 
 <a name="Selenium"></a>

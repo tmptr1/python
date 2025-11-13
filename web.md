@@ -273,6 +273,7 @@ style.css: `pre {color: grey}`
 - **transition** - плавное изменение характеристик, если в class:hover меняется background, то в class **transition: background 1s linear** позволит менять задний цвет плавно, в течении 1 секунды 
 - **word-break** - перенос слов, при параметре **break-word** длинные слова будут переноситься
 - **z-index** - задаётся приоритет накладывания объектов на друг друга
+- **box-shadow** - тень от блока (2px 2px 5px black) - offset x, y, размытие, цвет
 
 
 id - для уникалных блоков  
