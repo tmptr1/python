@@ -8723,6 +8723,162 @@ _Шаблон_:
 {% endblock %}
 ```
 
+# Авторизация
+Для авторизации создаётся отдельное приложение users, которое потом можно 
+легко перенести в другой проект  
+`python manage.py startapp users`  
+В _settings.py_, в INSTALLED_APPS добавляется `'users'`
+В папке приложения users создаётся _urls.py_:
+```
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('login/', views.login_user, name='login'),
+    path('logout/', views.logout_user, name='logout'),
+]
+```
+В папке проекта, в _urls.py_ добавляется, в **urlpatterns[ ]**:  
+`path('users/', include('users.urls', namespace="users")),`  
+**namespace** необходим для создания маршрутов вида: `users:login`
+
+Для авторизации создаётся шаблон в _users/templates/users_, расширяется 
+базовый шаблон, подключаются стили:
+```
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'skins/css/sell_style.css' %}">
+{% endblock %}
+
+{% block content %} ...
+```
+Для приложения users создаётся свой _forms.py_:
+```
+from django import forms
+
+class LoginUserForm(forms.Form):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+```
+_views.py_ для users:
+```
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from .forms import LoginUserForm
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
+
+def login_user(request):
+    if request.method == 'POST':
+        form = LoginUserForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, username=cd['username'], password=cd['password'])
+            if user and user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('home'))
+    else:
+        form = LoginUserForm()
+
+    return render(request, 'users/login.html', {'form': form})
+
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('users:login'))
+```
+**user.is_active** для проверки активного пользователя (не забанен и т.д)
+
+Кнопки **Вход**/**Выход** на сайте
+```
+{% if user.is_authenticated %}
+<li style="margin-left: auto;"><a href="#">{{ user.username }}</a> | <a href="{% url 'users:logout' %}">Выйти</a></li>
+{% else %}
+<li style="margin-left: auto;"><a href="{% url 'users:login' %}">Войти</a> | <a href="#">Регистрация</a></li>
+{% endif %}
+```
+
+
+# Шаблонные контекстные процессоры
+В _settings.py_ TEMPLATES перечислены переменные, которые доступны в любых шаблонах, например,
+**request** и **user** (появляется благодаря **auth**).  
+Добавление своего значения:  
+Создаётся функция для получения словаря, например, в новом файле _context_processors.py_:  
+`def get_skins_context(request): return {'main_menu': menu}`  
+Далее она добавляется в _settings.py_:  
+`TEMPLATES = [...{'OPTIONS': {'context_processors': [..., 'users.context_processors.get_skins_context',] }]`  
+Теперь в шаблонах можно использовать новое значение: `{% for m in main_menu %}`
+
+
+# LoginView, AuthenticationForm, LogoutView
+```
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
+
+class LoginUser(LoginView):  # views.LoginUser.as_view()
+    form_class = AuthenticationForm
+    template_name = 'users/login.html'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+```
+Вместо переопределения get_success_url можно добавить `LOGIN_REDIRECT_URL = 'home'` в _settings.py_  
+Также есть **LOGOUT_REDIRECT_URL** и **LOG_URL** для перенаправления неавторизованного пользователя при его попытке просмотреть закрытую страницу
+
+Для перехода на указанную страницу после авторизации в форму добавляется скрытое поле со значением **next** 
+(http://127.0.0.1:8000/users/login/?next=/sell/):
+```
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    <table class="from-table">
+        <tr><td colspan=2><div class="form-error">{{ form.non_field_errors }}</div></td></tr>
+        {% for f in form %}
+        <tr><td><label class="form-field" for="{{ f.id_for_label }}">{{ f.label }}</label></td><td>{{ f }}</td></tr>
+        <tr><td colspan=2><div class="form-error">{{ f.errors }}</div></td></tr>
+        {% endfor %}
+    </table>
+    <p class="from_button"><button type="submit">Войти</button></p>
+</form>
+```
+Приоритеты для редиректа - def get_success_url, next, LOGIN_REDIRECT_URL
+
+Использование своих форм в LoginView. _forms.py_:
+```
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
+
+class LoginUserForm(AuthenticationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'password']
+```
+Далее в _class LoginUser(LoginView)_: `form_class = LoginUserForm`
+
+**LogoutView**  
+```
+from django.contrib.auth.views import LogoutView
+...
+path('logout/', LogoutView.as_view(), name='logout'),
+```
+Работает **ТОЛЬКО С POST** запросами. Поэтому в шаблоне для кнопки выхода добавляется form:
+```
+<form method="post" action="{% url 'users:logout' %}" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="logout_button">Выйти</button>
+</form>
+```
+
+
+
+
+
+
 
 
 
