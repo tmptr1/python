@@ -8875,6 +8875,206 @@ path('logout/', LogoutView.as_view(), name='logout'),
 ```
 
 
+# Login Required
+Запрещает доступ к страницам для неавторизованных пользователей, перекидывает на страницу авторизации, 
+указанную в _settings.py_ (**LOGIN_URL**)  
+Параметр **next** принимает значение закрытой страницы и после авторизации пользователь возвращается на неё
+
+Декоратор для функции представления:
+```
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def info(request):
+    ...
+```
+Может принимать параметр: `@login_required(login_url='/admin/')`
+
+Класс LoginRequiredMixin:
+```
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class AddItem(LoginRequiredMixin, DataMixin, CreateView):
+    ...
+```
+
+Добавление информации о пользователе при заполнении формы:
+```
+class Items(models.Model):
+    owner = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, 
+        related_name='owners', null=True, default=None)
+```
+```
+class AddItem(LoginRequiredMixin, DataMixin, CreateView):
+    ...
+    def form_valid(self, form):
+        item = form.save(commit=False)
+        item.owner = self.request.user
+        return super().form_valid(form)
+```
+`<p>Продавец: {{ item.owner.username|default:"-" }}</p>`
+
+
+# Регистрация пользователя
+```
+class RegisterUserForm(forms.ModelForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    password2 = forms.CharField(label='Повторение пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'email', 'password', 'password2']
+        labels = {'email': 'E-mail',}
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Пароли не совпадают')
+        return cd['password']
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if get_user_model().objects.filter(email=email).exists():
+            raise forms.ValidationError("Пользователь с таким E-mail адресом уже существует")
+        return email
+```
+По-умолчанию разные пользователи могут иметь один и тот же email, поэтому нужна проверка clean_email
+```
+def register(request):
+    if request.method == 'POST':
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return render(request, 'users/register_done.html')
+    else:
+        form = RegisterUserForm()
+    return render(request, 'users/register.html', {'form': form})
+```
+**set_password** шифрует пароль и дальше использует его хэш, ключ для шифрования берется из _settings.py_ **SECRET_KEY**
+
+
+# UserCreationForm
+```
+from django.contrib.auth.forms import UserCreationForm
+
+class RegisterUserForm(UserCreationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    password2 = forms.CharField(label='Повторение пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'email', 'password1', 'password2']
+        labels = {'email': 'E-mail',}
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if get_user_model().objects.filter(email=email).exists():
+            raise forms.ValidationError("Пользователь с таким E-mail адресом уже существует")
+        return email
+```
+def clean_password2 уже не нужен, эту проверку берет на себя UserCreationForm
+```
+from django.views.generic import CreateView
+
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('users:login')
+```
+
+
+# Авторизация через email
+В новом файле _authentication.py_, по аналогии с классом `from django.contrib.auth.backends import ModelBackend`:
+```
+from django.contrib.auth.backends import BaseBackend
+from django.contrib.auth import get_user_model
+
+class EmailAuthBackend(BaseBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        user_model = get_user_model()
+        try:
+            user = user_model.objects.get(email=username)
+            if user.check_password(password):
+                return user
+            return None
+        except (user_model.DoesNotExist, user_model.MultipleObjectsReturned):
+            return None
+
+    def get_user(self, user_id):
+        user_model = get_user_model()
+        try:
+            return user_model.objects.get(pk=user_id)
+        except user_model.DoesNotExist:
+            return None
+```
+В _settings.py_ добавляется второй способ авторизации:
+```
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # по username + pass
+    'users.authentication.EmailAuthBackend', # по email + pass
+```
+
+
+# Профиль пользователя
+```
+class ProfileUserForm(forms.ModelForm):
+    username = forms.CharField(disabled=True, label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    email = forms.CharField(disabled=True, label='E-mail', widget=forms.TextInput(attrs={'class': 'form-input'}))
+
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'email']
+        labels = {'email': 'E-mail',}
+```
+`disabled=True` для запрета на редактирование
+```
+class ProfileUser(LoginRequiredMixin, UpdateView):
+    model = get_user_model()
+    form_class = ProfileUserForm
+    template_name = 'users/profile.html'
+
+    def get_success_url(self):
+        return reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+```
+
+
+# PasswordChangeView
+```
+from django.contrib.auth.forms import PasswordChangeForm
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label='Старый пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    new_password1 = forms.CharField(label='Новый пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    new_password2 = forms.CharField(label='Повторение нового пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+```
+```
+from django.contrib.auth.views import PasswordChangeView
+
+class UserPasswordChange(PasswordChangeView):
+    form_class = UserPasswordChangeForm
+    success_url = reverse_lazy('users:password_change_done')
+    template_name = 'users/password_change_from.html'
+```
+```
+from django.contrib.auth.views import PasswordChangeDoneView
+
+urlpatterns = [
+    path('password-change/', views.UserPasswordChange.as_view(), name='password_change'),
+    path('password-change/done/', PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'), 
+            name='password_change_done'), ]
+```
+
+
+
+
+
 
 
 
