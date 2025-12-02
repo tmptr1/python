@@ -1,7 +1,7 @@
 # Python
 ### [Основы ](#Основы)
 <details>
-<summary>Основы</summary>
+<summary>...</summary>
 
 - [**Работа с текстом**](#Работа_с_текстом)
   - [Методы строк](#Методы_строк)
@@ -76,7 +76,7 @@
 
 ### [ООП ](#ООП)
 <details>
-<summary>ООП</summary>
+<summary>...</summary>
 
 - [Конструктор](#Конструктор)
 - [Деструктор](#Деструктор)
@@ -93,7 +93,7 @@
 
 ### [NumPy ](#NumPy)
 <details>
-<summary>NumPy</summary>
+<summary>...</summary>
 
 - [Создание массива](#np_Создание_массива)
 - [Удаление элементов из массива](#np_Удаление_элементов_из_массива) 
@@ -107,7 +107,7 @@
 
 ### [Pandas ](#Pandas)
 <details>
-<summary>Pandas</summary>
+<summary>...</summary>
 
 - [read / to](#Pandas_read_to)
 - [Общая информация](#Pandas_Общая_информация)
@@ -116,7 +116,7 @@
 
 ### [matplotlib ](#matplotlib)
 <details>
-<summary>matplotlib</summary>
+<summary>...</summary>
 
 - [Отображение графика](#matplotlib_Отображение_графика)
 - [Разделение_окна_вывод_нескольких_графиков](#matplotlib_Разделение_окна_вывод_нескольких_графиков)
@@ -128,7 +128,7 @@
 
 ### [Многопоточность и тд](#Многопоточность)
 <details>
-<summary>Многопоточность и тд</summary>
+<summary>...</summary>
 
 - [Многопоточность](#Многопоточность)
 - [multiprocessing](#multiprocessing)
@@ -147,7 +147,7 @@
 - [**MS SQL Server**](#MS_SQL_Server)
 - [**PostgreSQL**](#PostgreSQL)
   <details>
-  <summary>PostgreSQL</summary>
+  <summary>...</summary>
 
   - [Последовательности SEQUENCE](#PostgreSQL_Последовательности_SEQUENCE)
   - [DISTINCT, ORDER BY, LIMIT, OFFSET](#PostgreSQL_DISTINCT_ORDER_BY_LIMIT_OFFSET)
@@ -163,7 +163,7 @@
 
 ### [SQLAlchemy ](#SQLAlchemy)
 <details>
-<summary>SQLAlchemy</summary>
+<summary>...</summary>
 
 - [Cинхронные / асинхронные запросы](#SQLAlchemy_синхронные_асинхронные_запросы)
 - [Создание таблиц](#SQLAlchemy_Создание_таблиц)
@@ -189,11 +189,65 @@
 
 [//]: # (### [HTML]&#40;#HTML&#41;)
 [//]: # (### [CSS]&#40;#CSS&#41;)
+
 ### [Django ](#Django)
+<details>
+<summary>...</summary>
+
+- [Установка Django](#Django_Установка_Django)
+- [Представления](#Django_Представления)
+- [Конверторы](#Django_Конверторы)
+- [Отладка проекта](#Django_Отладка_проекта)
+- [Page not found 404](#Django_Page_not_found)
+- [redirect](#Django_redirect)
+- [Шаблоны](#Django_Шаблоны)
+- [Включение других элементов страницы include](#Django_Включение_других_элементов_страницы_include)
+- [Подключение статических файлов](#Django_Подключение_статических_файлов)
+- [Пользовательские теги шаблонов](#Django_Пользовательские_теги_шаблонов)
+- [БД](#Django_БД)
+- [get_absolute_url](#Django_get_absolute_url)
+- [Пользовательский менеджер модели](#Django_Пользовательский_менеджер_модели)
+- [Связи моделей](#Django_Связи_моделей)
+- [Класс Q](#Django_Класс_Q)
+- [Класс F](#Django_Класс_F)
+- [Добавление новых временных полей](#Django_Добавление_новых_временных_полей)
+- [Агрегирующие функции](#Django_Агрегирующие_функции)
+- [GROUP BY](#Django_GROUP_BY)
+- [Django Debug Toolbar](#Django_Django_Debug_Toolbar)
+- [Оптимизация запросов](#Django_Оптимизация_запросов)
+- [Админ панель](#Django_Админ_панель)
+- [Метод save в models](#Django_Метод_save_в_models_py)
+- [forms](#Django_forms)
+- [Загрузка файла на сервер](#Django_Загрузка_файла_на_сервер)
+- [Отображение картинок на сайте](#Django_Отображение_картинок_на_сайте)
+- [Class Based Views (CBV). Классы View и TemplateView](#Django_Class_Based_Views)
+- [ListView](#Django_ListView)
+- [DetailView](#Django_DetailView)
+- [FormView](#Django_FormView)
+- [CreateView](#Django_CreateView)
+- [UpdateView](#Django_UpdateView)
+- [DeleteView](#Django_DeleteView)
+- [Mixins](#Django_Mixins)
+- [Авторизация](#Django_Авторизация)
+- [Шаблонные контекстные процессоры](#Django_Шаблонные_контекстные_процессоры)
+- [LoginView, AuthenticationForm, LogoutView](#Django_LoginView_AuthenticationForm_LogoutView)
+- [Login Required](#Django_Login_Required)
+- [Регистрация пользователя](#Django_Регистрация_пользователя)
+- [UserCreationForm](#Django_UserCreationForm)
+- [Авторизация через email](#Django_Авторизация_через_email)
+- [Профиль пользователя](#Django_Профиль_пользователя)
+- [PasswordChangeView](#Django_PasswordChangeView)
+- [Почтовый сервис](#Django_Почтовый_сервис)
+- [Восстановление пароля](#Django_Восстановление_пароля)
+- [AbstractUser](#Django_AbstractUser)
+- [Permissions Groups](#Django_Permissions_Groups)
+- [Логирование](#Django_Логирование)
+- [Обработка ошибок](#Django_Обработка_ошибок)
+</details>
 
 ### [Selenium ](#Selenium)
 <details>
-<summary>Selenium</summary>
+<summary>...</summary>
 
 - [Запуск страницы в браузере](#Запуск_страницы_в_браузере)
 - [Изменение user agent](#Изменение_user_agent)
@@ -212,7 +266,7 @@
 
 ### [Beautifulsoup ](#Beautifulsoup)
 <details>
-<summary>Beautifulsoup</summary>
+<summary>...</summary>
 
 - [Получение данных о странице](#Beautifulsoup_Получение_данных_о_странице)
 - [Сохранение страницы](#Сохранение_страницы)
@@ -225,7 +279,7 @@
 
 ### [Telegram](#Telegram)
 <details>
-<summary>Telegram</summary>
+<summary>...</summary>
 
 - [pyTelegramBotAPI](#pyTelegramBotAPI)
 - [asyncio](#asyncio)
@@ -7172,7 +7226,8 @@ from PySide6.QtWidgets import QFileDialog
 
 <a name="Django"></a>
 # Django
-### Установка Django
+<a name="Django_Установка_Django"></a>
+## Установка Django
 В командной строке перейти в папку с будущим проектом, далее:  
 Установка виртуального окружения: `py -m venv djvenv`  
 Запуск виртуальной среды(activate.bat): `.\djvenv\Scripts\activate`  
@@ -7195,7 +7250,9 @@ Virtual Environment - Exsisting - path to python.exe
 Для регистрации приложения необходимо добавить в settings.py параметр **name.apps.nameConfig** 
 (берётся класс из apps.py) в список **INSTALLED_APPS**
 
-### Представления
+
+<a name="Django_Представления"></a>
+## Представления
 Добавление рабочего каталога: ПКМ по каталогу (папка с названием проекта) - Mark Directory as - Sources Root  
 В каталоге приложения, в views.py, добавляются функции, возвращающие страницы:
 ```
@@ -7225,7 +7282,9 @@ urlpatterns = [
 ```
 path ' ' - обозначает пустой домен (http://127.0.0.1:8000/)
 
-### Конверторы
+
+<a name="Django_Конверторы"></a>
+## Конверторы
 Добавление паттерна с произвольным значением:  
 `path('versions/<slug:v>/, views.versions),`  
 Однотипные пути будут обрабатываться по очереди, поэтому сначала надо описывать паттерн 
@@ -7263,7 +7322,9 @@ register_converter(converters.VersionsConverter, 'version')
 urlpatterns = [ path('versions/<version:v>', views.versions), ]
 ```
 
-### Отладка проекта
+
+<a name="Django_Отладка_проекта"></a>
+## Отладка проекта
 Настройка запуска локального сервера с возможностью отладки.
 
 Edit Configurations... (возле кнопки запуска) - "+" (Add New Configuration)  
@@ -7281,7 +7342,9 @@ def versions(request):
     print(request.GET)
 ```
 
-### Page not found 404
+
+<a name="Django_Page_not_found"></a>
+## Page not found 404
 Для настройки страницы необходимо в **settings.py**:
 ```
 DEBUG = False
@@ -7301,7 +7364,9 @@ def page_not_found(request, exception):
 ```
 Далее можно вызывать страницу 404 самому, используя `raise Http404`, импортируя Http404 из django.http
 
-### redirect
+
+<a name="Django_redirect"></a>
+## redirect
 (301 - страница перемещена на другой постоянный url адрес, 302 - на временный)  
 `from django.shortcuts import redirect`  
 `return redirect('/')` - переадресация на начальную страницу (код 302)  
@@ -7323,7 +7388,9 @@ return redirect(red)
 ```
 или вместо redirect можно импортировать из django.http _HttpResponseRedirect_ (302) и _HttpResponsePermanentRedirect_ (301)
 
-### Шаблоны
+
+<a name="Django_Шаблоны"></a>
+## Шаблоны
 `from django.template.loader import render_to_string`
 
 `view-source:http://127.0.0.1:8000/` в браузере для просмотра html кода
@@ -7404,7 +7471,6 @@ html:
 {% endwith %}
 ```
 
-
 ### url
 `<``a href="{% url 'server' s.id %}">{{ s.name }}<``/a>`  
 После имени 'server' указываются параметры, они могут быть именованными (id=s.id)
@@ -7412,7 +7478,9 @@ html:
 В html указывается имя из urlpatterns:  
 `path('server/<``int:server_id>', views.server, name='server')`
 
-### Наследование шаблонов extends
+
+<a name="Django_Наследование_шаблонов_extends"></a>
+## Наследование шаблонов extends
 Создаётся папка templates в корневой папке сайта, путь к ней добавляется в settings.py, 
 TEMPLATES - 'DIRS': **BASE_DIR / 'templates'**
 
@@ -7427,13 +7495,17 @@ TEMPLATES - 'DIRS': **BASE_DIR / 'templates'**
 {% endblock %}
 ```
 
-### Включение других элементов страницы include
+
+<a name="Django_Включение_других_элементов_страницы_include"></a>
+## Включение других элементов страницы include
 `{% include 'monitoring/includes/SocialMedia.html' %}`  
 Внутри включенного элемента **можно использовать переменные** из основного блока html.  
 Использование переменных можно отключить, добавив **only** после пути к включаемому объекту html.  
 Можно передать новые переменные с помощью **with x=2 y=3**.
 
-### Подключение статических файлов
+
+<a name="Django_Подключение_статических_файлов"></a>
+## Подключение статических файлов
 В папке приложения создаётся каталог static, далее /name_app и в нём все необходимые папки со
 статическими данными (css, js, images)  
 Перед запуском проекта на **рабочем сервере** необходимо создать общую папку static, 
@@ -7450,7 +7522,9 @@ href="{% static 'monitoring/css/add_server_form.css' %}">
 Чтобы в режиме **DEBUG = False** на локальном сервере отображалась статика:  
 `python manage.py runserver --insecure`
 
-### Пользовательские теги шаблонов
+
+<a name="Django_Пользовательские_теги_шаблонов"></a>
+## Пользовательские теги шаблонов
 Создаётся папка templatetags в папке приложения, туда добавляется пустой __ init__.py 
 и файл для описания тегов .py  
 servers_tags.py:
@@ -7478,7 +7552,9 @@ def show_versions(selected_v=''):
 ```
 `{% show_versions selected_v=vr %}`
 
-### БД
+
+<a name="Django_БД"></a>
+## БД
 Подключение **Postgres**:  
 `pip install psycopg2`  
 settings.py:
@@ -7648,7 +7724,8 @@ for i in Items.objects.all():
 `python manage.py migrate`
 
 
-### get_absolute_url
+<a name="Django_get_absolute_url"></a>
+## get_absolute_url
 Ссылка на запись **get_absolute_url** в models.py:
 ```
     def get_absolute_url(self):
@@ -7657,7 +7734,8 @@ for i in Items.objects.all():
 Вызов: `<a href="{{ s.get_absolute_url }}">`
 
 
-**Пользовательский менеджер модели**  
+<a name="Django_Пользовательский_менеджер_модели"></a>
+## Пользовательский менеджер модели
 В models добавляется новый класс:
 ```
 class NotZeroPointManager(models.Manager):
@@ -7672,6 +7750,7 @@ class Servers(models.Model):
     pointed = NotZeroPointManager()
 ```
 `servers = Servers.pointed.all()`
+
 
 **Choices**  
 Позволяет хранить несколько значений с их метками
@@ -7690,7 +7769,9 @@ Servers.VersionList.labels    # ['Версия 1.12.2', ...]
 Servers.VersionList.values    # ['1.12.2', ...]
 ```
 
-**Связи**  
+
+<a name="Django_Связи_моделей"></a>
+## Связи моделей
 Значения параметра **on_delete**:
 - models.CASCADE - при удалении записи из первичный модели происходит удаление из всех других
 - models.PORTECT - запрещает удаление записи из первичный модели, если она используется ещё где-то
@@ -7800,7 +7881,8 @@ s.refs.save()
 ```
 
 
-### Класс Q
+<a name="Django_Класс_Q"></a>
+## Класс Q
 `from django.db.models import Q`
 
 Примеры:  
@@ -7814,6 +7896,13 @@ WHERE (count > 0 AND (price > 400 OR quality_id > 4))
 WHERE ((count > 0 AND price > 400) OR quality_id > 4)
 
 **&** - AND; **|** - OR; **~** - NOT
+
+Возможно формировать условия отдельно:
+```
+conditions = []
+conditions.append(Q(item_type__in=item_types))
+Items.notNullCount.filter(*conditions).select_related('rare')
+```
 
 **first/last**  
 `Servers.objects.first()` вернётся первая запись из выборки
@@ -7841,7 +7930,8 @@ t.tags.all()    # <QuerySet [...]>
 ```
 
 
-### Класс F
+<a name="Django_Класс_F"></a>
+## Класс F
 `from django.db.models import F`
 
 Для использования значений из полей этой же записи в sql запросах  
@@ -7849,7 +7939,9 @@ t.tags.all()    # <QuerySet [...]>
 `Items.objects.update(price=F('price')*1.1)`  
 `s.point = F("point")+1` + s.save()
 
-### Добавление новых временных полей
+
+<a name="Django_Добавление_новых_временных_полей"></a>
+## Добавление новых временных полей
 Добавление временного поля для выборки со значением по умолчанию:
 ```
 from django.db.models import Value
@@ -7867,14 +7959,18 @@ for id, i in enumerate(lst):
 Можно объявлять несоклько полей:  
 `lst = Items.objects.filter(price__lt=1000).annotate(summ=F('price') * F('count'), new_s=F('summ') * Decimal('1.1'))`
 
-### Агрегирующие функции
+
+<a name="Django_Агрегирующие_функции"></a>
+## Агрегирующие функции
 `from django.db.models import Avg, Count, Max, Min, Sum`
 
 `Servers.objects.aggregate(Max("online"))` Out: {'online__max': 2360}
 
 `Servers.objects.aggregate(x=Sum("online")/Sum("point"))` Out: {'x': 20}
 
-### GROUP BY
+
+<a name="Django_GROUP_BY"></a>
+## GROUP BY
 Объединение записей по полю version_id. В _Count_ указывается любое поле
 `Servers.objects.values("version_id").annotate(total=Count("id"))`
 
@@ -7891,7 +7987,9 @@ Out:
 `from django.db.models.functions import Length`  
 `Items.objects.values('name').annotate(len_name=Length('name'))`
 
-### Django Debug Toolbar 
+
+<a name="Django_Django_Debug_Toolbar"></a>
+## Django Debug Toolbar
 `pip install django-debug-toolbar`
 
 Установка: https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
@@ -7907,7 +8005,9 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 urlpatterns = [ ... ] + debug_toolbar_urls()
 ```
 
-### Оптимизация запросов
+
+<a name="Django_Оптимизация_запросов"></a>
+## Оптимизация запросов
 В Django Debug Toolbar можно посмотреть SQL запросы для каждой страницы.   
 Запросы помеченные как **similar queries** или **Duplicated n times** лучше оптимизировать. 
 Для этого прописывается:
@@ -7920,7 +8020,9 @@ urlpatterns = [ ... ] + debug_toolbar_urls()
 
 Далее все подзапросы объединятся в один с помощью _JOIN_
 
-### Админ панель
+
+<a name="Django_Админ_панель"></a>
+## Админ панель
 Для удобства можно поменять язык в settings.py c `LANGUAGE_CODE = 'en-us'` на  `ru-RU`
 
 Создание супер-пользователя:  
@@ -8046,7 +8148,8 @@ class ItemsAdmin(admin.ModelAdmin):
 - `readonly_fields = ['online']` - поля только для чтения
 
 
-### Метод save в models.py
+<a name="Django_Метод_save_в_models_py"></a>
+## Метод save в models.py
 При сохранении записи позволяет автоматически генерировать поля
 ```
 from django.template.defaultfilters import slugify
@@ -8099,7 +8202,8 @@ div.breadcrumbs, .module caption, #changelist-filter-header{
 ```
 
 
-### Формы для GET и POST запросов
+<a name="Django_forms"></a>
+## forms
 Форма для **GET** запроса:
 ```
 <form action="">
@@ -8284,7 +8388,8 @@ def sell(request):
 В AddItemForm можно по-прежнему прописывать методы для валидации (например, clean_name)
 
 
-### Загрузка файла на сервер
+<a name="Django_Загрузка_файла_на_сервер"></a>
+## Загрузка файла на сервер
 **Вариант с формой**:  
 Создать папку для файлов, например, site/uploads  
 Для загрузки изображений необходимо импортировать мобуль Pillow  
@@ -8345,7 +8450,8 @@ forms.py: добавить в форму, в класс Meta `fields = ['banner'
 Загружаемые файлы с **одинаковыми названиями** будут переименовываться, к ним автоматически добавятся рандомные символы (image_tw5MmLb.PNG)
 
 
-### Отображение картинок на сайте
+<a name="Django_Отображение_картинок_на_сайте"></a>
+## Отображение картинок на сайте
 В Settings.py указывается папка для медиа файлов: `MEDIA_URL = '/media/'`  
 В urls.py добавить (только в режиме отладки):
 ```
@@ -8383,6 +8489,7 @@ readonly_fields = ['img_banner', 'online']
 `save_on_top = True`
 
 
+<a name="Django_Class_Based_Views"></a>
 ### Class Based Views (CBV). Классы View и TemplateView
 **Базовый класс представления View**
 
@@ -8433,7 +8540,9 @@ class HomePage(TemplateView):
 В _urls.py_ тоже можно определять словарь extra_context:  
 `path('', views.HomePage.as_view(extra_context={'title': 'Home Page'}), name='home'),`
 
-**ListView**  
+
+<a name="Django_ListView"></a>
+## ListView
 Указывается модель, откуда брать объекты: `model = Items`  
 Можно указать **пользовательский менеджер** в методе **get_queryset**  
 По умолчанию берется шаблон: _имя_приложения / имя_модели_list.html_  
@@ -8479,7 +8588,8 @@ class ItemCategory(ListView):
 `path('type/<slug:item_type>', views.ItemCategory.as_view(), name='home'),`
 
 
-**DetailView**  
+<a name="Django_DetailView"></a>
+## DetailView
 Необходим для отображения информации по объекту из БД  
 По-умолчанию добавляет в шаблон объект модели с названием **object**  
 Для переопределения объекта: `context_object_name = 'item'`  
@@ -8503,7 +8613,8 @@ class ShowItemInfo(DetailView):
 ```
 
 
-**FormView**  
+<a name="Django_FormView"></a>
+## FormView
 Форма передаётся в шаблон с названием **form**  
 При успешном заполнении формы будет вызван _def form_valid_ и далее произойдёт перенаправление 
 на **success_url = reverse_lazy('home')**  
@@ -8522,7 +8633,8 @@ class AddItem(FormView):
         return super().form_valid(form)
 ```
 
-**CreateView**  
+<a name="Django_CreateView"></a>
+## CreateView
 Сохраняет данные в БД без доп. метода form_valid
 ```
 class AddItem(CreateView):
@@ -8543,7 +8655,8 @@ class AddItem(CreateView):
     extra_context = {'menu': menu}
 ```
 
-**UpdateView**  
+<a name="Django_UpdateView"></a>
+## UpdateView
 Обновление записей по pk/slug. _urls.py_:  
 `path('edit/<int:pk>', views.UpdateItemClass.as_view(), name='edit_item'),` или `<slug:slug>`
 
@@ -8586,8 +8699,8 @@ class AddItemForm(forms.ModelForm):
         return icon
 ```
 
-
-**DeleteView**
+<a name="Django_DeleteView"></a>
+## DeleteView
 ```
 class DeleteItemView(DeleteView):
     model = Items
@@ -8608,7 +8721,8 @@ class DeleteItemView(DeleteView):
 ```
 
 
-**Mixins**  
+<a name="Django_Mixins"></a>
+## Mixins
 Вспомогательаные классы для упрощения кода. В папке с приложением нужно создать файл _utils.py_:
 ```
 menu =  [...]
@@ -8723,7 +8837,9 @@ _Шаблон_:
 {% endblock %}
 ```
 
-# Авторизация
+
+<a name="Django_Авторизация"></a>
+## Авторизация
 Для авторизации создаётся отдельное приложение users, которое потом можно 
 легко перенести в другой проект  
 `python manage.py startapp users`  
@@ -8801,7 +8917,8 @@ def logout_user(request):
 ```
 
 
-# Шаблонные контекстные процессоры
+<a name="Django_Шаблонные_контекстные_процессоры"></a>
+## Шаблонные контекстные процессоры
 В _settings.py_ TEMPLATES перечислены переменные, которые доступны в любых шаблонах, например,
 **request** и **user** (появляется благодаря **auth**).  
 Добавление своего значения:  
@@ -8812,7 +8929,8 @@ def logout_user(request):
 Теперь в шаблонах можно использовать новое значение: `{% for m in main_menu %}`
 
 
-# LoginView, AuthenticationForm, LogoutView
+<a name="Django_LoginView_AuthenticationForm_LogoutView"></a>
+## LoginView, AuthenticationForm, LogoutView
 ```
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
@@ -8875,7 +8993,8 @@ path('logout/', LogoutView.as_view(), name='logout'),
 ```
 
 
-# Login Required
+<a name="Django_Login_Required"></a>
+## Login Required
 Запрещает доступ к страницам для неавторизованных пользователей, перекидывает на страницу авторизации, 
 указанную в _settings.py_ (**LOGIN_URL**)  
 Параметр **next** принимает значение закрытой страницы и после авторизации пользователь возвращается на неё
@@ -8915,7 +9034,8 @@ class AddItem(LoginRequiredMixin, DataMixin, CreateView):
 `<p>Продавец: {{ item.owner.username|default:"-" }}</p>`
 
 
-# Регистрация пользователя
+<a name="Django_Регистрация_пользователя"></a>
+## Регистрация пользователя
 ```
 class RegisterUserForm(forms.ModelForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
@@ -8956,7 +9076,8 @@ def register(request):
 **set_password** шифрует пароль и дальше использует его хэш, ключ для шифрования берется из _settings.py_ **SECRET_KEY**
 
 
-# UserCreationForm
+<a name="Django_UserCreationForm"></a>
+## UserCreationForm
 ```
 from django.contrib.auth.forms import UserCreationForm
 
@@ -8987,7 +9108,8 @@ class RegisterUser(CreateView):
 ```
 
 
-# Авторизация через email
+<a name="Django_Авторизация_через_email"></a>
+## Авторизация через email
 В новом файле _authentication.py_, по аналогии с классом `from django.contrib.auth.backends import ModelBackend`:
 ```
 from django.contrib.auth.backends import BaseBackend
@@ -9019,7 +9141,8 @@ AUTHENTICATION_BACKENDS = [
 ```
 
 
-# Профиль пользователя
+<a name="Django_Профиль_пользователя"></a>
+## Профиль пользователя
 ```
 class ProfileUserForm(forms.ModelForm):
     username = forms.CharField(disabled=True, label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
@@ -9045,7 +9168,8 @@ class ProfileUser(LoginRequiredMixin, UpdateView):
 ```
 
 
-# PasswordChangeView
+<a name="Django_PasswordChangeView"></a>
+## PasswordChangeView
 ```
 from django.contrib.auth.forms import PasswordChangeForm
 
@@ -9072,10 +9196,309 @@ urlpatterns = [
 ```
 
 
+<a name="Django_Почтовый_сервис"></a>
+## Почтовый сервис
+**Вариант для тестирования** (письма выводятся в консоль)
+
+В _settings.py_ добавить:  
+`EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
+
+```
+from django.core.mail import send_mail
+
+send_mail('Заголовок', 'Сообщение', 'from@test@mail.ru', 
+    ['to@test@mail.ru'], fail_silently=False,)
+
+# Content-Type: text/plain; charset="utf-8"
+# MIME-Version: 1.0                        
+# Content-Transfer-Encoding: 8bit          
+# Subject: =?utf-8?b?0JfQsNCz0L7Qu9C+0LLQvtC6?=
+# From: from@test@mail.ru
+# To: to@test@mail.ru
+# Date: Thu, 27 Nov 2025 09:19:28 -0000
+# Message-ID: <176423516827.4904.2515406098060429092@LAPTOP-F92KK16H>
+
+# Сообщение
+```
+
+**Подключение сторонних почтовых сервисов**   
+В _settings.py_ можно убрать **EMAIL_BACKEND**, потому что по-умолчанию используется smtp. Или:  
+`EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'`
+
+**Gmail**  
+_settings.py_:
+```
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'test@gmail.com'
+EMAIL_HOST_PASSWORD = 'abcdabcdabcdabcd'
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+```
+EMAIL_HOST_PASSWORD - пароль для приложений (можно установить только если есть двухфакторка на аккаунте)  
+Во время тестов может не работать отправка сообщений из-за VPN  
+При отправке сообщения на несуществующий email, отправляет сообщение себе же (address not found)
 
 
+<a name="Django_Восстановление_пароля"></a>
+## Восстановление пароля
+*необходим почтовый сервис (EMAIL_BACKEND)
+
+Создаются шаблоны:
+- **password_reset_form.html** - обычный шаблон с формой. Вводится email, куда придёт ссылка вида: http://127.0.0.1:8000/users/password-reset/Ng/czxijo-965df7ab956af9e059e478c80dd3f1d0/ (`password-reset/<uidb64>/<token>/`)
+- **password_reset_done.html** - уведомление об отправке ссылки для восстановления на почту. Шаблон на основе _(External Libraries)\djvenv\Lib\site-packages\django\contrib\admin\templates\registration\password_reset_done.html_
+- **password_reset_confirm.html** - обычный шаблон с формой. Установка нового пароля
+- **password_reset_complete.html** - шаблон с сообщением об успешном изменении пароля
+- **password_reset_email.html** - текст сообщений, который будет высылаться по почте. Шаблон на основе _.../password_reset_email.html_. Меняется только ссылка (url '**users**:password_reset_confirm')
+
+_password_reset_done.html_:
+```
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>Сброс пароля</h1>
+
+<p>{% translate 'We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly.' %}</p>
+<p>{% translate 'If you don’t receive an email, please make sure you’ve entered the address you registered with, and check your spam folder.' %}</p>
+
+{% endblock %}
+```
+
+_urls.py_:
+```
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+
+urlpatterns = [ ...
+    path('password-reset/', PasswordResetView.as_view(template_name='users/password_reset_form.html',
+                                                      email_template_name='users/password_reset_email.html',
+                                                      success_url=reverse_lazy('users:password_reset_done')),
+         name='password_reset'),
+    path('password-reset/done/', PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),
+         name='password_reset_done'),
+    path('password-reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html',
+                                                                              success_url=reverse_lazy('users:password_reset_complete')),
+         name='password_reset_confirm'),
+    path('password-reset/complete/', PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
+         name='password_reset_complete'),
+]
+```
 
 
+<a name="Django_AbstractUser"></a>
+## AbstractUser
+Расширение модели User, добавление полей для аватарки и даты рождения  
+_users/models.py_:
+```
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    photo = models.ImageField(upload_to="users/%Y/%m/", blank=True, null=True, verbose_name='Аватарка')
+    date_birth = models.DateTimeField(blank=True, null=True, verbose_name='Дата рождения')
+```
+_users/admin.py_:
+```
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import User
+
+admin.site.reginster(User, UserAdmin)
+```
+_settings.py_:  
+`AUTH_USER_MODEL = 'users.User'  # users - приложение`  
+по-умолчанию **auth.User**
+
+Далее, чтобы применить миграции без ошибок, проще удалить все миграции из всех приложений (кроме файлов `__init__.py`) и обнулить БД  
+Необходимо опять создать суперпользователя  
+Чтобы стандартная модель User корректно работала, нужно проверить, что везде используется get_user_model(), а не просто User
+
+Шаблон _profile.html_:
+```
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if user.photo %}
+    <p><img src="{{ user.photo.url }}"></p>
+    {% else %}
+    <p><img src="{{ default_icon }}"></p>
+    {% endif %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    {% include 'skins\includes\default_form.html' %}
+    <p class="add_item_button"><button type="submit">Сохранить</button></p>
+</form>
+```
+_users/forms.py_:
+```
+class ProfileUserForm(forms.ModelForm):
+    ...
+    cur_year = datetime.datetime.today().year
+    date_birth = forms.DateField(widget=forms.SelectDateWidget(
+        years=tuple(range(cur_year-120, cur_year))))
+```
+В _views.py_ добавляется `extra_context = {'default_icon': DEFAULT_USER_ICON}`  
+В _settings.py_ - `DEFAULT_USER_ICON = MEDIA_URL + 'users/user-default-icon.png'`
+
+
+<a name="Django_Permissions_Groups"></a>
+## Permissions, Groups
+Установка необходимых прав для просмотра страниц (можно установить через админ панель). 
+При отсутствии прав будет генерироваться ошибка 403 Forbidden  
+Формат прав: **<приложение>.<действие>_<таблица>**  
+Все права можно посмотреть в БД, таблица **auth_permission**
+
+Для **классов** представлений:
+```
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
+class AddItem(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
+    ...
+    permission_required = 'skins.add_items'  # skins.change_items и тд
+```
+Для **функций** представлений:
+```
+from django.contrib.auth.decorators import permission_required
+
+@permission_required(perm='skins.view_items', raise_exception=True)
+def info(request):
+    ...
+```
+raise_exception для генерации кода 403
+
+В каждый шаблон передаётся **perms**, что позволяет делать проверки на наличие прав в шаблоне:
+```
+{% if perms.skins.change_items %}
+<p><a href="{% url 'edit_item' item.pk %}" class="ref_a">Изменить</a></p>
+{% endif %}
+```
+
+Чтобы не добавлять каждому пользователю отдельные права, можно создать группы (таблица **auth_group**)
+
+Через объект пользователя можно работать с группами/разрешениями:
+```
+from users.models import User
+
+user = User.objects.get(pk=2)
+user.groups
+user.user_permissions
+```
+
+`user.user_permission.add(1)` - добавляется по id, тут из auth_permission  
+или  
+```
+from django.contrib.auth.models import Permission
+p = Permission.objects.get(codename='add_itemtype')
+user.user_permission.add(p)
+```
+`user.user_permissions.remove(p)` - удалить разрешение  
+`user.user_permissions.clear()` - удалить все разрешения
+`user.user_permissions.all()` - просмотр  
+`user.user_permissions.set([list])` - просмотр
+
+С группами работает также. Модель для групп:  
+`from django.contrib.auth.models import Group`
+
+**Создать своё разрешение**:
+```
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+content_type = ContentType.objects.get_for_model(User)
+permission = Permission.objects.create(codename='social_auth', name='Social Auth', content_type=content_type) 
+```
+
+
+<a name="Django_Логирование"></a>
+## Логирование
+`pip install concurrent-log-handler` - для создание логовс позможностью указать максимальный размер  
+Сохранение логов самого django ("GET / HTTP/1.1" 200 29123). _settings.py_:
+```
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} [{levelname}] {module}: {message}',
+            'style': '{',
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'r_handler': {
+            'level': 'INFO',
+            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
+            'filename': BASE_DIR / 'logs/test.log',
+            'maxBytes': 1024 * 1024 * 1,  # 5 MB
+            'backupCount': 2,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['r_handler'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+```
+
+Логер для приложения skins:
+```
+    ...
+    'loggers': {
+        'skins': {
+            'handlers': ['r_handler'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+    ...
+```
+```
+import logging
+logger = logging.getLogger(__name__)
+...
+logger.info(f"{request.path} ({request.user})")
+```
+
+
+<a name="Django_Обработка_ошибок"></a>
+## Обработка ошибок в фукнциях/классах представления
+```
+import traceback
+from django.http import Http404
+from django.views import View
+
+def error_catcher(f):
+    def try_f(request, *args, **kwargs):
+        try:
+            return f(request, *args, **kwargs)
+        except Exception as e:
+            logger.error(traceback.format_exc(), exc_info=e)
+            raise Http404
+
+    return try_f
+
+class ErrorCatcher(View):
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            logger.info(f"{request.path}") #  ({request.user})
+            response = super().dispatch(request, *args, **kwargs)
+        except Exception as e:
+            logger.error(traceback.format_exc(), exc_info=e)
+            raise Http404
+        return response
+```
+_views.py_:
+```
+@error_catcher
+def info(request):
+    ...
+
+class Home(DataMixin, ListView, ErrorCatcher):
+    ...
+```
 
 
 
