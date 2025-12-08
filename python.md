@@ -243,6 +243,8 @@
 - [Permissions Groups](#Django_Permissions_Groups)
 - [Логирование](#Django_Логирование)
 - [Обработка ошибок](#Django_Обработка_ошибок)
+- [sitemap](#Django_sitemap)
+- [robots.txt](#Django_robots_txt)
 </details>
 
 ### [Selenium ](#Selenium)
@@ -9499,6 +9501,117 @@ def info(request):
 class Home(DataMixin, ListView, ErrorCatcher):
     ...
 ```
+
+
+<a name="Django_sitemap"></a>
+## sitemap
+sitemap формируется с помощью базового класса Sitemap, для этого в _sitemap.py_ (создаётся в папке приложения) 
+определяются классы для статических страниц и динамических (формирование на основе моделей)
+
+В INSTALLED_APPS нужно добавить `'django.contrib.sitemaps'`  
+_sitemap.py_:
+```
+from django.contrib.sitemaps import Sitemap
+from django.shortcuts import reverse
+from skins.models import Items
+
+class StaticViewSitemap(Sitemap):
+    changefreq = 'monthly'
+    priority = 1.0
+
+    def items(self):
+        return ['home', 'info']
+
+    def location(self, item):
+        return reverse(item)
+        
+class ItemsViewSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.7
+
+    def items(self):
+        return Items.notNullCount.all()
+
+    # def location(self, item):  # если есть get_absolute_url, то не надо
+    #     return f"/item_info/{item.slug}"
+```
+Опционально можно указать:
+- **priority** - приоритет страницы
+- **changefreq** - частота изменения страницы (always / hourly / daily / weekly / monthly / yearly / never)
+- **lastmod** - дата и время последнего изменения страницы (datetime)
+- **limit** - лимит на кол-во ссылок на однйо карте (по-умолчанию 5000, максимум 50000)
+
+_urls.py_ (корневой):
+```
+from .sitemap import StaticViewSitemap, ItemsViewSitemap
+from django.contrib.sitemaps.views import sitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'dynamic': ItemsViewSitemap,
+}
+
+urlpatterns = [
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
+    ... ]
+```
+Теперь http://127.0.0.1:8000/sitemap.xml выглядит так:
+```
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url>
+  <loc>http://127.0.0.1:8000/</loc>
+  <changefreq>monthly</changefreq>
+  <priority>1.0</priority>
+</url>
+<url>
+  <loc>http://127.0.0.1:8000/info/</loc>
+  <changefreq>monthly</changefreq>
+  <priority>1.0</priority>
+</url>
+<url>
+  <loc>http://127.0.0.1:8000/item/awp-t-covert-well-worn</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.7</priority>
+</url>
+<url> ...
+```
+
+
+<a name="Django_robots_txt"></a>
+## robots.txt
+robots.txt указывает браузерам какие страницы индексировать, а какие - нет.  
+robots.txt задаёт **рекомендации**, даже если **ЗАПРЕТИТЬ** индексацию страницы, то она **всё равно МОЖЕТ** продвигаться в поисковиках  
+Полностью **запрещается** индекcация через метатеги **noindex** и **nofollow**  
+В корневой папке проекта, в /templates/ добавляется robots.txt:
+```
+User-agent: *
+Allow: /
+Disallow: /*?
+Disallow: /privacy/
+Disallow: /admin/
+
+
+Sitemap: http://127.0.0.1:8000/sitemap.xml
+```
+**User-agent** - указывается браузер (все браузеры * или конкретный, например, Googlebot)  
+**Allow** - разрешает индексацию страниц (/ для всех страниц)  
+**Disallow** - запрещает индексацию
+
+Можно указывать конструкции, например, `/category/*/settings`  
+Или `/settings$`, **$** указывает на все пути, которые заканчиваются на /settings  
+(`http://127.0.0.1:8000/settings` и `http://127.0.0.1:8000/item-1/settings`)
+
+_urls.py_ (корневой):
+```
+from django.views.generic import TemplateView
+
+urlpatterns = [
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type='text/plain')),
+    ... ]
+```
+
+
+
 
 
 
