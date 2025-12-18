@@ -295,9 +295,10 @@
 - [Парсинг](#Other_Парсинг)
 - [UserWarning](#Other_UserWarning)
 
-### [Exe](#Exe_файл)
 ### [Git ](#Git)
+### [Exe](#Exe_файл)
 ### [Установка программы на сервер](#Установка_программы_на_сервер)
+### [Запуск приложения на сервере (Nginx, Gunicorn, Flask)](#Запуск_приложения_на_сервере_Nginx_Gunicorn_Flask)
 
 
 <a name="Основы"></a>
@@ -9830,35 +9831,6 @@ driver = webdriver.Chrome(service=service, options=option)
 ```
 
 
-
-<a name="Exe_файл"></a>
-# Exe файл
-Установка - `pip install pyinstaller`  
-Exe - `pyinstaller main.py`  
-Флаг для автоподтверждения: -y  
-
-Запуск простого файла **.py** с параметрами: `python main.py test_arg 150`  
-Запуск **exe** с параметрами (через .bat):  
-**cm.bat** (%1 - первый параметр bat):
-```
-cd D:\PycharmProjects\test\dist\main\
-start main.exe %1
-```
-**python**:  
-`os.system(r'D:\PycharmProjects\test\dist\main\cm.bat SomeParam1')`
----
-Запуск файла **py** из другого python скрипта **в новом окне консоли**:
-```
-import subprocess
-os.chdir(work_dir)
-subprocess.Popen(['start', os.path.join('venv', 'Scripts', 'python.exe'), 'main.py'], shell=True, cwd=work_dir)
-```
-Завершить **py** скрипт через **pid** (`os.getpid()`):  
-```
-import signal
-os.kill(pid_id, signal.SIGTERM)
-```
-
 <a name="OpenCV"></a>
 # OpenCV
 <a name="Поиск_изображений"></a>
@@ -10111,7 +10083,10 @@ if __name__ == '__main__':
 
 <a name="pyrogram"></a>
 ## pyrogram
+`pip install pyrogram`  
 Автоматизация взаимодействия программы с tg аккаунтом
+
+Может потребовать доп. пакет: `pip install TgCrypto`
 
 Получение API ключа:  
 https://my.telegram.org/auth  
@@ -10302,6 +10277,42 @@ cd project_files
 git pull
 ```
 
+<a name="Exe_файл"></a>
+# Exe файл
+Установка - `pip install pyinstaller`  
+Exe - `pyinstaller main.py`  
+Флаг для автоподтверждения: -y  
+
+Запуск простого файла **.py** с параметрами: `python main.py test_arg 150`  
+Запуск **exe** с параметрами (через .bat):  
+**cm.bat** (%1 - первый параметр bat):
+```
+cd D:\PycharmProjects\test\dist\main\
+start main.exe %1
+```
+**python**:  
+`os.system(r'D:\PycharmProjects\test\dist\main\cm.bat SomeParam1')`
+---
+Запуск файла **py** из другого python скрипта **в новом окне консоли**:
+```
+import subprocess
+os.chdir(work_dir)
+subprocess.Popen(['start', os.path.join('venv', 'Scripts', 'python.exe'), 'main.py'], shell=True, cwd=work_dir)
+```
+Завершить **py** скрипт через **pid** (`os.getpid()`):  
+```
+import signal
+os.kill(pid_id, signal.SIGTERM)
+```
+
+# bat скрипт для запуска
+_start_app.bat_:
+```
+cd /d "C:\Users\XLWork\файлы\price_processing"
+call venv\Scripts\activate.bat
+python main.py
+pause
+```
 
 <a name="Установка_программы_на_сервер"></a>
 # Установка программы на сервер
@@ -10361,7 +10372,6 @@ _Просмотр пакетов - **pip freeze**_
 Запуск:  
 `python3 main.py`
 
----
 
 
 **screen ls** – посмотреть запущенные скрины  
@@ -10370,3 +10380,86 @@ _Просмотр пакетов - **pip freeze**_
 Удалить Screen: **Ctrl+D, K**; **exit** (?или :quit)  
 Перейти к свернутому скрину: **screen –r Bot**  
 Если скрин подключен (Attached), то нужно сначала отключиться: **screen –rd Bot**  
+
+
+
+<a name="Запуск_приложения_на_сервере_Nginx_Gunicorn_Flask"></a>
+# Запуск приложения на сервере (Nginx, Gunicorn, Flask)
+Пример с Flask. _wsgi.py_:
+```
+from main import app  # основное приложение
+
+if __name__ == "__main__":
+    app.run()
+```
+`sudo apt install gcc python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl python3-venv ufw -y`  
+переход в виртуальное окружение  
+`pip3 install gunicorn`  
+Проверить приложение (из venv): `gunicorn --bind 0.0.0.0:8080 wsgi:app`
+
+Выход из venv `deactivate`  
+Проверка nginx: `nginx -t`
+
+`sudo nano /etc/systemd/system/gunicorn_flask_tgbot.service`:
+```
+[Unit]
+Description=gunicorn flask tgbot
+After=network.target
+
+[Service]
+User=root
+Group=root
+
+WorkingDirectory=/root/tg_bot
+Environment="PATH=/root/tg_bot/venv/bin"
+ExecStart=/root/tg_bot/venv/bin/gunicorn --workers 2 --bind unix:/root/tg_bot/gunicorn_fl.sock wsgi:app
+
+[Install]
+WantedBy=multi-user.target
+```
+`sudo nano /etc/systemd/system/gunicorn_flask_tgbot.socket`:
+```
+[Unit]
+
+[Unit]
+Description=gunicorn flask tgbot
+
+[Socket]
+ListenStream=/root/tg_bot/gunicorn_fl.sock
+
+[Install]
+WantedBy=sockets.target
+```
+Для проверки синтаксиса: `systemd-analyze verify /etc/systemd/system/gunicorn_flask_tgbot.service`
+
+Перезапуск, активация, проверка статуса:
+```
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn_flask_tgbot
+sudo systemctl enable gunicorn_flask_tgbot
+sudo systemctl status gunicorn_flask_tgbot
+```
+
+Проверка сокета локально: `curl --unix-socket /root/tg_bot/gunicorn_fl.sock localhost`
+
+`sudo nano /etc/nginx/sites-available/gunicorn_flask_tgbot_conf`:
+```
+server {
+  listen 80;
+  server_name 176.119.159.38;
+
+  location / {
+    include proxy_params;
+    proxy_pass http://unix:/root/tg_bot/gunicorn_fl.sock;
+  }
+}
+```
+тут же можно указать папку для статики и тд
+
+`sudo ln -s /etc/nginx/sites-available/gunicorn_flask_tgbot_conf /etc/nginx/sites-enabled`  
+`sudo nginx -s reload` или `sudo systemctl restart nginx`  
+`sudo ufw allow 'Nginx Full'`
+
+`chmod o+rx /root` - выдача прав папке (чтобы избежать ошибки 502. sock failed (13: Permission denied))
+
+---
