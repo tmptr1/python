@@ -245,7 +245,12 @@
 - [Обработка ошибок](#Django_Обработка_ошибок)
 - [sitemap](#Django_sitemap)
 - [robots.txt](#Django_robots_txt)
+- [Согласие на обработку cookies](#Django_Согласие_на_обработку_cookies)
+- [Кэширование данных](#Django_Кэширование_данных)
+- [reCaptcha](#Django_recaptcha)
 </details>
+
+### [Docker](#Docker)
 
 ### [Selenium ](#Selenium)
 <details>
@@ -289,11 +294,13 @@
 </details>
 
 ### [WhatsApp](#WhatsApp)
+### [YouTube](#YouTube)
 
 ### [Other ](#Other)
 - [Практика](#Other_Практика)
 - [Парсинг](#Other_Парсинг)
 - [UserWarning](#Other_UserWarning)
+- [Errors](#Global_Errors)
 
 ### [Git ](#Git)
 ### [Exe](#Exe_файл)
@@ -6516,6 +6523,12 @@ from sqlalchemy import func
 dupl = select(func.concat(children_price).label('_07supplier_code'), *cols_for_total.keys()).where(Price_1._07supplier_code == price_code)
 sess.execute(insert(TotalPrice_1).from_select(['_07supplier_code', *cols_for_total.values()], dupl))
 ```
+**Дополнтиельный столбец со статическим значением**
+```
+from sqlalchemy import literal_column
+price = select(literal_column(literal_column(f"'{self.send_time}'"), ...)
+```
+
 **CONCAT** объединяет данные (поля, произвольный текст)
 
 **COUNT()**:  
@@ -9612,6 +9625,176 @@ urlpatterns = [
 ```
 
 
+<a name="Django_Согласие_на_обработку_cookies"></a>
+## Согласие на обработку cookies
+
+В базовом шаблоне добавляется проверка:
+```
+{% if request.COOKIES.cookie_agreemnet != 'accept' %}
+<div class="cookies_wrap">
+    <div class="cookies">
+        <form action="{% url 'accept_cookies' %}" method="POST">
+            {% csrf_token %}
+            <p>Мы используем файлы cookies. Продолжая пользоваться сайтом, вы принимаете 
+            <a href="{% url 'privacy' %}">Политику конфиденциальности</a></p>
+            <button type="submit" class="cookies_accept_button">Принять</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+```
+_views.py_:
+```
+def accept_cookies(request):
+    if request.method == 'POST':
+        response = redirect(request.META.get('HTTP_REFERER', '/'))
+        response.set_cookie('cookie_agreemnet', 'accept', max_age=31536000)  # 1 год
+        return response
+```
+`redirect(request.META.get('HTTP_REFERER', '/'))` - перенаправление на текущую страницу
+
+В urls добавляется: `path('accept_cookies', views.accept_cookies, name='accept_cookies'),`
+
+Текст для политики конфиденциальности брался из конструктора:  
+https://a-position.ru/instrumentyi/polzovatelskoe-soglashenie-politika-konfidenczialnosti
+
+
+<a name="Django_Кэширование_данных"></a>
+## Кэширование данных
+В _settings.py_ добавляется настройка для кэша, необходимо создать и указать папку для хранения кэша:
+```
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / 'monitoring_cache'
+    }
+}
+```
+Кэширование **функции** представления:
+```
+from django.views.decorators.cache import cache_page
+
+@cache_page(60)  # сек
+def some_page(request):
+```
+Кэширование **класса** представления:
+```
+from django.views.decorators.cache import cache_page
+urlpatterns = [
+    path('', cache_page(60)(views.HomePage.as_view()), name='home'),
+```
+Кэширование **шаблонов**:
+```
+{% load cache %}
+
+{% cache 60 filter_form %}
+<form method="get">
+  {{ form.as_p }}
+  <button type="submit">Ок</button>
+</form>
+{% endcache %}
+```
+Запросы к БД выполняются в шаблоне т.к. они ленивые
+
+Кэширование **произвольных данных**:
+```
+from django.core.cache import cache
+
+def get_queryset(self):
+    ...
+    items = cache.get('items')
+    if not items:
+        items = Items.notNullCount.all().select_related('rare')
+        cache.set('items', items, 60)
+    return items
+```
+Кэшируется список объектов из БД
+
+Кэширование лучше включать в **конце разработки**, чтобы в процессе видеть нагрузки  
+В настройках можно указать **максимальное кол-во** файлов кэша **до удаления** старых значений  
+`"OPTIONS": {"MAX_ENTRIES": 1000},` по-умолчанию 300  
+Можно задать TIMEOUT по-умолчанию
+
+
+<a name="Django_recaptcha"></a>
+## reCaptcha
+Создание reCAPTCHA ключей https://www.google.com/recaptcha/admin/create  
+Для локальных проектов указывается 127.0.0.1  
+Просмотр зарегестрированных каптч https://console.cloud.google.com/security/recaptcha
+
+`pip install django-recaptcha`  
+
+В _settings.py_ добавить:
+- в **INSTALLED_APPS** `'django_recaptcha',`
+- `RECAPTCHA_PUBLIC_KEY = 'my_site_key'`
+- `RECAPTCHA_PRIVATE_KEY = 'my_site_private_key'`
+
+_forms.py_:
+```
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
+
+class LoginUserForm(AuthenticationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'password']
+```
+
+
+
+
+
+
+
+<a name="Docker"></a>
+# Docker
+Для **Windows** в PowerShell сначала проверяется версия wsl (`wsl -v`),  
+если не установлено, то: `wsl --install`
+
+Далее в параметрах системы _Включение или откоючение компонентов Windows_ (через Найти параметр)  
+Необходимо убедиться, что включена подсистема Windows для Linux  
+На компьютере должна быть включена **виртуализация** (проверяется через диспечер задач)  
+В открытой консоли (или wsl.exe) будет меню с созданием пользователя  
+В конце лучше перезапустит компьютер
+
+Установить Docker Desktop, можно указать путь до образов (Disk image location)  
+Дальше запуск WSL.exe, должно быть написано `username@DESKTOP-9UVV31P`  
+
+Справкa: `docker run --help`
+
+Установка первого образа: `docker pull hello-world` (образ берётся из https://hub.docker.com/search?badges=official)
+
+Список установленных образов: `docker images`  
+По-умолчанию берётся тэг (сборка) `latest` (`hello-world:latest`)  
+**Запуск** контейнера: `docker run hello-world` (если образа нет на компьютере, то он будет скачен)  
+Один и тот же образ можно запустить несколько раз, им выдаются случайные названия  
+С указанием **названия** контейнера: `docker run --name test_hw hello-world:latest`  
+Запуск контейнера с его **удалением** в конце: `docker run --rm test_hw hello-world`
+
+**Просмотр** всех контейнеров: `docker ps -a`  
+Чтобы посмотреть только **запущеные** контейнеры флаг **-a** не нужен  
+
+Запуск контейнера без создания нового: `docker start -i test_hw`  
+Указывается **имя** или **id**  
+Чтобы контейнер мог принтить что-то глобально используется флаг **-i**  
+Для удалённого взаимодействия с запущенным контейнером - флаг **-t**
+
+**Остановит** контейнер: `docker stop` (name / id)  
+Принудительно **завершить** процесс: `docker kill` (у таких контейнеков потом статус - `Exited (137)`)  
+**Удалить контейнер** из списка: `docker rm`  
+Удалить **все** остановленные контейнеры: `docker container prune`
+
+**Удалить образ**: `docker rmi hello-world:latest`  
+Но если с образом **связан контейнер** (даже если не запущен), то такой образ удалить **не получится**
+
+
+
+
+
 
 
 
@@ -10154,6 +10337,54 @@ pywhatkit.sendwhatmsg_instantly(phone_no=phone, message=msg, wait_time=15, tab_c
 
 
 
+<a name="YouTube"></a>
+# YouTube
+**Загрузка видео** с youtube (НЕ скачивает видео с возрастным ограничением):
+
+`pip install pytubefix`
+
+```
+from pytubefix import YouTube
+
+url = r"https://www.youtube.com/watch?v=abc"
+yt = YouTube(url)
+res = '1080p'
+
+stream = yt.streams.filter(progressive=True, resolution=res).first()
+if stream:
+    print(f"Downloading [{yt.title}] ...")
+    stream.download(dir)
+    print('Done')
+```
+**progressive** обозначает только файлы с видео + аудио
+
+Выбор видео с максимальным разрешением: `yt.streams.get_highest_resolution()`  
+Список контента для скачивания (видео + аудио / видео / аудио): `print(yt.streams.all())`  
+Вывод: `<Stream: itag="111" mime_type="video/mp4" res="1080p" fps="60fps" vcodec="avc1.64002a" progressive="False" sabr="False" type="video">`  
+Можно скачивать контент по **itag**: `yt.streams.get_by_itag(111)`
+
+Большие видео часто разбиты на части (видео и отдельно аудио), чтобы их **склеить**:  
+`pip install moviepy `
+```
+from moviepy import VideoFileClip, AudioFileClip
+
+video = VideoFileClip(video_tmp_file_path)  # stream.download возвращает путь к файлу
+audio = AudioFileClip(audio_tmp_file_path)
+
+final_video = video.with_audio(audio)
+final_video.write_videofile(fr"{dir}/{os.path.basename(video_tmp_file_path)}", codec='libx264', audio_codec='aac')
+
+video.close()
+audio.close()
+```
+
+Видео с **возрастными ограничениями** скачиваться **не будут**, для этого нужно авторизироваться:  
+`yt = YouTube(url, use_oauth=True)`  
+Далее в консоли появится `Please open htpps://www.google.com/device and imput code ABC-ABC-ABCD`
+
+
+
+
 <a name="Other"></a>
 # Other
 <a name="Other_Практика"></a>
@@ -10235,12 +10466,21 @@ print(bool('asd'), bool(10), bool(-3))  # True
 Сайт для просмотра json - https://jsonviewer.stack.hu/
 
 <a name="Other_UserWarning"></a>
-### UserWarning
 Убрать UserWarning:
 ```
 import warnings
 warnings.filterwarnings('ignore')
 ```
+
+<a name="Global_Errors"></a>
+### Errors
+### Ошибка при выборе виртуального окружения в PyCharm
+В настройках проекта выбрать **пустой интерпритатор**, закрыть настройки, ide **сама предложит** выбрать 
+путь до python.exe в venv  
+В venv - **pyvenv.cfg** поменять пути к python, если они менялись
+
+
+
 
 <a name="Git"></a>
 # Git
@@ -10400,6 +10640,14 @@ if __name__ == "__main__":
 Выход из venv `deactivate`  
 Проверка nginx: `nginx -t`
 
+Настройка автоперезапуска nginx:  
+`sudo nano /lib/systemd/system/nginx.service`  
+Добавить в `[Service]` 
+```
+Restart=always
+RestartSec=5s
+```
+
 `sudo nano /etc/systemd/system/gunicorn_flask_tgbot.service`:
 ```
 [Unit]
@@ -10446,7 +10694,7 @@ sudo systemctl status gunicorn_flask_tgbot
 ```
 server {
   listen 80;
-  server_name 176.119.159.38;
+  server_name 100.200.300.40;
 
   location / {
     include proxy_params;
@@ -10461,5 +10709,6 @@ server {
 `sudo ufw allow 'Nginx Full'`
 
 `chmod o+rx /root` - выдача прав папке (чтобы избежать ошибки 502. sock failed (13: Permission denied))
+
 
 ---
