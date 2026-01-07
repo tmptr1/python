@@ -250,7 +250,7 @@
 - [reCaptcha](#Django_recaptcha)
 </details>
 
-### [Docker](#Docker)
+### [Docker ](#Docker)
 
 ### [Selenium ](#Selenium)
 <details>
@@ -293,8 +293,8 @@
 - [pyrogram](#pyrogram)
 </details>
 
-### [WhatsApp](#WhatsApp)
-### [YouTube](#YouTube)
+### [WhatsApp ](#WhatsApp)
+### [YouTube ](#YouTube)
 
 ### [Other ](#Other)
 - [Практика](#Other_Практика)
@@ -9746,10 +9746,6 @@ class LoginUserForm(AuthenticationForm):
 
 
 
-
-
-
-
 <a name="Docker"></a>
 # Docker
 Для **Windows** в PowerShell сначала проверяется версия wsl (`wsl -v`),  
@@ -9762,7 +9758,7 @@ class LoginUserForm(AuthenticationForm):
 В конце лучше перезапустит компьютер
 
 Установить Docker Desktop, можно указать путь до образов (Disk image location)  
-Дальше запуск WSL.exe, должно быть написано `username@DESKTOP-9UVV31P`  
+Дальше запуск WSL.exe, должно быть написано `username@DESKTOP`  
 
 Справкa: `docker run --help`
 
@@ -9780,24 +9776,501 @@ class LoginUserForm(AuthenticationForm):
 
 Запуск контейнера без создания нового: `docker start -i test_hw`  
 Указывается **имя** или **id**  
-Чтобы контейнер мог принтить что-то глобально используется флаг **-i**  
-Для удалённого взаимодействия с запущенным контейнером - флаг **-t**
+- **-i** - для вывода (print) в глоабльное окно  
+- **-t** - для удалённого взаимодействия с запущенным контейнером 
+- **-d** - запуск контейнера в фоне 
 
 **Остановит** контейнер: `docker stop` (name / id)  
 Принудительно **завершить** процесс: `docker kill` (у таких контейнеков потом статус - `Exited (137)`)  
-**Удалить контейнер** из списка: `docker rm`  
+**Удалить контейнер** из списка: `docker rm` (только останосленные контейнеры)  
+Остановить и удалить конетейнер: `docker rm -f test_cont`  
 Удалить **все** остановленные контейнеры: `docker container prune`
+
+Поставить контейнер на **паузу**: `docker pause test_cont_2`  
+Снять с паузы **unpause**
 
 **Удалить образ**: `docker rmi hello-world:latest`  
 Но если с образом **связан контейнер** (даже если не запущен), то такой образ удалить **не получится**
 
+### Вывод контейнеров
+**docker stats** - просмотр запущенных контейнеров  
+**docker logs cont_name** - вывод последних логов контейнера  
+**docker ps** - вывод запущенных контейнеров, можно добавить флаги:
+- `-a` - вывод всех контейнеров
+- `-q` - вывод только id контейнеров
+- `-f` - фильтр, например, `docker ps -a -f status=exited`/ running /paused / created / restaring или `exited=137` (**137** - код при принудительном завершении, **0** - при штатном)
 
 
+### Создание своего образа
+В проекте создаётся **Dockerfile**:
+```
+FROM python:3.12-alpine
+ENV PYTHONUNBUFFERED=1
+WORKDIR /python-app
+COPY . .
+CMD ["python", "main.py"]
+```
+`COPY . .` из **текущей директории** в **WORKDIR**   
+`ENV PYTHONUNBUFFERED=1` (True) для решения проблемы с буферизацией выходных данных в стандартный поток
+
+**Сбор** образа `docker build . -t testapp:0.1`  
+Точка - путь к папке с Dockerfile, после названия можно указать версию 
+
+Можно **пересобрать образ** с таким же названием и версией, на **старые контейнеры** будут продолжать работать на **старых версиях**
+
+Запуск из консоли (в директории проекта): `docker run -it testapp:0.1`  
+Создастся контейнер, **вывод программы (print) сохраняется в логах**, их можно посмотреть если перейти в контейнер: docker desktop - containers
+
+Выполнение команд при сборке образа:  
+`RUN pip install numpy` или для requirements:
+```
+FROM python:3.12-alpine
+ENV PYTHONUNBUFFERED=1
+WORKDIR /python-app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+ENTRYPOINT ["python", "main.py"]
+```
+Каждая команда - это отдельный слой в образе, если слой меняется, то перезаписываются все последующие слои.  
+Поэтому `COPY requirements.txt .` и pip inslatt идёт до `COPY . .`, так как файл с зависимостями меняется не так часто
+
+`ENTRYPOINT ["python", "main.py"]` - параметры не перезаписываются в случае, если они указываются из командной строки
+
+Флаг **--no-cache-dir** запрещает создавать кэш для библиотек
+
+---
+
+Выполнение команд внутри контейнера: `docker exec test_cont pip install requests`  
+**Сформировать образ на основе контейнера**:  
+`docker commit test_cont testapp:0.3.1`
+
+**Вывести** список образов: `docker images -a`  
+Для неиспользующихся образов добавляется фильтр `-f dangling=true`
 
 
+### Отчистка Docker
+`docker builder prune` удалить **неиспользуемый** кэш построения  
+Для удаления **всего кэша** нужно добавить флаг **-a** в конце  
+`docker system prune` для удаления всех остановленных контейнеров, сетей и образов
 
 
+### Работа с группой контейнеров
+`docker stop $(docker ps -q)` - в скобках прописываются условия отбора контейнеров, берётся только их id  
+Конструкция с `$()` **может не работать** в некоторых консольных окнах на windowns, но в **powershell** запускаться должно
 
+Остановить и удалить группу контейнеров - `docker rm $(docker stop $(docker ps -q))`
+
+
+### Раота с портами
+Установить nginx `docker pull nginx`  
+Запуск контейнера `docker run --name test_server -d nginx`  
+Посмотреть порт (внутренней сети docker) можно в `docker ps`  
+или полную информацию по `docker container inspect test_server`
+
+Запуск контейнера со связыванием портов:  
+`docker run --name test_server -d -p 8000:80 nginx`  
+8000 - порт хоста, 80 - порт контейнера
+
+**Посмотреть связку** портов: `docker port test_server`, вывод: `80/tcp -> 0.0.0.0:8000`  
+`0.0.0.0` обозначает любой ip адрес  
+Чтобы указать конкретный адрес: `-p 127.0.0.1:8000:80`
+
+Запуск команд в контейнере: `docker exec -it test_server bash`  
+Далее перебросит в **root**@: ... (для выхода **exit**)  
+Приветственная страница nginx в `cd usr/share/nginx/html/`
+
+Для теста создаётся папка с проектом _py_project_, в нём _site.py_:
+```
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return '<h1>Hi, docker!</h1>'
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=4000)
+```
+Dockerfile:
+```
+FROM python:3.12-slim
+RUN groupadd -r groupflask && useradd -r -g groupflask userflask
+RUN pip install --upgrade pip
+RUN pip install flask
+WORKDIR /site_dir
+COPY ./py_project .
+EXPOSE 4000
+USER userflask
+CMD ["python", "site.py"]
+```
+EXPOSE 4000 указывает порт (информационный параметр, позволяет отображать этот порт, как подсказку, в docker ps)  
+При **exec bash** авторизация будет под обычным пользователем **userflask**, а не под **root**  
+`docker build . -t flask-site:0.1`
+
+`docker run --rm -d -p 8080:4000 flask-site:0.1`  
+(8000 занят nginx, поэтому указывается другой порт - 8080)
+
+Автоматическое создание порта: `docker run --name test_site -d -P flask-site:0.1`  
+32768:4000
+
+
+### Volumes
+Позволяет связать хранилище и рабочую папку в контейнере, если хранилище пустое, 
+то данные из рабочей папки копируются туда, иначе берутся оттуда.
+
+Связыване **рабочей папки py_project** и папки **site_dir** в контейнере  
+`docker run --name test_site --rm -d -p 8080:4000 -v ${PWD}/py_project:/site_dir flask-site:0.1`  
+Теперь, при изменении проекта, изменения будут вступать в силу сразу
+
+Связывание **тома (volum)** и **site_dir**  
+`docker run --name test_site --rm -d -p 8080:4000 -v test_vol:/site_dir flask-site:0.1`  
+Будет создан том, куда перенесутся файлы проекта, их можно менять в docker desktop - volumes
+
+Вывод всех томов: `docker volume ls`  
+Информация по тому: `docker volume inspect test_vol`  
+Удалить том: `docker volume rm test_vol`  
+Создать том: `docker volume create flask_data`
+
+Создание тома без указания имени:  
+`docker run --name test_site --rm -d -p 8080:4000 -v /site_dir flask-site:0.1`
+
+**Удалить** контейнер и связанный том: `docker rm -f -v test_site`
+
+Указать рабочую папку для связывания с томом в _Dockerfile_: `VOLUME /site_dir` (перед CMD)  
+Послудующие обращения к этой папку в докерфайлу будут обращаться к тому    
+Тогда можно создавать контейнеры без `-v /site_dir`
+
+
+### Микросервисные проекты
+`docker pull postgres:17-alpine`  
+Просмотр сетей: `docker networks ls`  
+Создание сети: `docker network create db_net`  
+Создание контейнера с БД: `docker run -d --rm --name psgr --network db_net -e POSTGRES_DB=test_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=1234 postgres:17-alpine`  
+Автоматически сгенерируется новый том
+
+**Подключение к конслои с БД**:  
+`docker exec -it psgr psql -U postgres` (имя пользователя - postgres)  
+Далее можно выпонять команды: _postgres=#_ `select * from pg_users;`  
+**Выход**: `\q`
+
+**Просмотр БД в браузере (Adminer)**:  
+`docker pull adminer`  
+`docker run --rm -d --network db_net --link psgr:db -p 8080:8080 adminer`  
+link связывает имена контейнеров (создание псевдонима для Adminer)  
+Теперь по _127.0.0.1:8080_ будет доступен интерфейс для БД  
+Указывается: Движок, Сервер - **db**, Имя пользователя, Пароль, База данных - **пусто**
+
+Создание контейнера с указанием тома:  
+`docker run -d --rm --name psgr --network db_net -e POSTGRES_DB=test_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=1234 -v postgres_test_db:/var/lib/postgresql/data postgres:17-alpine`
+
+**Пример** с flask:  
+_site.py_:
+```
+from flask import Flask
+import psycopg2
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    con = psycopg2.connect(host='dbps', user='postgres', password='1234', dbname='test_db')
+    with con.cursor() as cur:
+        cur.execute('select * from items')
+        res = cur.fetchall()
+    con.close()
+
+    return '<h1>Hi, docker!</h1>' + f"<p>{res}</p>"
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=4000)
+```
+_Dockerfile_:
+```
+FROM python:3.12-slim
+RUN groupadd -r groupflask && useradd -r -g groupflask userflask
+RUN pip install --upgrade pip
+RUN pip install flask psycopg2-binary
+WORKDIR /site_dir
+COPY ./py_project .
+EXPOSE 4000
+USER userflask
+CMD ["python", "site.py"]
+```
+Запуск: `docker run --rm -d --network db_net --link psgr:dbps -p 8000:4000 -v ${PWD}/py_project:/site_dir flask-site:0.1`
+
+Порт 8080 для Adminer  
+Порт 8000 для Flask  
+**dbps** - алиас для БД ()вместо хоста
+
+
+### Compose
+_compose.yml_:
+```
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: psgr
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=test_db
+    volumes:
+      - postgres_test_db:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "127.0.0.1:8080:8080"
+    links:
+      - "postgres:db"
+    networks:
+      - db_net
+    depends_on:
+      - postgres
+
+  flask_site:
+    build: ./docker_dir
+    image: flask_site
+    container_name: flask_site
+    links:
+      - "postgres:dbps"
+    networks:
+      - db_net
+    ports:
+      - "127.0.0.1:8000:4000"
+    volumes:
+      - ./docker_dir:/site_dir
+    depends_on:
+      - postgres
+
+networks:
+  db_net:
+    driver: bridge
+volumes:
+  postgres_test_db:
+```
+`links: - "postgres:db"` postgres - название сервиса  
+`depends_on: - postgres` обозначает зависимости одного сервиса от другого, сначала будут установлены сервисы в этом разделе  
+
+**Запуск** сервисов: `docker compose up`  
+Завершить: `down` (тома не удаляются)  
+Остановить: `stop`  
+Запуск **в фоне**: `-d`
+
+
+### Пример с Django
+Запуск Django, Postgres, Adminer, Nginx (+ gunicorn)
+
+**Структура** проекта:
+- monitoring
+  - project files ...
+  - monitoring
+    - settings.py
+    - wsgi.py
+  - Dockerfile
+  - gunicorn.py
+  - manage.py
+  - requirements.txt
+- nginx
+  - django_skins.conf
+- .env
+- compose.yml
+
+---
+**compose.yml**:
+```
+services:
+  nginx:
+    image: nginx
+    container_name: nginx_server
+    restart: always
+    networks:
+      - db_net
+    expose:
+      - 8088
+    ports:
+      - "80:8088"
+    volumes:
+      - ./monitoring/static:/app/www/django_site/static
+      - ./monitoring/media:/app/www/django_site/media
+      - ./monitoring/logs:/app/www/django_site/logs
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - djanfo_skins
+
+  djanfo_skins:
+    build: ./monitoring
+    image: djanfo_skins
+    container_name: djanfo_skins
+    restart: always
+    command: "gunicorn -c gunicorn.py monitoring.wsgi"
+    env_file:
+      - .env
+    links:
+      - "postgres:dbps"
+    networks:
+      - db_net
+    volumes:
+      - ./monitoring:/app/www/django_site
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: psgr
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSOWRD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - postgres_django_db:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    links:
+      - "postgres:db"
+    networks:
+      - db_net
+    depends_on:
+      - postgres
+
+networks:
+  db_net:
+    driver: bridge
+volumes:
+  postgres_django_db:
+```
+
+---
+Файл **.env** для клюей и тд:
+```
+DJANGO_SECRET_KEY=django-insecure-123abc
+DJANGO_ALLOWED_HOSTS=127.0.0.1 localhost [::1]
+
+DATABASE_NAME=skins_db
+DATABASE_USERNAME=skins
+DATABASE_PASSOWRD=1234
+DATABASE_HOST=dbps
+DATABASE_PORT=5432
+```
+
+В **settings.py**:  
+Установить DEBUG = False  
+Вместо ключей подставлять:
+```
+import os
+from os import environ
+from dotenv import load_dotenv  # pip install python-dotenv
+load_dotenv()
+...
+SECRET_KEY = environ.get('DJANGO_SECRET_KEY')
+```
+Добавить STATIC_ROOT и убрать STATICFILES_DIRS:
+```
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATICFILES_DIRS = [BASE_DIR / 'static',]
+```
+
+В **requirements.txt** добавить:
+```
+gevent==24.11.1
+gunicorn==23.0.0
+```
+pywin32 мешал, можно убрать  
+вместо psycopg2, использовался **psycopg2-binary**
+
+**Dockerfile**:
+```
+FROM python:3.12-slim
+RUN groupadd -r groupdjango && useradd -r -g groupdjango userdjango
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+RUN pip install --upgrade pip
+WORKDIR /app/www/django_site
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+USER userdjango
+```
+
+Перед запуском нужно сформировать все файлы миграции:  
+`python manage.py makemigrations`  
+И собрать всю статику:  
+`python manage.py collectstatic`
+
+nginx / **django_skins.conf**:
+```
+server {
+  listen 8088;
+  charset utf8;
+
+  access_log /app/www/django_site/logs/django_site_access.log;
+  error_log /app/www/django_site/logs/django_site_error.log error;
+
+    location / {
+        proxy_pass http://djanfo_skins:8000;
+        proxy_set_header X-Url-Scheme $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+    }
+
+    location /favicon.ico { access_log off; log_not_found off; }
+    location /static/ { root /app/www/django_site; }
+    location /media/ { root /app/www/django_site; }
+}
+```
+В **proxy_pass** указывается имя контейнера с проектом, где gunicorn
+
+**gunicorn.py**:
+```
+from multiprocessing import cpu_count
+from os import environ
+
+def max_workers():
+    return cpu_count()
+
+bind = '0.0.0.0:' + environ.get('PORT', '8000')
+max_requests = 1000
+worker_class = 'gevent'
+workers = max_workers()
+
+env = {
+    'DJANGO_SETTINGS_MODULE': 'monitoring.settings'
+}
+
+reload = True
+name = 'monitoring'
+```
+
+**Запуск**: `docker compose up --build` (127.0.0.1 , без порта)  
+Adminer на порту 8080 (тут уже указывается db name: skins_db)
+
+Применение **миграций** в контейнере:  
+`docker compose exec djanfo_skins python manage.py migrate` (djanfo_skins - название сервиса)  
+Загрузка данных из db.json в БД:  
+`docker compose exec djanfo_skins python manage.py loaddata db.json`
+
+P.S Запуск **без nginx и gunicorn**: `command: "python manage.py runserver 0.0.0.0:8000"` (127.0.0.1:8000)
+
+
+### Деплой сайта на Django
+`sudo chown -R 1000:1000 monitoring`
 
 
 
@@ -10339,7 +10812,7 @@ pywhatkit.sendwhatmsg_instantly(phone_no=phone, message=msg, wait_time=15, tab_c
 
 <a name="YouTube"></a>
 # YouTube
-**Загрузка видео** с youtube (НЕ скачивает видео с возрастным ограничением):
+**Загрузка видео** с youtube:
 
 `pip install pytubefix`
 
@@ -10381,7 +10854,6 @@ audio.close()
 Видео с **возрастными ограничениями** скачиваться **не будут**, для этого нужно авторизироваться:  
 `yt = YouTube(url, use_oauth=True)`  
 Далее в консоли появится `Please open htpps://www.google.com/device and imput code ABC-ABC-ABCD`
-
 
 
 
