@@ -9746,6 +9746,225 @@ class LoginUserForm(AuthenticationForm):
 
 
 
+
+
+
+<a name="Django_REST"></a>
+# Django REST
+`pip install djangorestframework`
+
+Добавить в _settings.py_: `INSTALLED_APPS = [... , 'rest_framework', ]`
+
+_views.py_:
+```
+from .models import Items
+from rest_framework import generics
+from .serializers import ItemsSerializer
+
+class ItemsAPIView(generics.ListAPIView):
+    queryset = Items.objects.all()
+    serializer_class = ItemsSerializer
+```
+_serializers.py_:
+```
+from rest_framework import serializers
+from .models import Items
+
+class ItemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Items
+        fields = ('name', 'slug', 'price', 'count')
+```
+В _urls.py_ добавить `urlpatterns = [..., path('api/v1/itemslist', views.ItemsAPIView.as_view()), ]`
+
+### APIView
+Базовый класс представления
+```
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+class ItemsAPIView(APIView):
+    def get(self, request):
+        item_list = Items.objects.all().values()
+        return Response({'items': list(item_list)})
+        
+    def post(self, request):
+        return Response({'name_2': 'test_post'})
+```
+Чтобы отправлять **POST** запросы необходима доп. программа, например, postman https://www.postman.com/downloads/
+
+### Добавление записи в БД через POST
+```
+from django.forms import model_to_dict
+...
+    def post(self, request):
+        new_item = ItemType.objects.create(
+            name=request.data['name'],
+            slug=request.data['slug'],
+        )
+        return Response({'item_type': model_to_dict(new_item)})
+```
+В postman выбрать POST, Body, raw и JSON вместо Text  
+Добавление:
+```
+{
+    "name": "post test",
+    "slug": "post_test"
+}
+```
+----
+**Пример 2**  
+_models.py_:
+```
+class Items(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Название')
+    slug = models.SlugField(max_length=150, unique=True, db_index=True, verbose_name='Название в URL')
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Цена')
+    count = models.IntegerField(verbose_name='Количество')
+    item_type = models.ForeignKey('ItemType', on_delete=models.PROTECT, related_name='type_r', verbose_name='Тип предмета')
+    rare = models.ForeignKey('Rare', on_delete=models.PROTECT, related_name='rare_r', verbose_name='Редкость')
+    quality = models.ForeignKey('Quality', on_delete=models.PROTECT, verbose_name='Качество')
+    time_last_buy = models.DateTimeField(blank=True, null=True)
+    icon = models.ImageField(upload_to='item_icons/%Y/%m', blank=False, null=True, verbose_name='Иконка')
+```
+_serializers.py_:
+```
+from rest_framework import serializers
+
+class ItemsSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=150)
+    slug = serializers.CharField(max_length=150)
+    price = serializers.DecimalField(max_digits=8, decimal_places=2)
+    count = serializers.IntegerField()
+    item_type_id = serializers.IntegerField()
+    rare_id = serializers.IntegerField()
+    quality_id = serializers.IntegerField()
+    time_last_buy = serializers.DateTimeField(read_only=True)
+```
+**Внешние ключи** именно **item_type_id**, а не item_type  
+**read_only=True** только для просмотра поля через def get
+
+```
+from rest_framework.response import Response
+
+class ItemsAPIView(APIView):
+    def get(self, request):
+        item_list = Items.objects.all()
+        return Response({'items': ItemsSerializer(item_list, many=True).data})
+
+    def post(self, request):
+        serializer = ItemsSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        new_item = Items.objects.create(
+            name=request.data['name'], slug=request.data['slug'],
+            price=request.data['price'], count=request.data['count'],
+            item_type_id=request.data['item_type_id'], rare_id=request.data['rare_id'],
+            quality_id=request.data['quality_id'],
+        )
+        return Response({'item_type': ItemsSerializer(new_item).data})
+```
+**serializer.is_valid(raise_exception=True)** проверяет на ошибки и вызывает исключения в json, например:
+`{"quality_id": ["Обязательное поле."]}`
+
+**POST**:
+```
+{
+    "name": "Test A",
+    "price": "130.4",
+    "count": 7,
+    "item_type_id": 1, ...
+}
+```
+
+### Методы save, create, update для Serializer
+_serializer.py_:
+```
+class ItemsSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=150)
+    ...
+
+    def create(self, validated_data):
+        return Items.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        ...
+
+        instance.save()
+        return instance
+```
+instance - ссылка на объект модели  
+_serializer = ItemsSerializer(data=request.data, instance=instance)_ сериализатор с двумя параметрами 
+вызовет метод **update** при **save**
+
+_views.py_:
+```
+class ItemsAPIView(APIView):
+    def post(self, request):
+        serializer = ItemsSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'item_type': serializer.data})
+
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        if not pk:
+            return Response({'errors': 'pk missed'})
+
+        try:
+            instance = Items.objects.get(pk=pk)
+        except:
+            return Response({'errors': 'Object does not exist'})
+
+        serializer = ItemsSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'item': serializer.data})
+```
+По аналогии есть метод **delete**
+
+Добавить в _urls.pu_:
+```
+urlpatterns = [ ...
+    path('api/v1/itemslist', views.ItemsAPIView.as_view()),
+    path('api/v1/itemslist/<int:pk>/', views.ItemsAPIView.as_view()), ]
+```
+Для create и update будет использоваться один класс представления, его поведение будет изменено
+
+---
+Этот вариант будет работать только если передавать в **PUT** запросе **все поля** и менять в нужных значения  
+Вариант с отправкой **только изменяемого поля**:
+```
+def put(self, request, *args, **kwargs):
+    pk = kwargs.get('pk', None)
+    if not pk:
+        return Response({'errors': 'pk missed'})
+
+    try:
+        instance = Items.objects.get(pk=pk)
+    except:
+        return Response({'errors': 'Object does not exist'})
+
+    serializer = ItemsSerializer(data=request.data, instance=instance)
+    fields_comp = set()
+    for name, field in serializer.get_fields().items():
+        if not field.read_only:
+            fields_comp.add(name)
+    miss_fields = fields_comp - request.data.keys()
+
+    if miss_fields:
+        new_data = request.data
+        for f in miss_fields:
+            new_data[f] = instance.__dict__.get(f)
+        serializer = ItemsSerializer(data=new_data, instance=instance)
+
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response({'item': serializer.data})
+```
+
+
+
 <a name="Docker"></a>
 # Docker
 Для **Windows** в PowerShell сначала проверяется версия wsl (`wsl -v`),  
@@ -10270,8 +10489,238 @@ P.S Запуск **без nginx и gunicorn**: `command: "python manage.py runse
 
 
 ### Деплой сайта на Django
-`sudo chown -R 1000:1000 monitoring`
+Взято с https://github.com/dvk-net/deploy-django-app-postgresql-docker/tree/master  
+и немного https://github.com/s6ptember/for-deploy-guide/tree/main
 
+Django, Postgres, Nginx (+ gunicorn)
+
+**Структура** проекта (папка django_test):
+- certbot
+  - conf
+    - ...
+  - www
+- monitoring
+  - project files ...
+  - monitoring
+    - settings.py
+    - wsgi.py
+  - Dockerfile
+  - gunicorn.py
+  - manage.py
+  - requirements.txt
+- nginx
+  - django_skins.conf
+- .env
+- compose.yml
+
+---
+Примеры с **.env** и **gunicorn.py** были выше
+
+**compose.yml**:
+```
+services:
+  nginx:
+    image: nginx
+    container_name: nginx_server
+    restart: always
+    command: "/bin/sh -c 'while :; do sleep 12h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - db_net
+    expose:
+      - 80
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./monitoring/static:/app/www/django_site/static
+      - ./monitoring/media:/app/www/django_site/media
+      - ./monitoring/logs:/app/www/django_site/logs
+      - ./nginx:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    environment:
+      - TZ=Europe/Moscow
+    depends_on:
+      - django_skins
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+  django_skins:
+    build: ./monitoring
+    image: django_skins
+    container_name: django_skins
+    restart: always
+    command: "gunicorn -c gunicorn.py monitoring.wsgi"
+    env_file:
+      - .env
+    links:
+      - "postgres:dbps"
+    networks:
+      - db_net
+    volumes:
+      - ./monitoring:/app/www/django_site
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Europe/Moscow
+    user: "1000:1000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: psgr
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSOWRD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - postgres_django_db:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+networks:
+  db_net:
+    driver: bridge
+volumes:
+  postgres_django_db:
+```
+Папки для **certbot**:
+```
+mkdir django_test/certbot
+mkdir django_test/certbot/conf
+mkdir django_test/certbot/www
+mkdir django_test/certbot/conf/live/
+mkdir django_test/certbot/conf/live/MY_SITE.ru/  # заменить 
+```
+**certbot** будет запрашивать ключи для **https** автоматически с помощью скрипта в entrypoint
+
+**Выполнить**:
+```
+docker-compose run --rm --entrypoint "\
+certbot certonly --webroot -w /var/www/certbot \
+  --email MY_EMAIL@gmail.com \
+  -d MY_SITE.ru \
+  --rsa-key-size 2048 \
+  --agree-tos \
+  --force-renewal" certbot
+```
+
+**Dockerfile**:
+```
+FROM python:3.12-slim
+RUN useradd -m -r -u 1000 userdjango
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+RUN pip install --upgrade pip
+WORKDIR /app/www/django_site
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+
+#RUN chown -R userdjango:userdjango /app/www/django_site
+USER userdjango
+
+#RUN chown -R userdjango:userdjango /app/www/django_site
+```
+**+ выполнить** `sudo chown -R 1000:1000 monitoring` **для выдачи прав на редактирование файлов django проекта**
+
+nginx / **django_skins.conf**:
+```
+upstream django {
+    server django_skins:8000;
+}
+
+server {
+    listen 80;
+    server_name MY_SITE.ru;
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+}
+
+server {
+    listen 443 ssl;
+    server_name MY_SITE;
+
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    ssl_certificate /etc/letsencrypt/live/MY_SITE.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/MY_SITE.ru/privkey.pem;
+
+    access_log /app/www/django_site/logs/django_site_access.log;
+    error_log /app/www/django_site/logs/django_site_error.log error;
+
+    location / {
+        proxy_pass http://django;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    location /favicon.ico { access_log off; log_not_found off; }
+    location /static/ { root /app/www/django_site; }
+    location /media/ { root /app/www/django_site; }
+}
+```
+Переадресация **http** на **https**, изменение расположения логов nginx (access_log и error_log)  
+**Ротация логов**  
+`sudo apt install logrotate`  
+`sudo nano /etc/logrotate.d/django_test.log`:
+```
+/root/django_test/monitoring/logs/*.log {
+    size 20M
+    rotate 10   # кол-во хранимых файлов
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0644 root root
+    sharedscripts
+    copytruncate
+    postrotate
+        [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+    endscript
+}
+```
+Скрипт (между postrotate и endscript) для того, чтобы nginx начинал писать логи в новый файл после ротации  
+**проверить** ротацию: `sudo logrotate -d /etc/logrotate.d/django_test.log`  
+**force ротация** с флагомаг **-f** вместо -d
+
+**settings.py**:
+```
+if DEBUG:
+    ALLOWED_HOSTS = ['127.0.0.1']
+else:
+    ALLOWED_HOSTS = environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
+
+INTERNAL_IPS = ['127.0.0.1',]
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+```
+_+_ **STATIC_ROOT** и **DATABASES** как в примере выше
+
+
+**Старт** `docker-compose up --build`  
+**Стоп** `docker-compose down`
 
 
 
@@ -10974,13 +11423,16 @@ warnings.filterwarnings('ignore')
 
 **Заугрузка проекта из консоли**
 ### Работа с проектом из консоли Git Bash  
-**Клонировать** проект: `git clone https://github.com/user/project_name.git`  
-При (_fatal: not a git repository (or any of the parent directories): .git_) - `git init`  
-Для того, чтобы **подтянуть** проект в него сначала добавляются файлы с помощью git add  
-Чтобы добавить все файлы из папки: `git add .`  
+Инициализация локального репозитория: `git init`  
+Добавление файлов: `git add .`
+Коммит: `git commit -m "some text"`  
+Выбор git репозитория: `git remote add priject_name https://github.com/user/priject_name.git`  
+push: `git push --set-upstream priject_name master`
+
+---
+**Клонировать** проект: `git clone https://github.com/user/project_name.git`
 Можно посмотреть информацию о выбранных файлах: `git status`  
-Коммит: `git commit -m "some texe"`  
-В конце: `git push`
+
 
 Подтянуть изменения: 
 ```
