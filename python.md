@@ -150,10 +150,12 @@
   <summary>...</summary>
 
   - [Последовательности SEQUENCE](#PostgreSQL_Последовательности_SEQUENCE)
+  - [CASE](#PostgreSQL_CASE)
   - [DISTINCT, ORDER BY, LIMIT, OFFSET](#PostgreSQL_DISTINCT_ORDER_BY_LIMIT_OFFSET)
   - [Перечисления enum](#PostgreSQL_Перечисления_enum)
   - [JOIN](#PostgreSQL_JOIN)
   - [UNION, EXCEPT, INTERSECT](#PostgreSQL_UNION_EXCEPT_INTERSECT)
+  - [Работа с датами](#PostgreSQL_Работа_с_датами)
   - [Оконные функции (OVER)](#PostgreSQL_Оконные_функции)
   - [Пример в python (psycopg2)](#PostgreSQL_пример_psycopg2)
   - [Оптимизация, INDEX](#PostgreSQL_Оптимизация_INDEX)
@@ -175,6 +177,7 @@
 - [Тип полей](#SQLAlchemy_Тип_полей)
 - [func](#SQLAlchemy_func)
 - [Select / Update через ORM](#SQLAlchemy_select_update_через_ORM)
+- [CASE](#SQLAlchemy_CASE)
 - [JOIN OVER WITH](#SQLAlchemy_JOIN_OVER_WITH)
 - [Relationship](#SQLAlchemy_Relationship)
 - [Вывод информации о моделях в консоль](#SQLAlchemy_Вывод_информации_о_моделях_в_консоль)
@@ -295,6 +298,7 @@
 
 ### [WhatsApp ](#WhatsApp)
 ### [YouTube ](#YouTube)
+### [AI](#AI)
 
 ### [Other ](#Other)
 - [Практика](#Other_Практика)
@@ -585,7 +589,7 @@ print(re.sub('[sS]', "-", "asdASD")) # a-dA-D
     print(pattern.findall("general ge range gate")) # ['general']
 ```
 **Спец. символы**:
-- **.** - один любой символ, кроме \n
+- **.** - один любой символ, кроме **\n** (чтобы брался перенос строки тоже - **re.DOTALL**)
 - **?** - 0 или 1 вхождение шаблона слева
 - **+** - 1 и более вхождений шаблона слева
 - \* - 0 и более вхождений шаблона слева
@@ -602,7 +606,8 @@ print(re.sub('[sS]', "-", "asdASD")) # a-dA-D
 - \\t, \\n, \\r - тубуляция, новая строка, возврат коретки
 
 Для выборки всех букв англ. алфавита: [a-z] / [A-Z] / [a-zA-Z]  
-Для ру.: [а-я] / [А-Я], **буквы ё / Ё нужно прописывать дополнительно**
+Для ру.: [а-я] / [А-Я], **буквы ё / Ё нужно прописывать дополнительно**  
+Выбирать **\n** тоже - `re.search(r'".+"', text, re.DOTALL)`
 
 **Примеры**<br>
 Первое и последнее слово:
@@ -5939,6 +5944,18 @@ AND выполняется перед OR
 ### Обновление данных UPDATE
 `UPDATE Products SET Price = Price + 1000, Discount = 15 WHERE Price > 20000`
 
+<a name="PostgreSQL_CASE"></a>
+### CASE
+Обновление данных по нескольким условиям в одном запросе:
+```
+UPDATE total_price_1 SET count = CASE 
+WHEN count > 10 THEN 10
+WHEN count < 10 THEN 5 
+ELSE 0 END
+WHERE ...
+```
+CASE заканчивается END
+
 ### Удаление
 `DELETE FROM Users` - удаление всех записей, но можно добавить фильтр WHERE
 
@@ -6032,11 +6049,12 @@ SELECT Manufacturer, COUNT(*) AS Models, ProductCount
 FROM Products
 GROUP BY GROUPING SETS(Manufacturer, ProductCount)
 ```
-Таблица будет условно разбира на две части: Manufacturer и Models ; Models и ProductCount
+Таблица будет условно разбира на две части: Manufacturer и Models ; Models и ProductCount  
 N1 5 null  
 N2 8 null  
 null 3 6  
 null 2 4
+
 ### ROLLUP
 Добавляет суммирующую строку в результирующий набор
 ```
@@ -6158,6 +6176,14 @@ UNION SELECT Настройка FROM data07
 EXCEPT SELECT _07Код_поставщика FROM res
 INTERSECT SELECT Настройка FROM data07
 ```
+
+<a name="PostgreSQL_Работа_с_датами"></a>
+### Работа с датами
+`select now() + interval '2.5 day'` _2026-01-30 12:03:28.555962+03_  
+**now()** - текущая datetime  
+**interval '2.5 day'** - задаётся произвольный интервал  
+Для того, чтобы динамически подставлять интервал можно, например, умножать значение в столбце на 1 день:  
+`select now() - days_count * interval '1 day' from table_1`
 
 <a name="PostgreSQL_Оконные_функции"></a>
 ### Оконные функции
@@ -6368,6 +6394,8 @@ def insert_into_db():
         con.execute(req) # без text
         con.commit()
 ```
+Получить **кол-во** добавленых строк:  
+`con.execute(req).rowcount`
 
 Проверка на длину поля перед добавлением:  
 models.py:
@@ -6514,6 +6542,7 @@ intgr = Annotated[int, mapped_column(Integer, nullable=True)]
 real = Annotated[REAL, mapped_column(REAL, nullable=True)]
 numeric = Annotated[Numeric, mapped_column(Numeric(12,2), nullable=True)]
 ```
+`updated_at: Mapped[datetime.datetime]`
 
 <a name="SQLAlchemy_func"></a>
 ### func
@@ -6548,6 +6577,9 @@ sess.execute(update(Price_1).where(Price_1._07supplier_code == price_code)
                             .values(_01article=Price_1._01article.regexp_replace(' +', ' ', 'g')
                                      .regexp_replace('^ | $', '', 'g')))
 ```
+**Динамический период времени** (кол-во дней в стобце * 1 day):  
+`Table_1.datetime_col < func.now() - Table_2.days_col * text("interval '1 day'")`
+
 
 <a name="SQLAlchemy_select_update"></a>
 ### select
@@ -6569,8 +6601,11 @@ def update_product_name(id, new_name):
 Не через сырой запрос:  
 `from sqlalchemy import update`  
 **where**  
-`req = (update(ProductsOrm).values(name=new_name).where(ProductsOrm.id==id))`  
+`req = update(ProductsOrm).values(name=new_name).where(ProductsOrm.id==id)`  
 (в случае с объектом Table - `where(ProductsTable.c.id==id)`)
+
+Вернуть **кол-во измененных** строк:  
+`changed_rows = sess.execute(update(Table).where(...).values(count_s=1)).rowcount`
 
 **filter_by** (без указания таблицы)  
 `req = (update(ProductsOrm).values(name=new_name).filter_by(id=id))`
@@ -6635,6 +6670,20 @@ with session() as sess:
 ```
 или   
 `sess.query(PriceReport).where(PriceReport.price_code == price_code).delete()`
+
+<a name="SQLAlchemy_CASE"></a>
+### CASE
+Несколько услови в одном запросе, как if  
+_(Условие, Значение)_  
+Дополнительно можно указать **else_**= в **case**
+```
+from sqlalchemy import case
+
+conditions = [(Orders.count_ord == 0, 0),
+              (Orders.price_ord == 0, Orders.count_ord * Orders.price)]
+sess.execute(update(Orders).where(...).values(buy_sum =
+      case(*conditions, else_=Orders.count_ord * Orders.price_ord)))
+```
 
 <a name="SQLAlchemy_JOIN_OVER_WITH"></a>
 ### Пример с JOIN, OVER, WITH
@@ -10748,6 +10797,8 @@ finally:
     driver.quit()
 ```
 
+Добавить timeout ожидание загрузки страницы: `driver.set_page_load_timeout(30)`
+
 ### Изменение размера браузера
 `driver.maximize_window()`
 
@@ -10816,35 +10867,37 @@ play_button.click()
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-```
-```
-        driver.get(url=url)
-        time.sleep(5)
-        Email_input = driver.find_element(By.ID, 'Email')
-        Email_input.clear()
-        Email_input.send_keys(Email)
-        time.sleep(2)
-        Password_input = driver.find_element(By.ID, 'Password')
-        Password_input.clear()
-        Password_input.send_keys(Password)
-        time.sleep(2)
-        #Password_input.send_keys(Keys.ENTER)
-        login_button = driver.find_element(By.CLASS_NAME, 'btn.btn-primary').click()
+
+driver.get(url=url)
+time.sleep(5)
+Email_input = driver.find_element(By.ID, 'Email')
+Email_input.clear()
+Email_input.send_keys(Email)
+time.sleep(2)
+Password_input = driver.find_element(By.ID, 'Password')
+Password_input.clear()
+Password_input.send_keys(Password)
+time.sleep(2)
+#Password_input.send_keys(Keys.ENTER)
+login_button = driver.find_element(By.CLASS_NAME, 'btn.btn-primary').click()
 ```
 <a name="Selenium_cookies"></a>
 ### cookies
 Сохранение cookies
 ```
-        with open('cookies', 'wb') as cookies_file:
-            pickle.dump(driver.get_cookies(), cookies_file)
+    with open('cookies', 'wb') as cookies_file:
+        pickle.dump(driver.get_cookies(), cookies_file)
 ```
 Загрузка cookies
 ```
-        for cookie in pickle.load(open('cookies', 'rb')):
-            driver.add_cookie(cookie)
-        time.sleep(5)
-        driver.refresh() # или get url
+    for cookie in pickle.load(open('cookies', 'rb')):
+        driver.add_cookie(cookie)
+    time.sleep(5)
+    driver.refresh() # или get url
 ```
+**Отключене** плашки с принятием cookie файлов в Google Chrome:  
+`option.add_experimental_option("prefs", {"profile.default_content_setting_values.cookies": 2})`
+
 ### Отключение режимо WebDriver
 `option.add_argument('--disable-blink-features=AutomationControlled')`
 
@@ -11306,6 +11359,32 @@ audio.close()
 
 
 
+<a name="AI"></a>
+# AI
+### Запросы к ИИ
+`pip install openai `
+```
+from openai import OpenAI
+
+def ai_request(msg):
+    client = OpenAI(base_url='https://openrouter.ai/api/v1', api_key=environ.get('AI_KEY'))
+    res = client.chat.completions.create(
+        model='tngtech/deepseek-r1t2-chimera:free',
+        messages=[
+            {'role': 'user',
+             'content': msg}
+        ])
+    return res.choices[0].message.content
+```
+**Бесплатный** вариант через https://openrouter.ai . Тут создаётся api ключ, дальше можно выбрать модель с пометкой (free)  
+**Платный** вариант через https://console.proxyapi.ru . Создаётся api ключ, пополняется счёт с ру карты, дальше можно выбрать модель **openai / gemini и тд**.  
+`base_url='https://api.proxyapi.ru/openai/v1'`
+
+
+
+
+
+
 <a name="Other"></a>
 # Other
 <a name="Other_Практика"></a>
@@ -11405,7 +11484,8 @@ warnings.filterwarnings('ignore')
 
 <a name="Git"></a>
 # Git
-В VCS активировать систему контроля версий (может предложить докачать компонент Git)  
+Ubuntu - `sudo apt install git`  
+В Pycharm - VCS активировать систему контроля версий (может предложить докачать компонент Git)  
 Создать, если нету .gitignore, добавить:
 ```
 /venv/
@@ -11433,13 +11513,14 @@ push: `git push --set-upstream priject_name master`
 **Клонировать** проект: `git clone https://github.com/user/project_name.git`
 Можно посмотреть информацию о выбранных файлах: `git status`  
 
-
-Подтянуть изменения: 
+**Подтянуть изменения**: 
 ```
 cd project_files
 # output: ~/files/project_files (master)
 git pull
 ```
+На ubuntu: `git pull https://github.com/user/project_name.git`
+
 
 <a name="Exe_файл"></a>
 # Exe файл
