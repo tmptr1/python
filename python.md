@@ -159,6 +159,7 @@
   - [Оконные функции (OVER)](#PostgreSQL_Оконные_функции)
   - [Пример в python (psycopg2)](#PostgreSQL_пример_psycopg2)
   - [Оптимизация, INDEX](#PostgreSQL_Оптимизация_INDEX)
+  - [Перенос отдельной таблицы на другой диск](#PostgreSQL_Перенос_отдельной_таблицы_на_другой_диск)
   - [Удалённое подключение к БД](#PostgreSQL_Удалённое_подключение_к_БД)
   - [Ошибки](#PostgreSQL_Ошибки)
   </details>
@@ -179,6 +180,7 @@
 - [Select / Update через ORM](#SQLAlchemy_select_update_через_ORM)
 - [CASE](#SQLAlchemy_CASE)
 - [JOIN OVER WITH](#SQLAlchemy_JOIN_OVER_WITH)
+- [Пересечение множеств](#SQLAlchemy_Пересечение_множеств)
 - [Relationship](#SQLAlchemy_Relationship)
 - [Вывод информации о моделях в консоль](#SQLAlchemy_Вывод_информации_о_моделях_в_консоль)
 - [LIMIT](#SQLAlchemy_LIMIT)
@@ -4847,13 +4849,13 @@ def main():
 
     msg["Subject"] = Header("Заголовок 8")
     msg["From"] = login
-    msg["To"] = "tmptr101@gmail.com" #login
+    msg["To"] = "user@gmail.com" #login
 
     s = smtplib.SMTP("smtp.yandex.ru", 587, timeout=10)
     try:
         s.starttls()
         s.login(login, password)
-        s.sendmail(msg["From"], "tmptr101@gmail.com", msg.as_string())
+        s.sendmail(msg["From"], "user@gmail.com", msg.as_string())
     except Exception as ex:
         print(ex)
     finally:
@@ -6292,6 +6294,18 @@ select * from info_table order by sum_cost
 Просмотр всех индексов: `SELECT * FROM pg_indexes where schemaname = 'public'`  
 В одном интексе можно указать **несколько** полей, если нужно оптимизировать запрос с AND  
 
+
+<a name="PostgreSQL_Перенос_отдельной_таблицы_на_другой_диск"></a>
+### Перенос отдельной таблицы на другой диск
+_предварительно создаётся соответствующая папка_
+```
+create tablespace final_h location 'D:\DB Tables\final_h'
+alter table final_price_history set tablespace final_h
+```
+Вернуть изначальное расположение таблицы:  
+`ALTER TABLE final_price_history SET TABLESPACE pg_default`
+
+
 <a name="PostgreSQL_Удалённое_подключение_к_БД"></a>
 ### Удалённое подключение БД к другому компьютеру
 В \PostgreSQL\17\data\pg_hba.conf добавляется строка после  
@@ -6710,6 +6724,16 @@ cte = select(
     (subq.c.cost - subq.c.avg_cost).label("cost_diff")
 ).cte("info_table")
 query = select(cte).order_by(cte.c.cost_diff.desc())
+```
+
+<a name="SQLAlchemy_Пересечение_множеств"></a>
+### Пересечение множеств
+Удалить всё, что не входит в выборку:
+```
+allow_brands = sess.query(CrossBrandTypeMarkupPct).where(
+        and_(FinalPrice._07supplier_code==CrossBrandTypeMarkupPct.supplier_price_code,
+             FinalPrice._14brand_filled_in == CrossBrandTypeMarkupPct.normalized_brand))
+sess.query(FinalPrice).where(~allow_brands.exists()).delete()
 ```
 
 <a name="SQLAlchemy_Relationship"></a>
@@ -10207,7 +10231,7 @@ EXPOSE 4000 указывает порт (информационный парам
 **Удалить** контейнер и связанный том: `docker rm -f -v test_site`
 
 Указать рабочую папку для связывания с томом в _Dockerfile_: `VOLUME /site_dir` (перед CMD)  
-Послудующие обращения к этой папку в докерфайлу будут обращаться к тому    
+Послудующие обращения к этой папке в докерфайлу будут обращаться к тому    
 Тогда можно создавать контейнеры без `-v /site_dir`
 
 
@@ -10777,7 +10801,9 @@ _+_ **STATIC_ROOT** и **DATABASES** как в примере выше
 # Selenium
 `pip install selenium`
 
-Список опций для гугла: https://peter.sh/experiments/chromium-command-line-switches/
+Список опций для гугла: https://peter.sh/experiments/chromium-command-line-switches/  
+**При запуске в контейнере на ubuntu добавить в Dockerfile**: `RUN apk add --update chromium chromium-chromedriver`  
+_(Установка в пакетов с веб драйвером в системе не поможет при докере)_
 
 <a name="Запуск_страницы_в_браузере"></a>
 ### Запуск страницы в браузере
@@ -11363,6 +11389,8 @@ audio.close()
 # AI
 ### Запросы к ИИ
 `pip install openai `
+
+**Без прямого доступа в интернет**. Не может получать актуальные данные (например, если нужен поиск данных за сегодня)
 ```
 from openai import OpenAI
 
@@ -11380,8 +11408,30 @@ def ai_request(msg):
 **Платный** вариант через https://console.proxyapi.ru . Создаётся api ключ, пополняется счёт с ру карты, дальше можно выбрать модель **openai / gemini и тд**.  
 `base_url='https://api.proxyapi.ru/openai/v1'`
 
+**Для доступа к актулаьной информации** (веб поиск)
+```
+client = OpenAI(base_url=environ.get('AI_REF'), api_key=environ.get('AI_KEY'))
+res = client.responses.create(
+      model=model,
+      tools=[{
+          "type": "web_search",
+          "search_context_size": "medium",
+          "user_location": {
+              "type": "approximate",
+              "country": "RU",
+              "city": "Moscow",
+              "region": "Moscow"
+          },
+      }],
+      input=msg,
+      timeout=600,
+      # max_output_tokens=10000,
+  )
+print res.output_text
+```
+search_context_size - объём поискового контента (low, medium, high)
 
-
+Для удобства можно прописать дать ответ в **json**
 
 
 
