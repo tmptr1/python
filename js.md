@@ -191,7 +191,6 @@ console.log(parseInt(x) + q);  // 24
 console.log(+'345.12' - 10);  // 335.12`
 
 
-<a name="Массивы"></a>
 ### Массивы
 ```
 var m = [1, 'B', 'C'];  // НЕ строго типизированны
@@ -1338,6 +1337,7 @@ console.log(prod_1 instanceof Employee)   // false
 ```
 
 
+<a name="Массивы"></a>
 ### Массивы
 ```
 const m = []
@@ -1415,7 +1415,6 @@ console.log(m)     // ['A', 'B']
 const m = ['A', 'B', 'C', 'D']
 m.splice(1, 2, 'Q', 'W', 'E')  // ['A', 'Q', 'W', 'E', 'D']
 ```
-
 
 **Глубокое копирование slice**
 ```
@@ -1612,6 +1611,96 @@ for(order of order_list){
 }
 ```
 
+# Set
+Множества set хранят только уникальные значения
+```
+var s = new Set([1,2,2,3,4,4,1])
+console.log(s)  // Set(4) {1, 2, 3, 4}
+```
+Чтобы узнать размер множества - **size**
+
+Добавлять значения (**add(val)**) можно по цепочке: `s.add(1).add(0).add(7)`  
+Удаление значений - **delete(val)**, возвращает true/false в зависимости от того, удалён ли элемент
+
+Удалить все значения - **clear**
+
+**Проверка наличия** значения: `console.log(s.has(2))  // true`
+
+Получение **итератора**:
+```
+s.keys()  // {value: 1, done: false}
+s.values()  // {value: 1, done: false}
+s.entries()  // {value: Array(2), done: false}
+```
+### WeakSet
+Аналогичен Set, но вместо значений хранит объекты (**ссылки** на объекты):
+```
+var s = new WeakSet()
+var p1 = {name03: 'Tire R5'}
+var p2 = {name03: 'Tire E8'}
+s.add(p1).add(p2)
+console.log(s)  // WeakSet {{name03: 'Tire R5'}, {name03: 'Tire E8'}}
+```
+Если в процессе какой-то объект **перестанет существовать** (например, станет равен _null_ и через время удалится сборщиком мусора), 
+то объект **удалится** и из WeakSet
+
+WeakSet **НЕ** поддерживает перебор
+
+# Map
+Словари с уникальными ключами по которым хранятся значения
+```
+var d = new Map([['usdt', 1.0001], ['btc', 67000]])
+console.log(d)  // Map(2) {'usdt' => 1.0001, 'btc' => 67000}
+```
+**Изменение**/**добавление** значений: `d.set('btc', 68500)`
+
+**size** - размер словаря
+
+**Получить значение** (если нет, то _undefined_): `d.get('btc')`
+
+**Проверить наличие** ключа: `d.has('eth')  // true or false`
+
+**Удаление**: `d.delete('btc')`  
+Удаление всех элементов - **clear**
+
+**Перебор** элементов:
+```
+d.forEach((k, v, map)=>{
+    console.log(k, v)
+})
+```
+или
+```
+for(item of d){
+    console.log(item[0], item[1])  // btc 67000
+}
+```
+Получить ключи/значения (возвращаются итераторы):
+```
+console.log(d.keys())  // MapIterator {'usdt', 'btc'}
+console.log(d.values())  // MapIterator {1.0001, 67000}
+```
+
+### WeakMap
+Аналог Map, но в качестве ключей и значений использует объекты:
+```
+var d = new WeakMap()
+var k1 = {key: 'usdt'}
+var k2 = {key: 'btc'}
+var v1 = {price: 1.0001}
+var v2 = {price: 67000}
+
+d.set(k1, v1)
+d.set(k2, v2)
+
+console.log(d)  // WeakMap {key: {key: 'btc'} value: {price: 67000}} ...
+console.log(d.get(k1))  // {price: 1.0001}
+console.log(d.get({key: 'usdt'}))  // undefined
+```
+Если ссылка на ключ **перестанет существовать**, то элемент **удалится** из словаря
+
+WeakMap **НЕ** поддерживает перебор
+
 
 
 # Строки
@@ -1732,7 +1821,8 @@ const part = /msg/;
 const text = 'test msg';
 console.log(part.test(text))  // true
 ```
-**exec** возвращает найденную часть или _null_:  
+**exec** возвращает найденную часть или _null_.  
+При флаге **g** повторный вызов exec **возвратит второе совпадение** и тд.  
 `console.log(part.exec(text))  // ['msg', index: 5, input: 'test msg', groups: undefined]`
 
 **Спец. символы**:
@@ -1751,12 +1841,31 @@ console.log(part.test(text))  // true
 - **$** - конец строки
 - **\b** - начало или конец слова
 - **\B** - НЕ граница слова
+- \* - любое кол-во повторений (даже 0)
+- **?** - 1/0 вхождений
+- **+** - 1+ вхождений
+- **{n}** - n вхождений
+- **{n}** - n+ вхождений
+- **{n, m}** - n-m вхожденийв
 
 **Флаги выражений**:
 - **g** - поиск всех подстрок
 - **i** - игнорирование регистра
 - **m** - поиск подстрок в многострочном тексте
 - **s** - поиск подстроки без учёта переноса строк, оператор **.** заменяет **\n**
+
+
+### Поиск всех совпадений в строке
+```
+const part = /[a-z]{4,}/g;
+const text = 'msg testf 12345 test msg';
+while(res = part.exec(text)) {
+    console.log(res);
+}
+// testf
+// test
+```
+
 
 **Примеры**:
 `const part = /(my|pg)sql/;`
@@ -1779,6 +1888,947 @@ const part = /m.y/si;
 const text = 'db=M\nysql';
 console.log(part.test(text))  // true
 ```
+
+### Группы в регулярных выражениях
+К выражениям в скобках можно обращаться после поиска `res[1]` и тд:
+```
+const part = /(\w+)@(\w+.\w+)/;
+const text = 'email: user10@gmail.com phone: +1234-234.';
+console.log(part.exec(text))  // ['user10@gmail.com', 'user10', 'gmail.com', index: 7 ...
+```
+Группам можноп присваивать **имена**:
+```
+const part = /(?<login>\w+)@(?<mail>\w+.\w+)/;
+const text = 'email: user10@gmail.com phone: +1234-234.';
+
+var res = part.exec(text)  // groups: {login: 'user10', mail: 'gmail.com'}
+console.log(res.groups.login)  // user10
+console.log(res.groups.mail)   // gmail.com
+```
+**Утверждения**. Проверка на совпадение `(?<=...)` или на несовпадение `(?<!...)` части строки в регулярном выражении:
+```
+const part = /(?<=email: )(\w+)@(\w+.\w+)/;
+const text = 'mail: admin@mail.ru, email: user10@gmail.com';
+console.log(part.exec(text))  // ['user10@gmail.com' ...
+
+const part2 = /(?<!admin)@(\w+.\w+)/;
+const text2 = 'admin@mail.ru';
+console.log(part2.test(text2))  // false
+```
+
+### Регулярные выражения в методах String
+**match** - поиск всех соответствий (+ флаг g)
+```
+const part = /(\w+)@(\w+.\w+)/g;
+const text = 'mail: admin@mail.ru, email: user10@gmail.com';
+
+console.log(text.match(part))  // ['admin@mail.ru', 'user10@gmail.com']
+```
+**split**
+```
+const text = 'email: admin@mail.ru -- email: user10@gmail.com';
+console.log(text.split(/-+/))  // ['email: admin@mail.ru ', ' email: user10@gmail.com']
+```
+**search** - поиск первого вхождения
+
+**replace** - замена (для всех вхождений флаг **g**)
+```
+const text = 'email: admin@mail.ru, email: user10@gmail.com';
+console.log(text.replace(/\w+:/g, ''))  // admin@mail.ru,  user10@gmail.com
+```
+Можно передавать **функцию**, которая будет принимать найденный шаблон:
+```
+const text = 'email: admin@mail.ru, gmail: user10@gmail.com';
+function repl(s){
+    if(s == 'gmail:') return '(g)'
+    return '(e)'
+}
+console.log(text.replace(/\w+:/g, repl))  // (e) admin@mail.ru, (g) user10@gmail.com
+```
+
+
+<a name="Обработка_ошибок"></a>
+# Обработка ошибок
+**try** - обязательный блок  
+дополнительно должен присутствовать хотя бы один из блоков: **catch** / **finally** (если оставить только finaly, то ошибка не будет обработана, а программа прервётся)
+```
+try {
+    console.log(x)
+}catch{
+    console.log('error')
+}
+```
+catch принимает объект с информацией об ошибке:
+```
+try {
+    console.log(x)
+}catch (error){
+    console.log(error)
+}
+// ReferenceError: x is not defined
+//    at test.js:3:17
+```
+Генерация ошибки **throw**:
+```
+try {
+    if(x <= 0) throw "Значение должно быть больше 0"
+    console.log(x)
+}catch(error){
+    console.log(error)  // Значение должно быть больше 0
+}
+```
+### Тип ошибок
+Все ошибки представляют общий объект ошибок **Error**, который имеет **свойства**:
+- message - сообщение об ошибке
+- name - тип ошибки
+
+Свойства, зависящие от брузера:
+- fileName - название файла, где произошла ошибка
+- lineNumber - строка ошибки
+- columnNumber - столбец ошибки
+- stack - стрек ошибки
+
+**Типы ошибок**:
+- EvalError - при глобальной функции eval()
+- RangeError - при выходе переменной из диапазона
+- ReferenceError - при обращении к несуществующей ссылке
+- SyntaxError - ошибка синтаксиса
+- TypeError - если значение переменной или парметра некорректны или при попытке заменить неизменяемое значение
+- URIError - некорректные значения в encodeURL() и decodeURL()
+- AggregateError - ошибка, объединяющая несоклько ошибок
+
+Генерация определённого типа ошибки:
+```
+var x = 'a'
+try {
+    if(isNaN(x)) throw new TypeError("Некорректный тип переменной")
+    if(x <= 0) throw new RangeError("Значение должно быть больше 0")
+    console.log(x)
+}catch(error){
+    console.log(error) // TypeError: Некорректный тип переменной
+}
+```
+`isNaN(x)` - для проверки на числовое значение
+
+Проверка типа ошибки:
+```
+catch(error){
+    if (error instanceof TypeError) console.log('Type')
+    if (error instanceof RangeError) console.log('Range')
+}
+```
+### Пользовательский тип ошибок
+```
+var x = 'a'
+class PriceError extends Error{
+    constructor(input_val, ...args){
+        super(...args);
+        this.name = 'PriceError';
+        this.input_val = input_val;
+    }
+}
+
+try {
+    if(isNaN(x) || x <=0) throw new PriceError(x, "Некорректное значение переменной")
+}catch(error){
+    if (error instanceof PriceError) console.log(`Значение: ${error.input_val}`)
+    console.log(error.message)
+}
+```
+
+### Изоморфная обработка ошибок
+Универсальная система обработки ошибок с отдельной фкнцией, возвращаюшей массив _[результат, null]_ или _[null, ошибка]_:
+```
+function tryRun(fn){
+    try{
+        return [fn(), null]
+    }catch (err){
+        return [null, err]
+    }
+}
+
+var [res1, err] = tryRun(()=> x)
+if(err) console.log(`Ошибка ${err}`)
+else console.log(`Результат ${res1}`)
+```
+
+
+<a name="Date"></a>
+# Date
+Объявление даты:
+```
+var curDate = new Date()  // Текущая дата
+console.log(curDate)  // Fri Mar 27 2026 23:48:12 GMT+0300 (Москва, стандартное время)
+
+var date1 = new Date(1359000000000)  // миллисекунды
+console.log(date1)  // Thu Jan 24 2013 08:00:00 GMT+0400 (Москва, стандартное время)
+
+var date2 = new Date("27  March 2026")
+var date3 = new Date("3/27/2026")
+var date4 = new Date("3 27 2026")
+Fri Mar 27 2026 00:00:00 GMT+0300 (Москва, стандартное время)
+
+var date5 = new Date(2026, 2, 27, 23)
+console.log(date5)  // Fri Mar 27 2026 23:00:00 GMT+0300 (Москва, стандартное время)
+```
+В последнем способе при указания месяца отсёт начинается с месяца **0** - января
+
+### Методы get
+```
+var curDate = new Date()  // Текущая дата
+console.log(curDate)  // Sat Mar 28 2026 00:01:09 GMT+0300 (Москва, стандартное время)
+console.log(curDate.getDate())      // 28
+console.log(curDate.getDay())       // 6 (суббота) [0-6]
+console.log(curDate.getMonth())     // 2
+console.log(curDate.getFullYear())  // 2026
+console.log(curDate.toDateString()) // Sat Mar 28 2026
+console.log(curDate.getHours())     // 0
+console.log(curDate.getMinutes())   // 1
+console.log(curDate.getSeconds())   // 9
+console.log(curDate.getMilliseconds())  // 123
+console.log(curDate.toTimeString())  // 00:01:09 GMT+0300 (Москва, стандартное время)
+console.log(curDate.toLocaleTimeString())  // 00:01:09
+```
+Аналогично можно менять объект даты, **устанавливая** свои значения через **set**, например, `curDate.setFullYear(2027)`
+
+При утсановке значения большего, чем может быть, добавляется следующий параметр, например, если установить день 33, то прибавится месяц + возьмётся остаток дней:
+```
+var curDate = new Date()
+console.log(curDate.toDateString())  // Sat Mar 28 2026
+curDate.setDate(33)
+console.log(curDate.toDateString())  // Thu Apr 02 2026
+```
+
+<a name="Math"></a>
+# Math
+**abs** возвращает модуль числа: `console.log(Math.abs(-8))  // 8`  
+
+**min** и **max**:
+```
+var m = [2, 5, 6, 1]
+console.log(Math.min(...m))  // 1
+console.log(Math.max(6, 1, 8, 4)) // 8
+```
+**ceil** - округление до наибольшего целого: `console.log(Math.ceil(-4.9))  // -4`  
+**floor** - округление до наименьшего целого: `console.log(Math.floor(-4.1))  // -5`  
+
+**round** округление числа до целого, если остаток 0.5, то округляется до бОльшего числа
+```
+console.log(Math.round(-1.5))  // -1
+console.log(Math.round(1.5))   // 2
+```
+**random** генерирует случайное число от 0 до 1: `console.log(Math.random())  // 0.19215414569135592`
+
+**pow** возведение числа в степень: `console.log(Math.pow(2, 4))  // 16`
+
+**sqrt** квадратный корень: `console.log(Math.sqrt(16))  // 4`
+
+**log** логарифм: `console.log(Math.log(10))  // 2.302585092994046`
+
+**Константы**:
+- **Math.PI** - число pi 3.141592653589793
+- **Math.E** - число Эйлера 2.718281828459045
+
+**sin** / **asin** - `console.log(Math.sin(Math.PI/2))  // 1`  
+**cos** / **acos** - `console.log(Math.cos(0))  // 1`  
+**tan** / **atan** - `console.log(Math.tan(1))  // 1.5574077246549023`  
+
+
+### Number
+```
+var x1 = Number(12.1)
+var x2 = Number('13.25')
+console.log(x1+x2)  // 25.35
+```
+Также **присваивается** тип Number при обычном объявлении числа: `var x = 12`
+
+Свойства:
+- **Number.MAX_VALUE** 1.7976931348623157e+308
+- **Number.MIN_VALUE** 5e-324
+- **Number.POSITIVE_INFINITY** Infinity
+- **Number.NEGATIVE_INFINITY** -Infinity
+
+Методы:
+- **Number.isNaN** - проверка на NaN: `console.log(Number.isNaN(12))  // false` (ещё бывает **глобальная** функция isNaN, она проверяет является ли значение числом)
+- **Number.parseFloat** - преобразует строку в float:
+```
+console.log(Number.parseFloat('12.1')) // 12.1
+console.log(Number.parseFloat('12,1'))  // 12
+console.log(Number.parseFloat(12)) // 12
+console.log(Number.parseFloat('asd'))  // NaN
+console.log(Number.parseFloat('12.1asd')) // 12.1
+console.log(Number.parseFloat('asd12'))  // NaN
+```
+- **Number.parseInt** - преобразует строку в int 
+- **Number.toFixed** - оставляет n знаков после запятой
+```
+var x = 12.11111111
+x = x.toFixed(2)
+console.log(x)  // 12.11
+```
+
+Преобразрвание в другую **систему счисления**: `console.log(parseInt(101, 2))  // 5`
+
+Преобразовать число в **str** (дополнительно можно указать систему счисления):
+```
+var x = 0b101
+console.log(x.toString(10))  // 5
+```
+
+# Symbol
+**Symbol** - некоторое уникальное значение
+```
+var x1 = Symbol('Value')
+var x2 = Symbol('Value')
+console.log(x1 == x2)    // false
+console.log(x1 === x2)   // false
+```
+Это позволяет хранить в объекте **несколько** параметров с **одинаковыми** названиями.  
+Для получения всех символов в объекте используется **Object.getOwnPropertySymbols(obj)**:
+```
+const storage = {
+    [Symbol('Tire')]: 10,
+    [Symbol('Wheel')]: 7,
+    [Symbol('Tire')]: 15,
+}
+
+for(p of Object.getOwnPropertySymbols(storage)){
+    p_str = p.toString()
+    s = p_str.indexOf('(')
+    console.log(`${p_str.slice(s+1, -1)} - ${storage[p]}`)
+}
+```
+
+
+# Proxy
+Proxy переопределяет взаимодействие с объектом.  
+Параметры:
+- target - основной объект
+- handler - обработчик
+
+**Обработчик** может принимать методы **get** и **set**.  
+Параметры для **get**:
+- target - основной объект
+- prop - параметр/метод
+- receiver - объект Proxy через который ведётся проксирование
+
+У **set** ещё один параметр - **value** (устанавливаемое значение)
+```
+const prod_1 = { name03: 'Tire T6', price: 120 }
+
+const handler = {
+    get: function(target, prop, receiver){
+        if (prop === 'name03'){
+            return target[prop].toUpperCase();
+        }else{
+            return target[prop]
+        }
+    },
+    set: function(target, prop, value, receiver){
+        if(prop === 'price'){
+            if(value <= 0) console.log('Некорректная цена')
+            else return target[prop] = value
+        }
+    }
+}
+
+const prx = new Proxy(prod_1, handler)
+console.log(prx.name03)  // TIRE T6
+prx.price = -1
+console.log(prx.price)  // 120 (Некорректная цена)
+prx.price = 99
+console.log(prx.price)  // 99
+```
+
+
+# Итераторы
+Итерируемые объекты хранят функцию, возвращающую инератор:
+```
+var m = [2, 3, 1]
+console.log(m[Symbol.iterator]())  // Array Iterator {}
+console.log(m.entries())  // Array Iterator {}
+```
+```
+var s = 'asd'
+console.log(s[Symbol.iterator]())  // StringIterator {}
+```
+Метод **next** возвращает текущий элемент **value** и **done** (флаг, обозначающий конец перебора при true)
+```
+var m = ['A', 'B']
+var iter = m[Symbol.iterator]()
+console.log(iter.next())  // {value: 'A', done: false}
+console.log(iter.next())  // {value: 'B', done: false}
+console.log(iter.next())  // {value: undefined, done: true}
+```
+
+Создание своего итератора, возвращаюего функцию **next**(), дальше **for...of** сам вызывает эту функцию при переборе:
+```
+var order = {
+    products: [
+        {name03: 'p1', price: 10},
+        {name03: 'p2', price: 20},
+        {name03: 'p3', price: 30},
+    ]
+}
+
+function iter(){
+    const array = this.products
+    let cur = 0
+    return {
+        next() {
+            if(cur < array.length){
+                return {value: array[cur++].name03, done: false}
+            }else{
+                return {value: undefined, done: true}
+            }
+        }
+    }
+}
+
+order[Symbol.iterator] = iter
+
+for(p of order){
+    console.log(p)  // p1, p2, p3
+}
+```
+
+# Генераторы
+Создание генератора:
+```
+function* gen(){
+    for(i=0; i<3; i++){
+        yield i
+    }
+}
+
+var g = gen()
+console.log(g.next())  // {value: 0, done: false}
+for(i of g){
+    console.log(i)  // 1, 2
+}
+```
+Генератор можно завершить с помощью **return()**:
+```
+console.log(g.next())  // {value: 0, done: false}
+g.return()
+console.log(g.next())  // {value: undefined, done: true}
+```
+в **next()** можно передавать параметр и в генераторе принимать его с помощью **yield**:
+```
+function* gen(){
+    let n = 0
+    for(i=0; i<3; i++){
+        n = yield i * n
+    }
+}
+
+var g = gen()
+console.log(g.next(2))  // 0
+console.log(g.next(3))  // 3
+console.log(g.next(4))  // 8
+```
+Вызов **ошибки** **throw()**. В данном примере после ошбики сработает catch и генератор завершится:
+```
+function* gen(){
+    try{
+        for(i=0; i<3; i++){
+            yield i
+        }
+    }catch(err){
+        console.log(err)
+    }
+}
+
+var g = gen()
+console.log(g.next())  // {value: 0, done: false}
+g.throw('Ошибка')
+console.log(g.next())  // {value: undefined, done: true}
+```
+
+
+
+# Работа с DOM
+Document object model предоставляет доступ к html странице, она состоит из узлов, например,  
+```
+    html
+    /  \
+  head  body
+```
+Виды узлов:
+- **Document** - корневой узел html страницы
+- **Element** - html элемент
+- **Text** - текст элемента
+- **Attr** - атрибут html элемента
+- **DocumentType** - DTD или схема XML документа
+- **DocumentFragment** - место для временного хранения частей документа
+- **EntityReference** - ссылка на сущность XML документа
+- **ProcessingInstruction** - инструкция обработки страницы
+- **Comment** - комментарий
+- **CDATASection** - секция CDATA в XML документе
+- **Entity** - необработанная сущность DTD
+- **Notation** - нотация, объявленная в DTD
+
+## Объект document
+Свойства:
+- **title** - заголовок документа
+- **lastModified** - время последнего изменения документа
+- **URL** - текущий URL
+- **domain** - домен
+- **documentElement** - предоставляет доступ к корневому html элементу
+- **body** - доступ к body
+- **head** - доступ к head
+- **cookie** - cookie для текущего документа
+- **images** - коллекция со всеми объектами img
+- **links** - коллекция всех объектов `<a>` и `<area>` у которых есть href
+- **anchors** - коллекция всех `<a>` у которых есть name
+- **forms** - коллекция всех форм
+
+Пример с изменением изображения `<img src="some_img.png" alt="pct1"/>`:
+```
+var imgs = document.images
+imgs[0].src = "some_img_2.png";
+```
+
+
+## Поиск элементов на странице
+**getElementById** ищет элемент по id, возвращает **первый** найденный блок с этим элементом или **null**.  
+**innerText** используется для вывода текста в блоке:
+```
+var price = document.getElementById('price')
+
+console.log(price)  //    <p id="price">price: 1200</p>
+console.log(price.innerText) //  price: 1200
+```
+**getElementsByTagName** поиск элементов по тегу:
+```
+var paragraphs = document.getElementsByTagName('p')
+
+for(p of paragraphs){
+    console.log(p.innerText)
+}
+```
+**getElementsByClassName** - поиск элементов по классу (`<p class="info">text</p>`)
+
+**getElementsByName** - поиск элементов по атрибуту **name**. В данном примере будет перебираться элемент _input_ (а не _label_):
+```
+<form>
+    <p>Платформа:</p>
+    <input type="radio" name="platform" value="ozon">
+    <label>Ozon</label>
+    <input type="radio" name="platform" value="wb">
+    <label>WB</label>
+</form>
+```
+```
+var platforms = document.getElementsByName('platform')
+
+for(p of platforms){
+    console.log(p.value)  // ozon, wb
+}
+```
+В старых браузерах этот метод может брать не только элементы с определённым атрибутом name, но и захватывать блоки, где id тоже равен искомому значению
+
+**querySelector** получает первый элемент по **CSS селектору**:
+```
+<p class="p_title">Цены</p>
+<div class="prices">
+    <p>price: 1200</p>
+    <p>price: 999</p>
+</div>
+```
+```
+var d = document.querySelector('.prices')
+console.log(d) // div.prices ...
+
+var p = document.querySelector('.prices p')
+console.log(p.innerText) // price: 1200
+```
+Получить **все** элементы **querySelectorAll**:  
+(возвращает _статический_ список, при изменении элемента в таком списке изменения могут _не сразу примениться_ на странице)
+```
+var prices = document.querySelectorAll('.prices p')
+for(p of prices){
+    console.log(p.innerText)
+}
+```
+Примеры селекторов:
+- class **равен** значению: `querySelectorAll('[class="price"]')`
+- если атрибут **a** хранит список значений и одно из ник равно указанному: `[a~="test"]`
+- значение **начинается** на: `[a^="test"]`
+- значение **заканчивается** на: `[a$="test"]`
+- содержит подстроку: `[a*="test"]`
+
+и другие селекторы, например, `:nth-child(n)`, `:hover` и тд
+
+
+## Объект Node
+Каждый узел (html элемент, его атрибуты и тд) представляют объект Node.  
+Любой элемент страницы является узлом, но не каждый узел является элементом (атрибуты элементов, текст элементов и тд)
+
+Имя и тип узла:
+```
+var prices = document.getElementsByClassName('prices')
+console.log(prices[0].nodeName)  // DIV
+console.log(prices[0].nodeType)  // 1
+```
+**Типы** узлов:
+1. Элемент
+2. Атрибут
+3. Текст
+
+### Получение родтельского элемента
+**parentElement** или **parentNode** используются для получения родительского элемента:  
+`console.log(prices[0]?.parentNode)  // body ...`
+
+Методы отличаются лишь тем, что для основного объекта `<html>` родительским узлом будет _document_, а родительского элемента у него нет (_null_)
+
+### Получение дочерних элементов
+Для проверки на наличие дочерних **узлов** - **hasChildNodes()**:
+```
+<div class="prices"></div>
+console.log(prices[0].hasChildNodes())  // false
+```
+НО, если добавить хотя бы пробел
+```
+<div class="prices"> </div>
+console.log(prices[0].hasChildNodes())  // true
+```
+Получить доверние **элменты** - **children**:
+```
+for(c of prices[0].children){
+    console.log(c.innerText)
+}
+```
+Получить дочерние **узлы** - **childNodes**
+
+Чтобы взять первый/последний элемент/узел:   
+**firstElementChild** / **firstChild**,  
+**lastElementChild** / **lastChild**
+
+Получить **кол-во** элементов: `childElementCount` или `children.length`
+
+
+### Получение элементов одного уровня
+Элементы - **nextElementSibling** / **previousElementSibling**  
+Узлы - **nextSibling** / **previousSibling**
+```
+let el = document.getElementsByClassName('prices')[0].firstElementChild
+while(el != null){
+    console.log(el)
+    el = el.nextElementSibling
+}
+```
+Получение текста из узла **nodeValue**:
+```
+let el = document.getElementsByClassName('prices')[0].firstChild
+for(a of el.childNodes){
+    console.log(a.nodeValue)
+}
+```
+
+
+### Элементы
+Все элементы html страницы соответствуют определённому типу в JS, например:  
+`<a>` - HTMLAnchorElement  
+`<p>` - HTMLParagraphElement  
+и тд
+
+Можно узнать тип элемента с помощью **Object.getPrototypeOf**:
+```
+var prices = document.getElementsByClassName('prices')[0]
+console.log(Object.getPrototypeOf(prices))  // HTMLDivElement
+```
+Свойства элемента:
+- tagName - имя тега
+- textContent / innerText - текстовое содержимое элемента (в дочерних элементах тоже будет выводиться только текст)
+- innerHTML - html код
+
+Можно **менять текст в элементе** через `el.textContent = 'новый текст'` или innerText  
+_меняется **только** текст, а не теги / стили и тд_
+
+Чтобы менять полностью элементы используется **innerHTML**:  
+`el.innerHTML = "<span style='color: red'>Новый элемент</span>"`
+
+**Отличия** этих двух методов:
+- textContent получает содержимое всех элементов (включая script, style), а innerHTML - нет
+- в отличии от textContent, innerHTML может считывать стили и **не** возвращает содержимое скрытых элементов
+
+
+## Создание/изменение/удаление элементов
+Метод **createElement** для создания элемента (создаёт объект, который пока _не выведен_ на страницу): 
+```
+const p = document.createElement('p')
+console.log(p)  // <p></p>
+```
+Создание текстового узла **createTextNode**:
+```
+const t = document.createTextNode('test')
+console.log(t)  //  "test"
+```
+
+### Добавление элементов
+**appendChild** добавляет узел **в конец** кллекции дочерних узлов:
+```
+const p = document.createElement('p')
+const t = document.createTextNode('test')
+
+p.appendChild(t)  // сначала добавляется узел с текстом к элементу
+console.log(p)  // <p>test</p>
+document.body.appendChild(p) // элемент добавляется в body
+```
+Текст можно присвоить **без создания доп. узла**:  
+`p.textContent = 'test2'`
+
+**insertBefore** добавляет элемент **перед** другим:
+```
+const p = document.createElement('p')
+p.textContent = 'test'
+
+const firstEl = document.body.firstElementChild
+document.body.insertBefore(p, firstEl)
+```
+
+### Копирование элементов
+Копируется элемент _div_, в нём меняется текст вложенного элемента _h3_ и изменённый _div_ вставляется после старого: 
+```
+const div = document.getElementById('product')
+const new_div = div.cloneNode(true)
+const header3 = new_div.getElementsByTagName('h3')[0]
+header3.textContent = 'Товар 2'
+document.body.appendChild(new_div)
+```
+**cloneNode(true)** указывает, что элемент будет скопирован со всеми дочерними узлами (false для отключения копирования узлов)
+
+### Замена элемента другим
+`document.body.replaceChild(new_div, div)`
+
+### Удаление элемента
+`document.body.removeChild(div)`
+
+Удалить **все** дочерние элементы:
+```
+const div = document.getElementById('product')
+
+while(div.firstChild){
+    div.removeChild(div.firstChild)
+}
+```
+
+
+## Управление атрибутами элементов
+**getAttribute** возвращает значение атрибута или _null_:
+```
+// <div id='product'>...</div>
+const div = document.getElementById('product')
+
+console.log(div.getAttribute('id'))  // product
+console.log(div.getAttribute('name'))  // null
+```
+или  
+`console.log(div.id)`  
+но при втором способе есть исключения:
+- вместо **class** надо использовать **className**
+- у **href** возвращается полная ссылка, например, `file:///C:/Users/.../index.html`, а не просто `index.html`, как указано
+
+Получение **стилей css** (возвращается объект **CSSStyleDeclaration** через котоырй можно брать нужные атрибуты):
+```
+console.log(div.style)  // CSSStyleDeclaration {...}
+console.log(div.style.color)  // red
+```
+
+### Установка атрибутов
+**setAttribute** устанавливает значение атрибуту, если атрибута нет, то он добавится:  
+`div.setAttribute('style', 'color: green;')`
+
+аналог (через **setAttributeNode**):
+```
+const style_attr = document.createAttribute('style')
+style_attr.value = 'color: blue;'
+div.setAttributeNode(style_attr)
+```
+### Удалить атрибут
+`div.removeAttribute('style')`  
+или  
+`div.removeAttributeNode(style_attr)`
+
+## Изменение стилей
+```
+const div = document.getElementById('product')
+div.style.color = 'yellow'
+```
+Добавить **второй** стиль, если уже есть стиль:
+```
+<style type="text/css">
+    .bg_col {background:lightcyan;}
+    .col {color:red;}
+</style>
+...
+<div id='product' class="col">
+    <h3>Товар 1</h3>
+    <p>Описание ...</p>
+    <p>Цена ...</p>
+    <p>Кол-во ...</p>
+</div>
+```
+```
+const div = document.getElementById('product')
+div.className += ' bg_col'  // С ПРОБЕЛОМ
+```
+Можно удалить все классы: `div.className = ""`
+
+### classList
+Можно перебирать классы через for...of и выводить классы:  
+`div.classList[0]  // bg_col`
+
+- **Добавление** стилей: `div.classList.add('bg_col')`
+- **Удаление**:`div.classList.remove('bg_col')`
+- **Переключение** стилей: `div.classList.toggle('bg_col')`
+
+У **toggle** вторым параметром можно указать условие, при котором класс будет добавлен:  
+`div.classList.toggle('bg_col', false)`
+
+
+## Создание пользовательского html элемента
+**customElements.define** создаёт html элемент, принимает название элемента и класс.  
+Название **должно содержать** тире.
+
+Пример с созданием своего элемента и добавлением в него метода, который срабатывает по нажатию на элемент:
+```
+class ShowDate extends HTMLElement {
+    constructor() {
+        super();
+        let cur_date = new Date()
+        this.style.color = 'white'
+        if(cur_date.getHours() > 19 || cur_date.getHours() < 6) this.style.background = 'darkblue'
+        else this.style.background = 'blue'
+        this.textContent = `${cur_date.toLocaleTimeString()}`
+    }
+
+    print_time(){
+        console.log(`Time: ${new Date().toLocaleTimeString()}`)
+    }
+}
+
+customElements.define('show-date', ShowDate);
+
+const show_date = document.getElementsByTagName('show-date')[0];
+show_date.addEventListener("click", ()=>show_date.print_time());
+```
+Вызов элемента: `<show-date></show-date>`
+
+### События жизненного цикла элемента
+В пользовательский класс элемента можно прописывать методы:
+- **connectedCallback** - вызывается, когда элемент добавляется в DOM
+- **disconnectedCallback** - при удалении элемента
+- **adoptedCallback** - при перемещении в новый элемент
+- **attributeChangedCallback** - при изменении атрибута
+
+Пример с **attributeChangedCallback**:
+```
+class ShowDate extends HTMLElement {
+    static observedAttributes = ['style']
+    ...
+    attributeChangedCallback(){
+        console.log('a change callback')
+    }
+}
+```
+В **observedAttributes** хранятся атрибуты, изменяя которые вызывается attributeChangedCallback
+
+### Добавление атрибутов
+Значение может передаваться в кастомном параметре:  
+`<show-date clr='#03fcdf'></show-date>`
+```
+class ShowDate extends HTMLElement {
+    ...
+    connectedCallback(){
+        if(this.hasAttribute('clr')) this.style.color = this.getAttribute('clr')
+    }
+}
+```
+
+
+# События
+Простой пример с событием **onclick**:  
+`<div onclick="console.log('+1 click')">`  
+или  
+`element.addEventListener('click', ()=>console.log('+1 click'))`
+
+Многие события используются в _html_ **с препиской on**, а в _JS_ - **без** неё
+
+События мыши:
+- onclick - при нажатии ПКМ на элемент
+- ondblclick - двойной ПКМ клик
+- contextmenu - при открытии контекстного меню
+- onmousedown - при нажатии ПКМ (нажать, но не обязательно отпускать кнопку)
+- onmouseup - при отпускании кнопки
+- onmousemove - при одновременном нахождении и движении курсора
+- onmouseover / onmouseenter - при вхождении курсора на элемент
+- onmouseout / onmouseleave - при выходе курсора за границы элемента
+
+События клавиатуры:
+- onkeydown - при нажатии клавиши, продолжает вызываться пока нажата клавиша
+- onkeyup - при отпускании клавиши
+- onkeypress - после onkeydown, но до onkeyup
+
+События элементов форм:
+- oninput - при изменении содержимого в input / textarea / элементах с атрибутом contenteditable
+- onchange - при изменении значения в checkbox / опции в select / radio
+- onsubmit - при отправке формы
+- onreset - при сброе формы через кнопку reset
+
+События фокусировки:
+- onfocus - при получении фокуса на элементе, например, select
+- onblur - при сбросе фокуса
+- onfocusin - при получении фокуса (поднимающееся событие)
+- onfocusout - при потере фокуса (поднимающееся событие)
+
+Общие события:
+- onload - при загрузке веб-страницы / изображения и тд
+- onunload - при выгрузке элемента, например, когда запрошена страница по новому адресу
+- abort - при отмене загрузки ресурса
+- Error - при генерации ошибки при загрузке
+- cut - при вырезании текста из поля ввода Ctrl+X `element.addEventListener('cut', ()=>console.log('ok'))`
+- oncopy - при копировании текста из поля ввода
+- onpaste - при ставке текста в поле ввода
+- onselect - при выделении текста в поле ввода
+- 
+
+События, которые работают в body:
+- onresize - при изменении окна браезера
+- onscroll - при прокрутке страницы
+- 
+
+?
+- onselect - при выделении текста
+- beforeunload - перед выгрузкой страницы
+- DOMContentLoaded - при полной загрузке DOM
+? mob
+- devicemotion - ускорение устройства?
+- touchcancel - при прерывании отслеживания касаний
+
+Для мобильных устройств:
+- orientationchange - при изменении ориентации
+- deviceorientation - при появлении новых данных об ориентации
+- touchstart - при касании
+- touchend - при завершении касания (даже если уже не на элементе, главное, чтобы изначально тач был на нём)
+- touchmove - при нажатии на элемент и дальнейшем движении (даже если тач вышел за элемент)
+
+
+## Обработчики событий
+Обычные обработкичи в html коде `<div onclick="foo();">` имеют несколько недостатков:
+- нельзя добавить обработчик динамически создаваемым элементам
+- к элементу для одного события может быть прикреплён только один обработчик
+- нельзя удалить обработчик без изменения кода
+
+
+
+
+
+
+
+
+
 
 
 

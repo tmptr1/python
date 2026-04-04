@@ -203,7 +203,7 @@ echo "<p>$name";
 - text <input type="text">
 - button <input type="button" value="button">
 - checkbox (checked для галочки по умолчанию) <input type="checkbox">
-- radio <input type="checkbox">
+- radio <input type="radio">
 - password <input type="password">
 - hidden <input type="hidden">
 - reset <input type="reset">

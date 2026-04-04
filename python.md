@@ -176,9 +176,10 @@
 - [Работа с сессиями](#SQLAlchemy_Работа_с_сессиями)
 - [insert in ORM](#SQLAlchemy_insert_in_ORM)
 - [Создание таблиц через классы](#SQLAlchemy_Создание_таблиц_через_классы)
-- [Select / Update](#SQLAlchemy_select_update)
 - [Тип полей](#SQLAlchemy_Тип_полей)
 - [func](#SQLAlchemy_func)
+- [Регулярные выражения](#SQLAlchemy_Регулярные_выражения)
+- [Select / Update](#SQLAlchemy_select_update)
 - [Select / Update через ORM](#SQLAlchemy_select_update_через_ORM)
 - [CASE](#SQLAlchemy_CASE)
 - [JOIN OVER WITH](#SQLAlchemy_JOIN_OVER_WITH)
@@ -6645,6 +6646,23 @@ price = select(literal_column(literal_column(f"'{self.send_time}'"), ...)
 
 **FLOOR** округление до целого в меньшую сторону
 
+**Динамический период времени** (кол-во дней в стобце * 1 day):  
+`Table_1.datetime_col < func.now() - Table_2.days_col * text("interval '1 day'")`
+
+Проверка на вхождение **подстроки**: `column.op('~')('part')`
+- **~** - проверка с учётом регистра
+- **~*** - проверка без учёта регистра
+- **!~** - не совпдает
+
+Пример с регулярными выражениями 
+```
+not_(FinalPrice._03name.regexp_replace('\W|_', '', 'g').op('~*')
+  (FinalPrice.article_s.regexp_replace('\W|_', '', 'g')
+```
+
+
+<a name="SQLAlchemy_Регулярные_выражения"></a>
+### Регулярные выражения
 **func.regexp_substr** пример с получением первых 3х слов:
 ```
 sess.execute(update(Price_1).where(Price_1._07supplier_code == price_code)
@@ -6653,12 +6671,10 @@ sess.execute(update(Price_1).where(Price_1._07supplier_code == price_code)
 
 **regexp_replace** пример с удалением лишних пробелов:
 ```
-sess.execute(update(Price_1).where(Price_1._07supplier_code == price_code)
-                            .values(_01article=Price_1._01article.regexp_replace(' +', ' ', 'g')
-                                     .regexp_replace('^ | $', '', 'g')))
+sess.execute(update(Table).where(...).
+  values(article=Table.article.regexp_replace(' +', ' ', 'g').regexp_replace('^ | $', '', 'g')))
 ```
-**Динамический период времени** (кол-во дней в стобце * 1 day):  
-`Table_1.datetime_col < func.now() - Table_2.days_col * text("interval '1 day'")`
+
 
 
 <a name="SQLAlchemy_select_update"></a>
@@ -6906,7 +6922,7 @@ class OrdersOrm(Base):
         CheckConstraint("cost >= 0", name="cost_check")
     )
 ```
-Индекс типа **Hash** (только ядл операции ==)  
+Индекс типа **Hash** (только для операции ==)  
 `Index("sum_table_id_compare_hash_index", "id_compare", postgresql_using="hash"),`
 
 
@@ -11677,13 +11693,24 @@ Ubuntu - `sudo apt install git`
 **Подтянуть** изменения: Git – Update project  
 **Клонировать** пароект: VCS - Get from Version Control - далее вставить ссылку `https://github.com/user/project_name.git`
 
-**Заугрузка проекта из консоли**
 ### Работа с проектом из консоли Git Bash  
 Инициализация локального репозитория: `git init`  
 Добавление файлов: `git add .`
 Коммит: `git commit -m "some text"`  
 Выбор git репозитория: `git remote add priject_name https://github.com/user/priject_name.git`  
 push: `git push --set-upstream priject_name master`
+
+Разница между версиями: `git diff`
+
+### Работа с ветками
+Список веток: `git branch`  
+Создать ветку: `git branch new_branch_name`  
+Перейти в ветку: `git checkout new_branch_name`  
+Создать и перейти в ветку: `git checkout -b new_branch_name` или `switch -c`  
+
+**Слияние веток**  
+Сначала нужно перейти в **основную ветку**, далее выбирается ветка для слияния:  
+`git merge force_daily_orders_get`
 
 ---
 **Клонировать** проект: `git clone https://github.com/user/project_name.git`
@@ -11703,6 +11730,7 @@ git pull
 Установка - `pip install pyinstaller`  
 Exe - `pyinstaller main.py`  
 Флаг для автоподтверждения: -y  
+Не отображать консоль, только ui: `pyinstaller --noconsole main.py`
 
 Запуск простого файла **.py** с параметрами: `python main.py test_arg 150`  
 Запуск **exe** с параметрами (через .bat):  
