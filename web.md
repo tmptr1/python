@@ -477,7 +477,7 @@ keyframes
             max-width: 970px;
         }
     }
-    @media (max-width:992){
+    @media (max-width:992px){
         #menu ul, #content, #footer p, .nav{
             max-width: 750px;
         }

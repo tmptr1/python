@@ -1682,6 +1682,8 @@ console.log(d.values())  // MapIterator {1.0001, 67000}
 ```
 
 ### WeakMap
+WeakMap **НЕ** поддерживает перебор
+
 Аналог Map, но в качестве ключей и значений использует объекты:
 ```
 var d = new WeakMap()
@@ -1698,8 +1700,6 @@ console.log(d.get(k1))  // {price: 1.0001}
 console.log(d.get({key: 'usdt'}))  // undefined
 ```
 Если ссылка на ключ **перестанет существовать**, то элемент **удалится** из словаря
-
-WeakMap **НЕ** поддерживает перебор
 
 
 
@@ -2766,6 +2766,8 @@ class ShowDate extends HTMLElement {
 - onmouseover / onmouseenter - при вхождении курсора на элемент
 - onmouseout / onmouseleave - при выходе курсора за границы элемента
 
+_onmouseover_ и _onmouseout_ также срабатывают, если курсор переходит границы дочерних объектов внутри родительского 
+
 События клавиатуры:
 - onkeydown - при нажатии клавиши, продолжает вызываться пока нажата клавиша
 - onkeyup - при отпускании клавиши
@@ -2799,13 +2801,14 @@ class ShowDate extends HTMLElement {
 - onscroll - при прокрутке страницы
 - 
 
-?
-- onselect - при выделении текста
-- beforeunload - перед выгрузкой страницы
-- DOMContentLoaded - при полной загрузке DOM
-? mob
-- devicemotion - ускорение устройства?
-- touchcancel - при прерывании отслеживания касаний
+Other:
+- onselect ~ при выделении текста
+- beforeunload ~ перед выгрузкой страницы
+- DOMContentLoaded ~ при полной загрузке DOM
+
+Other mob:
+- devicemotion ~ ускорение устройства
+- touchcancel ~ при прерывании отслеживания касаний
 
 Для мобильных устройств:
 - orientationchange - при изменении ориентации
@@ -2820,6 +2823,256 @@ class ShowDate extends HTMLElement {
 - нельзя добавить обработчик динамически создаваемым элементам
 - к элементу для одного события может быть прикреплён только один обработчик
 - нельзя удалить обработчик без изменения кода
+
+Можно обращаться к свойствам событий:  
+`document.getElementById('res_button').onclick = foo;`
+
+## Слушатели
+**addEventListener** - добавить слушателя: `res_button.addEventListener('click', foo)`  
+**removeEventListener** - удалить (аналогично)
+
+Преимущество слушателей в том, что с помощью них можно привязать несколько функций к событию
+
+
+## Передача данных в обработчик событий
+Простой пример: `<button id='res_button' onclick="foo('some text')">Результат</button>`
+
+Передача **текущего объекта** в функцию:  
+`<button id='res_button' onclick="foo(this)">Результат</button>`
+```
+function foo(btn){
+    btn.textContent = 'asd'
+}
+```
+или без параметров:
+```
+function foo(){
+    console.log(this)  // <button id="res_button">Результат</button>
+}
+
+document.getElementById('res_button').onclick = foo
+```
+
+### Объект Event
+Информация о событии доступна через объект **event**:  
+`<button id='res_button' onclick="foo(event)">Результат</button>`
+```
+function foo(ev){
+    console.log(ev)  // PointerEvent {target: button#res_button, type, type: "click" , ...}
+}
+```
+К **event** можно получить доступ и не передавая никакие аргументы:  
+`document.getElementById('res_button').onclick = foo`
+
+### Остановка события
+Переход по ссылке будет прерван:  
+`<p><a id='ref' href="https://www.google.com">Ссылка</a></p>`
+```
+function foo(ev){
+    console.log('stop redirect')
+    ev.preventDefault()
+}
+
+document.getElementById('ref').addEventListener('click', foo)
+```
+
+## Распростронение события
+При возникновении события, например, нажатие, оно срабатывает и на дочернем элементе и на родительском.  
+Событие распростроняется по DOM дереву.
+
+Пример с блоком div и заголовнком в нём:
+```
+const descr = document.getElementById('descr')
+const ttle = document.getElementById('ttle')
+
+descr.addEventListener('click', ()=>console.log('click on description'))
+ttle.addEventListener('click', ()=>console.log('click on title'))
+```
+При нажатии на заголовок сработает сразу **два** события: **сначала** на блоке заголовка, **потом** на родительском блоке (**восходящее событие**)
+
+Для **нисходящего события** указывается третий параметр **true** в **addEventListener**:  
+```
+descr.addEventListener('click', ()=>console.log('click on description'), true)
+ttle.addEventListener('click', ()=>console.log('click on title'), true)
+```
+Тогда, при нажатии на дочерний элемент заголовка, **сначала** будет выполнена функция на родительском элементе, **потом** на дочернем
+
+---
+
+**stopPropagation** для остановки распростронения **текущего** обработчика:
+```
+function clickLog(ev) {
+    console.log('clicked')
+    ev.stopPropagation()
+    console.log('done')  // Выведется
+}
+...
+descr.addEventListener('click', ()=>console.log('click on description'))
+ttle.addEventListener('click', clickLog)
+```
+
+**stopImmediatePropagation** останавливает всё обработчики на элементе:
+```
+function clickLog(ev) {
+    console.log('clicked')
+    ev.stopImmediatePropagation()
+}
+...
+ttle.addEventListener('click', clickLog)
+ttle.addEventListener('click', ()=>console.log('click on title'))  // Будет прерываться
+```
+
+## События мыши
+Для работы с событиями мыши объект event имеет ряд свойств:
+- **altKey**/**ctrlKey**/**shiftKey** - возвращает true/false в зависимости от соответствующей зажатой клавиши
+- **button** - номер нажатой клавиши
+- **buttons** - **сумма** нажатых клавишь (1 - лкм, 2 - пкм, 4 - колесико мыши, 8/16 - 4/5 клавиши мыши)
+- **clientX**/**clientY** - координаты мыши окна браузера
+- **screenX**/**screenY** - координаты относительно монитора
+- **movementX**/**movementY** ~ координаты относительно предыдущих координат
+- **metaKey** ~ true, если нажатие было во время генерации метаклавиши клавиатуры
+- **region** ~ идентификатор области/элемента которая относится к событию
+- **relatedTarget** ~ вторичный источник возникновения события
+
+
+
+Пример с выводом координат мыши:
+```
+const ttle = document.getElementById('ttle')
+
+function coordsPrint(ev) {
+    ttle.textContent = `x: ${ev.screenX}, y: ${ev.screenY}`
+}
+
+document.addEventListener('mousemove', coordsPrint)
+```
+
+## События клавиатуры
+Типы событий:
+- keydown - при нажатии и удержании клавиши
+- keyup - при отпускании клавиши
+- keypress - только для клавишь с какими-то символами, вызывается поле keydown и до keyup
+
+Свойства event:
+- **altKey**/**ctrlKey**/**shiftKey** - возвращает true/false в зависимости от соответствующей зажатой клавиши
+- **key** - нажатая клавиша ("П" - "П")
+- **code** - кодовое представление клавиши ("П" - "KeyG")
+
+
+```
+function coordsPrint(ev) {
+    console.log(ev.key) 
+}
+window.addEventListener('keydown', coordsPrint)
+```
+
+## Программный вызов событий
+**_Event (имя события, config)_** или производные от Event (MouseEvent, KeybordEvent)
+
+В объект конфига можно передавать **cancelable** (отменяемое событие, если true) и **bubbles** (true, если восходящее событие) 
+
+Пример с вызовом клика по ссылке:
+```
+const ref = document.getElementById('ref')
+const ev_click = new MouseEvent('click')
+ref.dispatchEvent(ev_click)
+```
+
+
+## Кастомные события
+Пример с добавлением своего события и обработчика для такого события:
+```
+const res_button = document.getElementById('res_button')
+document.addEventListener('new_order', ()=>console.log('Новый заказ!'))
+
+function Product(name03, price, count){
+    _name03 = name03
+    _price = price
+    _count = count
+    this.order = function(cnt){
+        if (_count >= cnt) {
+            _count -= cnt
+            console.log(`Заказано ${_name03} (${cnt} шт). Остаток ${_count}`)
+
+            new_order_ev = new Event('new_order')
+            document.dispatchEvent(new_order_ev)
+        }
+    }
+}
+
+const tire_1 = new Product('Tire 4R', 5000, 14)
+res_button.addEventListener('click', ()=>tire_1.order(3))
+```
+
+## CustomEvent
+Переписаный пример с использованием специального класса **CustomEvent**, куда можно передавать аргументы через объект **detail**:
+```
+const res_button = document.getElementById('res_button')
+document.addEventListener('new_order', (ev)=>{
+            console.log(`Новый заказ на сумму ${ev.detail.sum}`);
+            console.log(`Остаток ${ev.detail.total_count}`)})
+
+function Product(name03, price, count){
+    _name03 = name03
+    _price = price
+    _count = count
+    this.order = function(cnt){
+        if (_count >= cnt) {
+            _count -= cnt
+            console.log(`Заказано ${_name03} (${cnt} шт)`)
+
+            new_order_ev = new CustomEvent('new_order', {
+                detail:{
+                    sum: cnt*_price,
+                    total_count: _count
+                }
+            })
+            document.dispatchEvent(new_order_ev)
+        }
+    }
+}
+
+const tire_1 = new Product('Tire 4R', 5000, 14)
+res_button.addEventListener('click', ()=>tire_1.order(3))
+```
+
+## Формы
+```
+<form id="select_form" name="first_form">  
+    <p>Платформа:</p>
+    <input type="radio" name="platform" value="ozon">
+    <label>Ozon</label>
+    <input type="radio" name="platform" value="wb">
+    <label>WB</label>
+    <p>Количество:<input type="number" name="count"></p>
+</form>
+```
+Получение формы по:
+- **имени**: `const form = document.forms['first_form']`  
+- **индексу**: `const form = document.forms[0]`  
+- как свойство: `const form = document.first_form`
+
+Но можно получать и обычным способом, через `document.getElementById`
+
+Свойства форм:
+- name - имя формы
+- elements - коллекция элементов формы
+- length - кол-во элементов
+- action - атрибут _action_
+- method - атрибут _methon_
+
+К элементам форм тоже можно обратиться по индексу или имени:  
+`form.elements[2].value = 3;`  
+
+Получить тип элемента: `form.elements[0].type  // radio`
+
+Форму можно **отправить** (`form.submit`) или **обнулить** (`form.reset`)
+
+
+
+
+
+
 
 
 
