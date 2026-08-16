@@ -143,6 +143,7 @@
 - [Определение кодировки chardet](#Определение_кодировки_chardet)
 - [Jinja2](#Jinja2)
 - [Dadata](#Dadata)
+- [Pillow](#Pillow)
 
 ### [Базы Данных](#Базы_Данных)
 - [**SQLite**](#SQLite)
@@ -305,6 +306,7 @@
 
 ### [WhatsApp ](#WhatsApp)
 ### [YouTube ](#YouTube)
+### [Работа с видео (moviepy)](#Работа_с_видео_moviepy)
 ### [AI](#AI)
 
 ### [Other ](#Other)
@@ -4971,6 +4973,29 @@ with Dadata(api_key_dd, api_secrey_key_dd) as dadata:
 ```
 
 
+<a name="Pillow"></a>
+# Pillow
+
+Получить размеры изображения: `w, h = img.size`
+
+**Обрезать** изображение:
+```
+img = Image.open('some_img.jpg')
+img = img.crop((x, 0, x + new_w, 500))
+img.save("new_img.jpeg", 'JPEG')
+```
+
+**Наложить** одно изображение на другое:  
+`img.paste(water_mark_img, (left, top), water_mark_img)`
+
+**Оптимизация изображения**:  
+```
+img = Image.open('some_img.jpg')
+# ужать изображение по размеру w*h px (берётся наибольшая сторона в max_size)
+img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
+img.save("new_img.jpeg", 'JPEG', quality=85, optimize=True, progressive=True)
+```
+
 
 <a name="ООП"></a> 
 # ООП
@@ -7390,6 +7415,17 @@ from PySide6.QtWidgets import QFileDialog
             self.Path_lineEdit.setText(file_name)
 ```
 
+### Кнопка для выбор файла/папки
+Выбор **файла** (можно указать разрешения файла)
+```
+from PySide6.QtWidgets import QFileDialog
+
+file_path = QFileDialog.getOpenFileName(filter='Excel File (*.xlsx *.xls)')[0]
+```
+Выбор **папки**:
+`self.path_to_save = QFileDialog.getExistingDirectory()`
+
+
 ### Дополнительно
 `self.Logs_textBrowser.setOpenExternalLinks(True)` - для возможности переходить по ссылкам (`<a href='{url}'>`) в _textBrowser_
 
@@ -9007,6 +9043,23 @@ _Шаблон_:
 {% endif %}
 {% endblock %}
 ```
+**Пагинация с сохранением фильтров**:
+```
+class SkinCatalog(ListView):
+    ...
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        filter_form = SkinFilterForm(self.request.GET) if self.request.GET else SkinFilterForm()
+        context['filter_form'] = filter_form
+
+        context['query_str'] = self.request.GET.copy()  # получение всех значений GET
+        context['query_str'].pop('page', None)  # удалить значение page
+        context['query_str'] = context['query_str'].urlencode()  # ghtlcnfdbnm представить в виде: ?x=1&y=2
+        return context
+```
+Далее использовать значение **query_str** в ссылках на стрианицы:  
+`<a href="?page={{ p }}&{{ query_str }}">`
+
 
 
 <a name="Django_Авторизация"></a>
@@ -11526,6 +11579,18 @@ audio.close()
 Далее в консоли появится `Please open htpps://www.google.com/device and imput code ABC-ABC-ABCD`
 
 
+<a name="Работа_с_видео_moviepy"></a>
+## Работа с видео (moviepy)
+### Сохранить часть видео
+```
+from moviepy import VideoFileClip
+
+vieo_obj = VideoFileClip(r"video/original_video.mp4")
+clip = vieo_obj.subclipped(10, 23.5)  # sec
+clip.write_videofile(r'clips/new_clip.mp4')
+```
+
+
 
 <a name="AI"></a>
 # AI
@@ -11645,7 +11710,11 @@ print(bool('asd'), bool(10), bool(-3))  # True
 `print(f"{x=}") # x=2`
 
 Обрабный проход по массиву:  
-`for i in reversed(range(3)):` 
+`for i in reversed(range(3)):`  
+
+Создание массива с применённым фильтром:  
+`lst = [j for j in lst if j > 0]`
+
 
 
 <a name="Other_Парсинг"></a>
@@ -11697,8 +11766,8 @@ Ubuntu - `sudo apt install git`
 Инициализация локального репозитория: `git init`  
 Добавление файлов: `git add .`
 Коммит: `git commit -m "some text"`  
-Выбор git репозитория: `git remote add priject_name https://github.com/user/priject_name.git`  
-push: `git push --set-upstream priject_name master`
+Выбор git репозитория: `git remote add project_name https://github.com/user/project_name.git`  
+push: `git push --set-upstream project_name master`
 
 Разница между версиями: `git diff`
 

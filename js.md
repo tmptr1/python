@@ -2864,6 +2864,8 @@ function foo(ev){
 К **event** можно получить доступ и не передавая никакие аргументы:  
 `document.getElementById('res_button').onclick = foo`
 
+Получить ближайший обект с указанным классом/id: `ev.target.closest('#product')`
+
 ### Остановка события
 Переход по ссылке будет прерван:  
 `<p><a id='ref' href="https://www.google.com">Ссылка</a></p>`
