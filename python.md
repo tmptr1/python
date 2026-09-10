@@ -308,6 +308,7 @@
 ### [YouTube ](#YouTube)
 ### [Работа с видео (moviepy)](#Работа_с_видео_moviepy)
 ### [AI](#AI)
+### [QR Code](#qr_code)
 
 ### [Other ](#Other)
 - [Практика](#Other_Практика)
@@ -8355,6 +8356,33 @@ class ItemsAdmin(admin.ModelAdmin):
 - `readonly_fields = ['online']` - поля только для чтения
 
 
+### Вывод изображений в админ панеле (в списке)
+admin.py:
+```
+from django.utils.safestring import mark_safe
+
+@admin.register(Servers)
+class ServersAdmin(admin.ModelAdmin):
+    ...
+    list_display = ('name', 'img_banner', 'version', 'online', 'point', 'online_point_ratio', 'status')
+
+
+    @admin.display(description='Баннер')
+    def img_banner(self, servers: Servers):
+        if servers.banner:
+            return mark_safe(f"<img src='{servers.banner.url}'>")
+        return 'Без фото'
+```
+Вывод в редакторе записей:
+```
+fields = ['name', 'banner', 'img_banner', 'online', 'status']
+readonly_fields = ['img_banner', 'online']
+```
+В админке, при редактировании записи, для удобства можно продублировать панель с кнопками 
+(Сохранить запись и тд) сверху. В class ServersAdmin(admin.ModelAdmin) добавляется:  
+`save_on_top = True`
+
+
 <a name="Django_Метод_save_в_models_py"></a>
 ## Метод save в models.py
 При сохранении записи позволяет автоматически генерировать поля
@@ -8669,31 +8697,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  
 ```
 Вывод изображения: `<img src="{{ s.banner.url }}">`
-
-Вывод изображений в админ панеле (в списке). admin.py:
-```
-from django.utils.safestring import mark_safe
-
-@admin.register(Servers)
-class ServersAdmin(admin.ModelAdmin):
-    ...
-    list_display = ('name', 'img_banner', 'version', 'online', 'point', 'online_point_ratio', 'status')
-
-
-    @admin.display(description='Баннер')
-    def img_banner(self, servers: Servers):
-        if servers.banner:
-            return mark_safe(f"<img src='{servers.banner.url}'>")
-        return 'Без фото'
-```
-Вывод в редакторе записей:
-```
-fields = ['name', 'banner', 'img_banner', 'online', 'status']
-readonly_fields = ['img_banner', 'online']
-```
-В админке, при редактировании записи, для удобства можно продублировать панель с кнопками 
-(Сохранить запись и тд) сверху. В class ServersAdmin(admin.ModelAdmin) добавляется:  
-`save_on_top = True`
 
 
 <a name="Django_Class_Based_Views"></a>
@@ -10923,6 +10926,8 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    
+    CSRF_TRUSTED_ORIGINS = ["MY_SITE.ru", "www.MY_SITE.ru"]
 ```
 _+_ **STATIC_ROOT** и **DATABASES** как в примере выше
 
@@ -11535,6 +11540,7 @@ pywhatkit.sendwhatmsg_instantly(phone_no=phone, message=msg, wait_time=15, tab_c
 
 <a name="YouTube"></a>
 # YouTube
+## Вариант 1
 **Загрузка видео** с youtube:
 
 `pip install pytubefix`
@@ -11578,6 +11584,17 @@ audio.close()
 `yt = YouTube(url, use_oauth=True)`  
 Далее в консоли появится `Please open htpps://www.google.com/device and imput code ABC-ABC-ABCD`
 
+## Вариант 2
+Скачивание видео с YouTube / Twitch  
+`pip install yt_dlp`
+```
+import yt_dlp
+url = r'https://www.twitch.tv/videos/123'
+
+yd_settings = {"format": "bestvideo[height<=720]+bestaudio/best[height<=720]"}
+with yt_dlp.YoutubeDL(yd_settings) as ydl:
+    ydl.download([url])
+```
 
 <a name="Работа_с_видео_moviepy"></a>
 ## Работа с видео (moviepy)
@@ -11640,6 +11657,16 @@ search_context_size - объём поискового контента (low, med
 
 Для удобства можно прописать дать ответ в **json**
 
+
+
+<a name="qr_code"></a>
+# QR code
+`pip install pyqrcode pypng`
+```
+ref = r"https://site.com/catalog/"
+qr_code = pyqrcode.create(ref)
+qr_code.png('qr_code_3.png', scale=16)
+```
 
 
 <a name="Other"></a>
